@@ -3,16 +3,16 @@ import zipfile
 import pandas as pd
 from google.cloud import bigquery
 
-# Configurações gerais
-ZIP_PATH = 'caminho/para/seu_arquivo.zip'  # Pode ser alterado para input ou argumento
-EXTRACT_DIR = 'temp_extracted'
-PROJECT_ID = 'seu-projeto-gcp'
-DATASET_ID = 'raw_logistics'
-TABLES = {
-    'logistica01.csv': 'logistica_01',
-    'logistica02.csv': 'logistica_02',
-    'logistica03.csv': 'logistica_03'
-}
+# # Configurações gerais
+# ZIP_PATH = 'caminho/para/seu_arquivo.zip'  # Pode ser alterado para input ou argumento
+# EXTRACT_DIR = 'temp_extracted'
+# PROJECT_ID = 'seu-projeto-gcp'
+# DATASET_ID = 'raw_logistics'
+# TABLES = {
+#     'logistica01.csv': 'logistica_01',
+#     'logistica02.csv': 'logistica_02',
+#     'logistica03.csv': 'logistica_03'
+# }
 
 def extract_zip(zip_path: str, extract_to: str):
     """Extrai arquivos do zip para uma pasta temporária."""
