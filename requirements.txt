@@ -1,0 +1,11 @@
+papermill
+ipykernel
+BeautifulSoup4
+pandas
+pandas_gbq
+requests
+google-cloud-bigquery
+google-cloud-storage
+papermill[gcs]
+pyarrow
+openpyxl
