@@ -58,7 +58,7 @@ def upload_file_to_gcs(local_file_path: str, bucket_name: str, dest_path: str):
     blob = bucket.blob(dest_path)
 
     blob.upload_from_filename(local_file_path)
-    print(f"✔️ Upload feito para: gs://{bucket_name}/{dest_path}")
+    print(f"Upload feito para: gs://{bucket_name}/{dest_path}")
 
 def set_date_partitioned_path(base_path: str, suffix: str = "") -> str:
     """
