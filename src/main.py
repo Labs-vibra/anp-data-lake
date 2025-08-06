@@ -2,18 +2,18 @@ from flask import Flask, Response
 from dotenv import load_dotenv
 import json
 
-from db.extractions import rw_ext_anp_logistics
+from extractions.logistica import rw_ext_anp_logistics
 
 load_dotenv()
 app = Flask(__name__)
 
-def execute_raw_pipeline():
+def execute_logistics_pipeline():
     rw_ext_anp_logistics()
 
 @app.route("/")
 def entrypoint():
     try:
-        execute_raw_pipeline()
+        execute_logistics_pipeline()
         response = json.dumps({
             "ok": True,
             "message": "Raw logistics executed successfully",
@@ -27,5 +27,5 @@ def entrypoint():
         return Response(response, mimetype="application/json", status=500)
 
 if __name__ == '__main__':
-    execute_raw_pipeline()
+    execute_logistics_pipeline()
     exit(0)
