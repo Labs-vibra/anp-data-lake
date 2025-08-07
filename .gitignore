@@ -8,6 +8,7 @@ uv.lock
 gcp.secrets.json
 __pycache__/
 *.pyc
+extracted/
 
 # Terraform
 # terraform/.terraform/
