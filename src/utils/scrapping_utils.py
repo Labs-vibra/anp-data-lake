@@ -61,10 +61,10 @@ def download_file(url):
     response.raise_for_status()
     return BytesIO(response.content)
 
-def save_zip_file(zip_bytes, save_path):
-    """Salva conteúdo em BytesIO como arquivo zip localmente."""
+# def save_zip_file(zip_bytes, save_path):
+#     """Salva conteúdo em BytesIO como arquivo zip localmente."""
 
-    os.makedirs(os.path.dirname(save_path), exist_ok=True)
-    with open(save_path, 'wb') as f:
-        f.write(zip_bytes.read())
-    print(f"ZIP salvo em: {save_path}")
+#     os.makedirs(os.path.dirname(save_path), exist_ok=True)
+#     with open(save_path, 'wb') as f:
+#         f.write(zip_bytes.read())
+#     print(f"ZIP salvo em: {save_path}")
