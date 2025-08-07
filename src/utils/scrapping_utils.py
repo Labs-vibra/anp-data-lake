@@ -1,8 +1,6 @@
 import os
 import re
-import zipfile
 import requests
-from datetime import date
 from io import BytesIO
 from bs4 import BeautifulSoup
 
