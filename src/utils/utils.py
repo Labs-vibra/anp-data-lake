@@ -3,12 +3,6 @@ import zipfile
 import requests
 from datetime import date
 from io import BytesIO
-from bs4 import BeautifulSoup
-
-from google.cloud import storage
-from pyspark.sql import SparkSession
-
-from src.constants import BUCKET_NAME, RAW_PATH
 
 def download_file_to_memory(url: str) -> BytesIO | None:
     """

@@ -4,7 +4,7 @@ from io import BytesIO
 import zipfile
 import os
 from dotenv import load_dotenv
-from src.constants import BUCKET_NAME
+from utils.constants import BUCKET_NAME
 
 load_dotenv()
 
