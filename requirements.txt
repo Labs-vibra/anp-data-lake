@@ -9,3 +9,4 @@ google-cloud-storage
 papermill[gcs]
 pyarrow
 openpyxl
+dotenv
