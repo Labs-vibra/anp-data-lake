@@ -13,8 +13,9 @@ def run_query(query, label):
     client = bigquery.Client()
     try:
         job = client.query(query)
-        job.result()
+        data = job.result()
         print(f"Query executada com sucesso! {label if label else ''}")
+        return data
     except Exception as e:
         print(f"Ocorreu um erro ao executar a query: {e}")
 
@@ -32,8 +33,14 @@ def run_query_from_file(file_path, label=None):
     with open(file_path, 'r') as file:
         query = file.read()
 
-    run_query(query, label)
+    return run_query(query, label)
 
-if __name__ == "__main__":
-    file_path = os.path.join(os.getcwd(), "db/queries/example_query.sql")
-    run_query_from_file(file_path, "Exemplo de execução de query")
+def get_sql_path(end_path):
+    """
+    Retorna o caminho completo do arquivo SQL.
+
+    Args:
+        end_path (str): Caminho relativo baseado no root do projeto do arquivo SQL.
+    """
+    base_path = os.getcwd()
+    return os.path.join(base_path, end_path)
