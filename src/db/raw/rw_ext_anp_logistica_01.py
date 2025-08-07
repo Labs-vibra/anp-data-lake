@@ -1,4 +1,3 @@
-
 # df = df.rename(columns={
 # 	"Período": "periodo",
 # 	"Produto": "produto",

@@ -35,17 +35,20 @@ def rw_ext_anp_logistics(
 
     zip_bytes = download_file(data_info['link'])
 
-    zip_file_path = os.path.join(PATHS["RAW_DIR"], "logistics.zip")
+    os.makedirs(PATHS["EXTRACTION_DIR"], exist_ok=True)
+    zip_file_path = os.path.join(PATHS["EXTRACTION_DIR"], "logistics.zip")
     save_zip_file(zip_bytes, zip_file_path)
-
-    os.makedirs(PATHS["RAW_DIR"], exist_ok=True)
     with zipfile.ZipFile(zip_file_path, 'r') as zf:
+
+        print("\nExtraindo arquivos...")
         for file_info in zf.infolist():
             file_name_upper = file_info.filename.upper()
-            if any(tf.upper() in file_name_upper for tf in target_files_list):
-                output_file_path = os.path.join(PATHS["RAW_DIR"], file_info.filename)
+            if ("LOGISTICA" in file_name_upper and
+                ("01" in file_name_upper or "02" in file_name_upper or "03" in file_name_upper) and
+                file_name_upper.endswith('.CSV')):
+                output_file_path = os.path.join(PATHS["EXTRACTION_DIR"], file_info.filename)
                 with zf.open(file_info) as source_file, open(output_file_path, 'wb') as dest_file:
                     dest_file.write(source_file.read())
                 print(f"Arquivo extraído: {output_file_path}")
 
-    print("Extração da logística concluída.")
+    print("Extração de Logística concluída.")
