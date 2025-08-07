@@ -35,5 +35,5 @@ def run_query_from_file(file_path, label=None):
     run_query(query, label)
 
 if __name__ == "__main__":
-    # Exemplo de uso
     file_path = os.path.join(os.getcwd(), "db/queries/example_query.sql")
+    run_query_from_file(file_path, "Exemplo de execução de query")
