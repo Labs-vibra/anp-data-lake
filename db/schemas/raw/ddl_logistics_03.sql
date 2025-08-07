@@ -1,12 +1,10 @@
-CREATE TABLE IF NOT EXISTS rw_ext_anp.logistica_01 (
+# CREATE TABLE IF NOT EXISTS rw_ext_anp.logistics_03 (
     periodo DATE,
+    produto STRING,
     uf_origem STRING,
     uf_destino STRING,
-    produto STRING,
-    classificacao STRING,
-    sub_classificacao STRING,
-    operacao STRING,
-    modal STRING,
+    vendedor STRING,
+    comprador STRING,
     qtd_produto_liquido FLOAT64,
     data_criacao TIMESTAMP DEFAULT CURRENT_TIMESTAMP()
 ) PARTITION BY DATE(data_criacao);
