@@ -6,6 +6,9 @@ uv.lock
 .venv
 .python-version
 gcp.secrets.json
+__pycache__/
+*.pyc
+.DS_Store
 
 # Terraform state files
 *.tfstate

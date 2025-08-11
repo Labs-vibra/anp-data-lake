@@ -1,91 +1,60 @@
 """
-    Extract Logistics data from ANP page, downloads the ZIP file if available, and save it in BiqQuery.
+Extração de dados da ANP - Logística
+
+Consistem em 3 arquivos CSV compactados em um arquivo ZIP,
+disponibilizados no portal da ANP.
+
+Esta função realiza as seguintes etapas:
+- Busca a página web da ANP para localizar o link do arquivo ZIP atualizado.
+- Faz o download do arquivo ZIP contendo os dados de logística.
+- Envia o arquivo ZIP completo para um bucket no Google Cloud Storage.
+- Descompacta o arquivo ZIP em memória e envia individualmente os 3 arquivos CSV
+  de logística para o bucket, para posterior processamento.
+
+Os arquivos CSV são:
+- Logística 01: Abastecimento nacional de combustíveis
+- Logística 02: Vendas no mercado brasileiro de combustíveis
+- Logística 03: Vendas congêneres de distribuidores
+
 """
 
-import re
-import os
-import requests
-import zipfile
-import pandas as pd
-from bs4 import BeautifulSoup
 from io import BytesIO
-from datetime import date
-from google.cloud import bigquery
+import zipfile
+from services.gcp.gcs import upload_bytes_to_bucket
+from utils.scrapping_utils import download_file, fetch_html, find_link_by_text
 
-URL = "https://www.gov.br/anp/pt-br/centrais-de-conteudo/paineis-dinamicos-da-anp/" \
-"paineis-dinamicos-do-abastecimento/painel-dinamico-da-logistica-do-abastecimento-nacional-de-combustiveis"
+URL = (
+    "https://www.gov.br/anp/pt-br/centrais-de-conteudo/paineis-dinamicos-da-anp/"
+    "paineis-dinamicos-do-abastecimento/painel-dinamico-da-logistica-do-abastecimento-nacional-de-combustiveis"
+)
 
-response = requests.get(URL, verify=False)
-if response.status_code == 200:
-    page = BeautifulSoup(response.content, "html.parser")
-else:
-    print(f"Failed to retrieve data: {response.status_code}")
+def rw_ext_anp_logistics(url: str = URL):
+    print("Iniciando extração: Logística ANP...")
 
-pattern = re.compile(r"Consulte\s+aqu.*Logística", re.IGNORECASE)
-a_tag = page.find('a', string=pattern)
-if a_tag and 'href' in a_tag.attrs:
+    soup = fetch_html(url)
 
-    link = a_tag['href']
-    text = a_tag.get_text(strip=True)
-    li_text = a_tag.get_text(strip=True)
+    data_info = find_link_by_text(soup, "Veja também a base dados do painel")
+    if not data_info:
+        raise Exception("Link para download dos dados não encontrado.")
+    print(f"Link para dados encontrado: {data_info['link']}")
+    print(f"Data da última atualização: {data_info['updated_date']}")
 
-    panel = {
-        'text': text,
-        'link': link,
-    }
-else:
-    panel = None
+    zip_bytes = download_file(data_info['link'])
 
-data_link = page.find('a', string='Veja também a base dados do painel')
-if data_link and 'href' in data_link.attrs:
-    link = data_link['href']
-    text = data_link.get_text(strip=True)
+    zip_bucket_path = "extractions/dados_logistica.zip"
+    upload_bytes_to_bucket(zip_bytes, zip_bucket_path)
+    print(f"Arquivo zip enviado para o bucket: {zip_bucket_path}")
 
-    updated_data = data_link.next_sibling
-    if updated_data:
-        li_text = updated_data.get_text(strip=True).split("em ")[1][0:-1].strip()
-    else:
-        li_text = "Data não disponível"
+    with zipfile.ZipFile(zip_bytes) as zf:
+        for file_info in zf.infolist():
+            file_name_upper = file_info.filename.upper()
+            if ("LOGISTICA" in file_name_upper and
+                ("01" in file_name_upper or "02" in file_name_upper or "03" in file_name_upper) and
+                file_name_upper.endswith('.CSV')):
+                with zf.open(file_info) as source_file:
+                    file_bytes = BytesIO(source_file.read())
+                    bucket_path = f"extractions/{file_info.filename}"
+                    upload_bytes_to_bucket(file_bytes, bucket_path)
+                    print(f"Arquivo enviado para o bucket: {bucket_path}")
 
-    data = {
-        'text': text,
-        'link': link,
-        'updated_date': li_text
-    }
-else:
-    data = None
-
-if data and data.get('link'):
-    file_link_to_upload = data.get('link')
-
-    response = requests.get(file_link_to_upload, verify=False)
-    response.raise_for_status()
-    zip_bytes = BytesIO(response.content)
-    file_name = "logistics.zip"
-else:
-    print("No data link found.")
-
-# """
-#     Read the logistics sales data from a zip file and convert it to a DataFrame.
-# """
-
-# def process_zip_files(zip_bytes):
-#     target_files = [
-#         "DADOS ABERTOS - LOGISTICA 01 - ABASTECIMENTO NACIONAL DE COMBUST÷VEIS",
-#         "DADOS ABERTOS - LOGISTICA 02 - VENDAS NO MERCADO BRASILEIRO DE COMBUST÷VEIS",
-#         "DADOS ABERTOS - LOGISTICA 03 - VENDAS CONG╥NERES DE DISTRIBUIDORES.csv",
-#     ]
-#     processed_files = []
-
-#     with zipfile.ZipFile(zip_bytes) as zf:
-#         for file_info in zf.infolist():
-#             file_name = file_info.filename.upper()
-#             if any(target in file_name for target in target_files):
-#                 with zf.open(file_info) as file:
-#                     df = pd.read_csv(file, sep=";", encoding="latin1")
-#                     processed_files.append((file_info.filename, df))
-#     return processed_files
-
-# """
-#     Process the DataFrame to rename columns and convert data types.
-# """
+    print("Extração e upload de Logística concluída.")
