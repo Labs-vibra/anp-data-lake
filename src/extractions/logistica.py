@@ -1,3 +1,23 @@
+"""
+Extração de dados da ANP - Logística
+
+Consistem em 3 arquivos CSV compactados em um arquivo ZIP,
+disponibilizados no portal da ANP.
+
+Esta função realiza as seguintes etapas:
+- Busca a página web da ANP para localizar o link do arquivo ZIP atualizado.
+- Faz o download do arquivo ZIP contendo os dados de logística.
+- Envia o arquivo ZIP completo para um bucket no Google Cloud Storage.
+- Descompacta o arquivo ZIP em memória e envia individualmente os 3 arquivos CSV
+  de logística para o bucket, para posterior processamento.
+
+Os arquivos CSV são:
+- Logística 01: Abastecimento nacional de combustíveis
+- Logística 02: Vendas no mercado brasileiro de combustíveis
+- Logística 03: Vendas congêneres de distribuidores
+
+"""
+
 from io import BytesIO
 import zipfile
 from services.gcp.gcs import upload_bytes_to_bucket
@@ -31,7 +51,6 @@ def rw_ext_anp_logistics(
     zip_bytes = download_file(data_info['link'])
 
 
-    zip_bytes.seek(0)
     zip_bucket_path = "extractions/dados_logistica.zip"
     upload_bytes_to_bucket(zip_bytes, zip_bucket_path)
     print(f"Arquivo zip enviado para o bucket: {zip_bucket_path}")
