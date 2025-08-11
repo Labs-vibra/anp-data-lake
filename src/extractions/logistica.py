@@ -36,4 +36,3 @@ def rw_ext_anp_logistics(url: str = LOGISTICS_URL):
     process_zip_and_upload_to_gcp(zip_bytes, LOGISTICS_EXTRACTION_BUCKET_PATH)
 
     logging.ingo("Extração e upload de Logística concluída.")
-
