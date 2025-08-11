@@ -28,15 +28,8 @@ URL = (
     "paineis-dinamicos-do-abastecimento/painel-dinamico-da-logistica-do-abastecimento-nacional-de-combustiveis"
 )
 
-target_files = [
-    "DADOS ABERTOS - LOGISTICA 01 - ABASTECIMENTO NACIONAL DE COMBUST÷VEIS",
-    "DADOS ABERTOS - LOGISTICA 02 - VENDAS NO MERCADO BRASILEIRO DE COMBUST÷VEIS",
-    "DADOS ABERTOS - LOGISTICA 03 - VENDAS CONG╥NERES DE DISTRIBUIDORES.csv",
-]
-
 def rw_ext_anp_logistics(
     url: str = URL,
-    target_files_list: list[str] = target_files,
 ):
     print("Iniciando extração: Logística ANP...")
 
@@ -49,7 +42,6 @@ def rw_ext_anp_logistics(
     print(f"Data da última atualização: {data_info['updated_date']}")
 
     zip_bytes = download_file(data_info['link'])
-
 
     zip_bucket_path = "extractions/dados_logistica.zip"
     upload_bytes_to_bucket(zip_bytes, zip_bucket_path)
