@@ -1,12 +1,7 @@
-import os
-import zipfile
 from io import BytesIO
-from src.utils.scrapping_utils import (
-    fetch_html,
-    find_link_by_text,
-    download_file,
-)
-from services.gcp.gcs import upload_bytes_to_bucket
+import zipfile
+from src.services.gcp.gcs import upload_bytes_to_bucket
+from src.utils.scrapping_utils import download_file, fetch_html, find_link_by_text
 
 URL = (
     "https://www.gov.br/anp/pt-br/centrais-de-conteudo/paineis-dinamicos-da-anp/"

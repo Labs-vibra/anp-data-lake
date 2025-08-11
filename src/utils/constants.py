@@ -1,1 +1,1 @@
-BUCKET_NAME="your-bucket-name"
+BUCKET_NAME="ext-ecole-biomassa"
