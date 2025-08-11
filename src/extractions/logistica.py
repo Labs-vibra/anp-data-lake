@@ -1,7 +1,7 @@
 from io import BytesIO
 import zipfile
-from src.services.gcp.gcs import upload_bytes_to_bucket
-from src.utils.scrapping_utils import download_file, fetch_html, find_link_by_text
+from services.gcp.gcs import upload_bytes_to_bucket
+from utils.scrapping_utils import download_file, fetch_html, find_link_by_text
 
 URL = (
     "https://www.gov.br/anp/pt-br/centrais-de-conteudo/paineis-dinamicos-da-anp/"
@@ -30,8 +30,13 @@ def rw_ext_anp_logistics(
 
     zip_bytes = download_file(data_info['link'])
 
+
+    zip_bytes.seek(0)
+    zip_bucket_path = "extractions/dados_logistica.zip"
+    upload_bytes_to_bucket(zip_bytes, zip_bucket_path)
+    print(f"Arquivo zip enviado para o bucket: {zip_bucket_path}")
+
     with zipfile.ZipFile(zip_bytes) as zf:
-        print("\nEnviando arquivos diretamente para o bucket...")
         for file_info in zf.infolist():
             file_name_upper = file_info.filename.upper()
             if ("LOGISTICA" in file_name_upper and
