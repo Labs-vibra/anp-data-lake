@@ -1,60 +1,39 @@
-"""
-Extração de dados da ANP - Logística
-
-Consistem em 3 arquivos CSV compactados em um arquivo ZIP,
-disponibilizados no portal da ANP.
-
-Esta função realiza as seguintes etapas:
-- Busca a página web da ANP para localizar o link do arquivo ZIP atualizado.
-- Faz o download do arquivo ZIP contendo os dados de logística.
-- Envia o arquivo ZIP completo para um bucket no Google Cloud Storage.
-- Descompacta o arquivo ZIP em memória e envia individualmente os 3 arquivos CSV
-  de logística para o bucket, para posterior processamento.
-
-Os arquivos CSV são:
-- Logística 01: Abastecimento nacional de combustíveis
-- Logística 02: Vendas no mercado brasileiro de combustíveis
-- Logística 03: Vendas congêneres de distribuidores
-
-"""
-
 from io import BytesIO
 import zipfile
+import logging
 from services.gcp.gcs import upload_bytes_to_bucket
-from utils.scrapping_utils import download_file, fetch_html, find_link_by_text
+from utils.scrapping_utils import download_file, fetch_html, find_link_by_text, process_zip_and_upload_to_gcp
+from utils.constants import LOGISTICS_URL, LOGISTICS_ZIP_BUCKET_PATH, LOGISTICS_EXTRACTION_BUCKET_PATH
 
-URL = (
-    "https://www.gov.br/anp/pt-br/centrais-de-conteudo/paineis-dinamicos-da-anp/"
-    "paineis-dinamicos-do-abastecimento/painel-dinamico-da-logistica-do-abastecimento-nacional-de-combustiveis"
-)
+logging.basicConfig(level=logging.INFO)
 
-def rw_ext_anp_logistics(url: str = URL):
-    print("Iniciando extração: Logística ANP...")
+def rw_ext_anp_logistics(url: str = LOGISTICS_URL):
+    """
+    Realiza a extração de arquivos de logística da ANP:
+    - Baixa o HTML da página
+    - Encontra o link para o arquivo ZIP
+    - Faz o download do ZIP e envia ao bucket
+    - Extrai arquivos CSV específicos e envia ao bucket
+
+    Args:
+        url (str): URL da página onde o link para o arquivo ZIP será buscado.
+                   Default é LOGISTICS_URL.
+    """
+    logging.info("Iniciando extração: Logística ANP...")
 
     soup = fetch_html(url)
-
     data_info = find_link_by_text(soup, "Veja também a base dados do painel")
+
     if not data_info:
-        raise Exception("Link para download dos dados não encontrado.")
-    print(f"Link para dados encontrado: {data_info['link']}")
-    print(f"Data da última atualização: {data_info['updated_date']}")
+        raise RuntimeError("Link para download dos dados não encontrado.")
+
+    logging.info(f"Link para dados encontrado: {data_info['link']}")
+    logging.info(f"Data da última atualização: {data_info['updated_date']}")
 
     zip_bytes = download_file(data_info['link'])
+    upload_bytes_to_bucket(zip_bytes, LOGISTICS_ZIP_BUCKET_PATH)
 
-    zip_bucket_path = "extractions/dados_logistica.zip"
-    upload_bytes_to_bucket(zip_bytes, zip_bucket_path)
-    print(f"Arquivo zip enviado para o bucket: {zip_bucket_path}")
+    process_zip_and_upload_to_gcp(zip_bytes, LOGISTICS_EXTRACTION_BUCKET_PATH)
 
-    with zipfile.ZipFile(zip_bytes) as zf:
-        for file_info in zf.infolist():
-            file_name_upper = file_info.filename.upper()
-            if ("LOGISTICA" in file_name_upper and
-                ("01" in file_name_upper or "02" in file_name_upper or "03" in file_name_upper) and
-                file_name_upper.endswith('.CSV')):
-                with zf.open(file_info) as source_file:
-                    file_bytes = BytesIO(source_file.read())
-                    bucket_path = f"extractions/{file_info.filename}"
-                    upload_bytes_to_bucket(file_bytes, bucket_path)
-                    print(f"Arquivo enviado para o bucket: {bucket_path}")
+    logging.ingo("Extração e upload de Logística concluída.")
 
-    print("Extração e upload de Logística concluída.")
