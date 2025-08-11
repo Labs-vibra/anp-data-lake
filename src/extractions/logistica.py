@@ -28,9 +28,7 @@ URL = (
     "paineis-dinamicos-do-abastecimento/painel-dinamico-da-logistica-do-abastecimento-nacional-de-combustiveis"
 )
 
-def rw_ext_anp_logistics(
-    url: str = URL,
-):
+def rw_ext_anp_logistics(url: str = URL):
     print("Iniciando extração: Logística ANP...")
 
     soup = fetch_html(url)
