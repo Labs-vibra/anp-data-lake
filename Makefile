@@ -4,3 +4,8 @@ init_venv:
 
 install_deps:
 	pip install -r requirements.txt
+
+test-docker-image:
+	cp ~/gcp.secrets.json src/$(FOLDER)
+	docker build -t extracao src/$(FOLDER)
+	rm src/$(FOLDER)/gcp.secrets.json
