@@ -22,7 +22,7 @@ configure-docker-gcp:
 	gcloud config set project $(PROJECT_ID)
 
 upload-docker:
-	docker build --platform linux/amd64 -t us-central1-docker.pkg.dev/$(PROJECT_ID)/${ARTIFACT_REPO}/run-extracao-logistica:latest src/logistica
+	docker build --platform linux/amd64 -t us-central1-docker.pkg.dev/$(PROJECT_ID)/${ARTIFACT_REPO}/run-extracao-logistica:latest src/logistica/extracao
 	docker push us-central1-docker.pkg.dev/$(PROJECT_ID)/${ARTIFACT_REPO}/run-extracao-logistica:latest
 
 upload-dags:
