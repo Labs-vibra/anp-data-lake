@@ -1,10 +1,9 @@
-import os
-import re
+import zipfile
 import requests
 from io import BytesIO
 from bs4 import BeautifulSoup
-from services.gcp.gcs import upload_bytes_to_bucket
-from  utils.constants import LOGISTICS_CSV_FILENAME_KEYWORD, LOGISTICS_CSV_ALLOWED_NUMBERS, LOGISTICS_CSV_EXTENSION
+from google.cloud import storage
+from constants import BUCKET_NAME, LOGISTICS_CSV_FILENAME_KEYWORD, LOGISTICS_CSV_ALLOWED_NUMBERS, LOGISTICS_CSV_EXTENSION
 
 def fetch_html(url):
     """
@@ -104,3 +103,11 @@ def is_target_csv(filename: str) -> bool:
         and any(num in file_upper for num in LOGISTICS_CSV_ALLOWED_NUMBERS)
         and file_upper.endswith(LOGISTICS_CSV_EXTENSION)
     )
+
+def upload_bytes_to_bucket(arquivo_bytes, nome_no_bucket):
+    client = storage.Client()
+    bucket = client.bucket(BUCKET_NAME)
+    blob = bucket.blob(nome_no_bucket)
+    blob.upload_from_file(arquivo_bytes)
+    print(f"Arquivo {arquivo_bytes} enviado como {nome_no_bucket}.")
+    return True

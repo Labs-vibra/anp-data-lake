@@ -1,9 +1,8 @@
 from io import BytesIO
 import zipfile
 import logging
-from services.gcp.gcs import upload_bytes_to_bucket
-from utils.scrapping_utils import download_file, fetch_html, find_link_by_text, process_zip_and_upload_to_gcp
-from utils.constants import LOGISTICS_URL, LOGISTICS_ZIP_BUCKET_PATH, LOGISTICS_EXTRACTION_BUCKET_PATH
+from utils import download_file, fetch_html, find_link_by_text, process_zip_and_upload_to_gcp, upload_bytes_to_bucket
+from constants import LOGISTICS_URL, LOGISTICS_ZIP_BUCKET_PATH, LOGISTICS_EXTRACTION_BUCKET_PATH
 
 logging.basicConfig(level=logging.INFO)
 
@@ -35,4 +34,7 @@ def extract_ext_anp_logistics(url: str = LOGISTICS_URL):
 
     process_zip_and_upload_to_gcp(zip_bytes, LOGISTICS_EXTRACTION_BUCKET_PATH)
 
-    logging.ingo("Extração e upload de Logística concluída.")
+    logging.info("Extração e upload de Logística concluída.")
+
+if __name__ == "__main__":
+    extract_ext_anp_logistics()
