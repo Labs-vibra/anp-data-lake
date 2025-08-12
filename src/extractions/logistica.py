@@ -7,7 +7,7 @@ from utils.constants import LOGISTICS_URL, LOGISTICS_ZIP_BUCKET_PATH, LOGISTICS_
 
 logging.basicConfig(level=logging.INFO)
 
-def rw_ext_anp_logistics(url: str = LOGISTICS_URL):
+def extract_ext_anp_logistics(url: str = LOGISTICS_URL):
     """
     Realiza a extração de arquivos de logística da ANP:
     - Baixa o HTML da página
