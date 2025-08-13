@@ -13,8 +13,8 @@ default_args = {
     'retries': 1,
 }
 
-# bucket = os.getenv("BUCKET_NAME", "vibra-dtan-juridico-anp-input")
-# project_id = os.getenv("GOOGLE_CLOUD_PROJECT", "labs-vibra-final")
+bucket = os.getenv("BUCKET_NAME", "ext-ecole-biomassa")
+project_id = os.getenv("GOOGLE_CLOUD_PROJECT", "ext-ecole-biomassa-468317")
 
 # params_dag = {
 #     'start_date': '2023-01-01',
@@ -59,22 +59,18 @@ def exec_cloud_run_job(task_id, job_name):
         pool="cloud_run_pool",
     )
 
-# with DAG(
-#     dag_id='logistics_pipeline',
-#     default_args=default_args,
-#     description='Movimentação e Logística DAG',
-#     schedule_interval='@monthly',
-#     catchup=False,
-#     max_active_tasks=2,
-# ) as dag:
+with DAG(
+    dag_id='logistics_pipeline',
+    default_args=default_args,
+    description='Movimentação e Logística DAG',
+    schedule_interval='@monthly',
+    catchup=False,
+    max_active_tasks=2,
+) as dag:
 
-#     with TaskGroup("etl_logistics", tooltip="ETL Logistics") as etl_logistics:
-#         run_logistics = exec_cloud_run_job(
-#             task_id="raw_logistics",
-#             job_name="etl-logistics"
-#         )
-#         pop_logistics = populate_table(
-#             table="td_logistics_01",
-#             sql_name=f"gs://{bucket}/sql/trusted/dml_logistics.sql"
-#         )
-#         run_logistics >> pop_logistics
+    with TaskGroup("etl_logistics", tooltip="ETL Logistics") as etl_logistics:
+        run_logistics = exec_cloud_run_job(
+            task_id="extraction_logistics",
+            job_name="etl-logistics"
+        )
+        run_logistics
