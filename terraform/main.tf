@@ -25,3 +25,10 @@ resource "google_composer_environment" "anp_composer" {
         environment_size = "ENVIRONMENT_SIZE_SMALL"
     }
 }
+
+module "logistica" {
+  source             = "./modules/logistica"
+  region             = var.region
+  jobs_image_base_url = var.jobs_image_base_url
+  image_version      = var.image_version
+}
