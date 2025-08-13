@@ -43,17 +43,17 @@ def exec_cloud_run_job(task_id, job_name):
     )
 
 with DAG(
-    dag_id='metas_cbios_2019_pipeline',
+    dag_id='metas_cbios_2024_pipeline',
     default_args=default_args,
-    description='Metas Individuais de CBIOS 2019',
+    description='Metas Individuais de CBIOS 2024',
     schedule_interval='@monthly',
     catchup=False,
     max_active_tasks=2,
 ) as dag:
 
-    with TaskGroup("etl_metas_cbios-2019", tooltip="ETL Metas CBIOS 2019") as etl_metas_cbios_2019:
+    with TaskGroup("etl_metas_cbios-2024", tooltip="ETL Metas CBIOS 2024") as etl_metas_cbios_2024:
         run_metas = exec_cloud_run_job(
-            task_id="extraction_metas_cbios-2019",
-            job_name="extracao-metas-cbios-2019-job"
+            task_id="extraction_metas_cbios-2024",
+            job_name="extracao-metas-cbios-2024-job"
         )
         run_metas
