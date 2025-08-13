@@ -1,52 +1,41 @@
 import os
+import requests
+import logging
 import pandas as pd
-from google.cloud import bigquery, storage
+from io import BytesIO
+from google.cloud import bigquery
 from datetime import date
-from services.constants import PATHS
-from services.utils import download_file
-
-
-URL = (
-	"https://www.gov.br/anp/pt-br/assuntos/renovabio/metas/2019/metas-individuais-compulsorias-2019.xlsx"
+from constants import (
+	BASE_URL,
+	RAW_DATASET,
+	CBIOS_2019_TABLE,
+	MAPPING_COLUMNS
 )
 
-bucket_name = os.getenv("GCP_BUCKET_NAME")
-dest_path = "raw"
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s - %(levelname)s - %(message)s"
+)
+
 
 def rw_ext_anp_cbios_2019():
-	try:
-		file_content = download_file(URL)
-		filename = "metas-individuais-compulsorias-2019.xlsx"
-		local_file_path = os.path.join(PATHS["RAW_DIR"], filename)
+	logging.info("Iniciando o download do arquivo Excel...")
+	response = requests.get(BASE_URL, verify=False)
+	response.raise_for_status()
+	file_content = BytesIO(response.content)
+	logging.info("Download concluído.")
 
-		os.makedirs(os.path.dirname(local_file_path), exist_ok=True)
-		with open(local_file_path, 'wb') as f:
-			f.write(file_content.read())
-		
-		print(f"Arquivo salvo em: {local_file_path}")
+	df = pd.read_excel(file_content)
+	df = df.iloc[:-2]
 
-	except Exception as e:
-		print(f"Erro ao baixar o arquivo: {e}")
-		return None
+	df.rename(columns=MAPPING_COLUMNS, inplace=True)
 
-	df = pd.read_excel(local_file_path)
-	print(df.columns)
-	df.rename(columns={
-		'Código do\nAgente Regulado': 'codigo_agente_regulado',
-		'CNPJ': 'cnpj',
-		'Razão Social': 'razao_social',
-		'Somatório das Emissões \n(tCO2 equivalente)': 'somatorio_emissoes',
-		'Participação \nde Mercado (%)': 'participacao_mercado',
-		'Meta Individual 2019\n(CBIO)': 'meta_individual_2019',
-		'(8/365) * \n(Meta Individual 2019)\n(CBIO)': 'meta_individual_2019_diaria',
-	})
+	df['codigo_agente_regulado'] = df['codigo_agente_regulado'].astype(str)
 
 	client = bigquery.Client()
-	project_id = os.getenv("GOOGLE_CLOUD_PROJECT", "ext-ecole-biomassa")
-	bq_dataset = "rw_ext_anp"
-	table_name = "cbios_2019"
+	project_id = os.getenv("GOOGLE_CLOUD_PROJECT", "ext-ecole-biomassa-468317")
 
-	table_id = f"{project_id}.{bq_dataset}.{table_name}"
+	table_id = f"{project_id}.{RAW_DATASET}.{CBIOS_2019_TABLE}"
 
 	job_config = bigquery.LoadJobConfig(
 		write_disposition=bigquery.WriteDisposition.WRITE_APPEND,
@@ -55,15 +44,16 @@ def rw_ext_anp_cbios_2019():
 	partition_key = date.today().strftime('%Y%m%d')
 
 	partitioned_table_id = f"{table_id}${partition_key}"
-	print(f"Inserting data for partition: {partition_key}")
-	print(f"Total rows to insert: {len(df)}")
+	logging.info(f"Inserting data for partition: {partition_key}")
+	logging.info(f"Total rows to insert: {len(df)}")
 
 	job = client.load_table_from_dataframe(
 		df, partitioned_table_id, job_config=job_config
 	)
 	job.result()
-	print(f"Data for {partition_key} inserted successfully.")
+	logging.info(f"Data for {partition_key} inserted successfully.")
 
-	print("Data insertion completed!")
+	logging.info("Data insertion completed!")
 
-
+if __name__ == "__main__":
+	rw_ext_anp_cbios_2019()
