@@ -12,19 +12,18 @@ from constants import (
 	MAPPING_COLUMNS
 )
 
-logging.basicConfig(level=logging.INFO)
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s - %(levelname)s - %(message)s"
+)
 
 
 def rw_ext_anp_cbios_2019():
-	try:
-		logging.info("Iniciando o download do arquivo Excel...")
-		response = requests.get(BASE_URL, verify=False)
-		response.raise_for_status()
-		file_content = BytesIO(response.content)
-		logging.info("Download concluído.")
-	except Exception as e:
-		logging.warning(f"Erro ao fazer download do arquivo: {e}")
-		return None
+	logging.info("Iniciando o download do arquivo Excel...")
+	response = requests.get(BASE_URL, verify=False)
+	response.raise_for_status()
+	file_content = BytesIO(response.content)
+	logging.info("Download concluído.")
 
 	df = pd.read_excel(file_content)
 	df = df.iloc[:-2]
@@ -35,10 +34,8 @@ def rw_ext_anp_cbios_2019():
 
 	client = bigquery.Client()
 	project_id = os.getenv("GOOGLE_CLOUD_PROJECT", "ext-ecole-biomassa-468317")
-	bq_dataset = RAW_DATASET
-	table_name = CBIOS_2019_TABLE
 
-	table_id = f"{project_id}.{bq_dataset}.{table_name}"
+	table_id = f"{project_id}.{RAW_DATASET}.{CBIOS_2019_TABLE}"
 
 	job_config = bigquery.LoadJobConfig(
 		write_disposition=bigquery.WriteDisposition.WRITE_APPEND,
