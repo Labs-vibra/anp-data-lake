@@ -1,35 +1,33 @@
 import os
 import pandas as pd
+from io import BytesIO
 from google.cloud import bigquery, storage
 from datetime import date
-from services.constants import PATHS
-from services.utils import download_file
+from constants import URL, PATHS
+import requests
 
-
-URL = (
-	"https://www.gov.br/anp/pt-br/assuntos/renovabio/metas/2019/metas-individuais-compulsorias-2019.xlsx"
-)
-
-bucket_name = os.getenv("GCP_BUCKET_NAME")
-dest_path = "raw"
 
 def rw_ext_anp_cbios_2019():
 	try:
-		file_content = download_file(URL)
+		response = requests.get(URL, verify=False)
+		response.raise_for_status()
+		file_content = BytesIO(response.content)
 		filename = "metas-individuais-compulsorias-2019.xlsx"
-		local_file_path = os.path.join(PATHS["RAW_DIR"], filename)
-
-		os.makedirs(os.path.dirname(local_file_path), exist_ok=True)
-		with open(local_file_path, 'wb') as f:
-			f.write(file_content.read())
 		
-		print(f"Arquivo salvo em: {local_file_path}")
+		bucket_name = os.getenv("GCP_BUCKET_NAME")
+		dest_path = f"anp/{filename}"
+		client = storage.Client()
+		bucket = client.bucket(bucket_name)
+		blob = bucket.blob(dest_path)
+		file_content.seek(0)
+		blob.upload_from_file(file_content)
+		print(f"Arquivo enviado para: gs://{bucket_name}/{dest_path}")
 
 	except Exception as e:
-		print(f"Erro ao baixar o arquivo: {e}")
+		print(f"Erro ao fazer upload do arquivo: {e}")
 		return None
 
-	df = pd.read_excel(local_file_path)
+	df = pd.read_excel(file_content)
 	print(df.columns)
 	df.rename(columns={
 		'Código do\nAgente Regulado': 'codigo_agente_regulado',
@@ -66,4 +64,5 @@ def rw_ext_anp_cbios_2019():
 
 	print("Data insertion completed!")
 
-
+if __name__ == "__main__":
+	rw_ext_anp_cbios_2019()
