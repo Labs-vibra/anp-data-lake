@@ -6,7 +6,7 @@ from constants import LOGISTICS_URL, LOGISTICS_ZIP_BUCKET_PATH, LOGISTICS_EXTRAC
 
 logging.basicConfig(level=logging.INFO)
 
-def extract_ext_anp_logistics(url: str = LOGISTICS_URL):
+def extract_ext_anp_logistics():
     """
     Realiza a extração de arquivos de logística da ANP:
     - Baixa o HTML da página
@@ -20,7 +20,7 @@ def extract_ext_anp_logistics(url: str = LOGISTICS_URL):
     """
     logging.info("Iniciando extração: Logística ANP...")
 
-    soup = fetch_html(url)
+    soup = fetch_html(LOGISTICS_URL)
     data_info = find_link_by_text(soup, "Veja também a base dados do painel")
 
     if not data_info:
