@@ -32,3 +32,10 @@ module "logistica" {
   jobs_image_base_url = var.jobs_image_base_url
   image_version      = var.image_version
 }
+
+module "metas_individuais_cbios" {
+  source             = "./modules/metas_individuais_cbios"
+  region             = var.region
+  jobs_image_base_url = var.jobs_image_base_url
+  image_version      = var.image_version
+}
