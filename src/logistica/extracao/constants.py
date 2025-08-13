@@ -1,0 +1,17 @@
+BUCKET_NAME="ext-ecole-biomassa"
+
+# ETL de Logística 1, 2 e 3:
+LOGISTICS_URL = (
+    "https://www.gov.br/anp/pt-br/centrais-de-conteudo/paineis-dinamicos-da-anp/"
+    "paineis-dinamicos-do-abastecimento/painel-dinamico-da-logistica-do-abastecimento-nacional-de-combustiveis"
+)
+
+LOGISTICS_ZIP_BUCKET_PATH = "extractions/dados_logistica.zip"
+
+LOGISTICS_EXTRACTION_BUCKET_PATH = "extractions/"
+
+LOGISTICS_CSV_FILENAME_KEYWORD = "LOGISTICA"
+
+LOGISTICS_CSV_ALLOWED_NUMBERS = ("01", "02", "03")
+
+LOGISTICS_CSV_EXTENSION = ".CSV"
