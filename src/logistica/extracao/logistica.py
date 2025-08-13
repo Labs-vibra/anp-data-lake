@@ -13,10 +13,6 @@ def extract_ext_anp_logistics():
     - Encontra o link para o arquivo ZIP
     - Faz o download do ZIP e envia ao bucket
     - Extrai arquivos CSV específicos e envia ao bucket
-
-    Args:
-        url (str): URL da página onde o link para o arquivo ZIP será buscado.
-                   Default é LOGISTICS_URL.
     """
     logging.info("Iniciando extração: Logística ANP...")
 
