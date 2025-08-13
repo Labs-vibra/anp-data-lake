@@ -3,20 +3,24 @@ import pandas as pd
 from io import BytesIO
 from google.cloud import bigquery, storage
 from datetime import date
-from constants import URL, PATHS
 import requests
 
+BASE_URL = (
+	"https://www.gov.br/anp/pt-br/assuntos/renovabio/metas/2019/metas-individ"
+	"uais-compulsorias-2019.xlsx"
+)
 
 def rw_ext_anp_cbios_2019():
 	try:
-		response = requests.get(URL, verify=False)
+		response = requests.get(BASE_URL, verify=False)
 		response.raise_for_status()
 		file_content = BytesIO(response.content)
 		filename = "metas-individuais-compulsorias-2019.xlsx"
-		
+
 		bucket_name = os.getenv("GCP_BUCKET_NAME")
 		dest_path = f"anp/{filename}"
-		client = storage.Client()
+		project_id = os.getenv("GOOGLE_CLOUD_PROJECT", "ext-ecole-biomassa")
+		client = storage.Client(project=project_id)
 		bucket = client.bucket(bucket_name)
 		blob = bucket.blob(dest_path)
 		file_content.seek(0)
@@ -28,7 +32,7 @@ def rw_ext_anp_cbios_2019():
 		return None
 
 	df = pd.read_excel(file_content)
-	print(df.columns)
+
 	df.rename(columns={
 		'Código do\nAgente Regulado': 'codigo_agente_regulado',
 		'CNPJ': 'cnpj',
@@ -37,10 +41,12 @@ def rw_ext_anp_cbios_2019():
 		'Participação \nde Mercado (%)': 'participacao_mercado',
 		'Meta Individual 2019\n(CBIO)': 'meta_individual_2019',
 		'(8/365) * \n(Meta Individual 2019)\n(CBIO)': 'meta_individual_2019_diaria',
-	})
+	}, inplace=True)
+
+	df['codigo_agente_regulado'] = df['codigo_agente_regulado'].astype(str)
 
 	client = bigquery.Client()
-	project_id = os.getenv("GOOGLE_CLOUD_PROJECT", "ext-ecole-biomassa")
+	project_id = os.getenv("GOOGLE_CLOUD_PROJECT", "ext-ecole-biomassa-468317")
 	bq_dataset = "rw_ext_anp"
 	table_name = "cbios_2019"
 
