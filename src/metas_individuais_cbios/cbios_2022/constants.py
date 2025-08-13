@@ -1,5 +1,3 @@
-BUCKET_NAME="ext-ecole-biomassa"
-
 # ETL de metas individuais de CBIOS de 2022:
 URL = (
     "https://www.gov.br/anp/pt-br/assuntos/renovabio/metas/2022/meta_individual_publicacao_2022.xlsx"
