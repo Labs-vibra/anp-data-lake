@@ -31,4 +31,4 @@ override.tf.json
 *_override.tf.json
 
 # Sensitive files
-terraform.tfvars
+terraform.tfvars.terraform/
