@@ -16,11 +16,6 @@ default_args = {
 bucket = os.getenv("BUCKET_NAME", "ext-ecole-biomassa")
 project_id = os.getenv("GOOGLE_CLOUD_PROJECT", "ext-ecole-biomassa-468317")
 
-# params_dag = {
-#     'start_date': '2023-01-01',
-#     'end_date': '2023-12-31',
-# }
-
 def get_sql_content(sql_path):
     gcs_hook = GCSHook()
     bucket_name, object_name = sql_path.replace('gs://', '').split('/', 1)
@@ -35,7 +30,6 @@ def populate_table(table, sql_name):
                 "useLegacySql": False
             }
         },
-        # params=params_dag,
         location="US"
     )
 
@@ -46,16 +40,6 @@ def exec_cloud_run_job(task_id, job_name):
         region='us-central1',
         project_id=project_id,
         deferrable=True,
-        # overrides={
-        #     "container_overrides": [
-        #         {
-        #             "env": [
-        #                 {"name": "START_DATE", "value": params_dag['start_date']},
-        #                 {"name": "END_DATE", "value": params_dag['end_date']}
-        #             ]
-        #         }
-        #     ],
-        # },
         pool="cloud_run_pool",
     )
 
@@ -68,11 +52,20 @@ with DAG(
     max_active_tasks=2,
 ) as dag:
 
-    with TaskGroup("etl_logistics", tooltip="ETL Logistics") as etl_logistics:
-        run_logistics = exec_cloud_run_job(
+    # TaskGroup para extração geral - arquivos de Logística
+    with TaskGroup("extract_ext_anp_logistics", tooltip="ETL Logistics") as etl_logistics:
+        run_logistics_extract_task = exec_cloud_run_job(
             task_id="extraction_logistics",
-            job_name="etl-logistics"
+            job_name="etl-logistics-extraction"
         )
+
+        # TaskGroup para a raw de Logística 01
+    with TaskGroup("rw_ext_anp_logistics", tooltip="Raw ETL Logística 01") as rw_logistics:
+        run_rw_logistics_01 = exec_cloud_run_job(
+            task_id="logistics_01",
+            job_name="etl-logistics-01"
+        )
+
 
     with TaskGroup("rw_ext_anp_logistics_02", tooltip="Raw ETL Logística 02") as rw_logistics_02:
         run_rw_logistics_02 = exec_cloud_run_job(
@@ -80,4 +73,5 @@ with DAG(
             job_name="etl-logistics-02"
         )
 
-    run_logistics >> [run_rw_logistics_02]
+    run_logistics_extract_task >> [run_rw_logistics_01, run_rw_logistics_02]
+
