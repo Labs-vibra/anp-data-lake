@@ -52,19 +52,27 @@ with DAG(
     max_active_tasks=2,
 ) as dag:
 
-    # TaskGroup para extração geral - arquivos de Logística
-    with TaskGroup("extract_ext_anp_logistics", tooltip="ETL Logistics") as etl_logistics:
-        run_logistics_extract_task = exec_cloud_run_job(
-            task_id="extraction_logistics",
+    with TaskGroup("extract_ext_anp_logistics", tooltip="Extração de arquivos de Logística") as tg_extract_logistics:
+        run_extract_logistics = exec_cloud_run_job(
+            task_id="extract_logistics_files",
             job_name="etl-logistics-extraction"
         )
 
-    # TaskGroup para a raw de Logística 01
-    with TaskGroup("rw_ext_anp_logistics", tooltip="Raw ETL Logística 01") as rw_logistics:
+    with TaskGroup("etl_logistics_01", tooltip="ETL Logística 01") as etl_logistics_01:
         run_rw_logistics_01 = exec_cloud_run_job(
             task_id="logistics_01",
             job_name="etl-logistics-01"
         )
+        pop_td_logistics_01 = populate_table(
+            table="td_ext_anp.logistics_01",
+            sql_name=f"gs://{bucket}/sql/trusted/dml_td_logistics_01.sql"
+        )
+        # pop_rf_logistics_01 = populate_table(
+        #     table="rf_ext_anp.logistics_01",
+        #     sql_name=f"gs://{bucket}/sql/refined/dml_rf_logistics_01.sql"
+        # )
+        run_rw_logistics_01 >> pop_td_logistics_01 #>> pop_rf_logistics_01
 
-    run_logistics_extract_task >> run_rw_logistics_01
+    tg_extract_logistics >> etl_logistics_01
+
 
