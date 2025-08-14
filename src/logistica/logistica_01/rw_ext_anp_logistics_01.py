@@ -3,7 +3,7 @@ from io import BytesIO
 import pandas as pd
 from datetime import date
 from google.cloud import storage, bigquery
-from constants import BUCKET_NAME, RAW_FILE, PROJECT_ID, BQ_DATASET, TABLE_NAME
+from constants import BUCKET_NAME, LOGISTICS_01_FILE, PROJECT_ID, BQ_DATASET, TABLE_NAME
 import logging
 
 logging.basicConfig(
@@ -56,9 +56,9 @@ def rw_ext_anp_logistics_01():
     storage_client = storage.Client()
 
     bucket = storage_client.bucket(BUCKET_NAME)
-    blob = bucket.blob(RAW_FILE)
+    blob = bucket.blob(LOGISTICS_01_FILE)
 
-    logging.info(f"Baixando arquivo {RAW_FILE} do bucket {BUCKET_NAME}...")
+    logging.info(f"Baixando arquivo {LOGISTICS_01_FILE} do bucket {BUCKET_NAME}...")
     data_bytes = blob.download_as_bytes()
 
     df = pd.read_csv(BytesIO(data_bytes), sep=";", encoding="latin1")
