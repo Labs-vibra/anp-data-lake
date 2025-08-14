@@ -73,6 +73,21 @@ with DAG(
         # )
         run_rw_logistics_01 >> pop_td_logistics_01 #>> pop_rf_logistics_01
 
-    tg_extract_logistics >> etl_logistics_01
+    with TaskGroup("etl_logistics_02", tooltip="ETL Logística 02") as etl_logistics_02:
+        run_rw_logistics_02 = exec_cloud_run_job(
+            task_id="logistics_02",
+            job_name="etl-logistics-02"
+        )
+        pop_td_logistics_02 = populate_table(
+            table="td_ext_anp.logistics_02",
+            sql_name=f"gs://{bucket}/sql/trusted/dml_td_logistics_02.sql"
+        )
+        # pop_rf_logistics_02 = populate_table(
+        #     table="rf_ext_anp.logistics_02",
+        #     sql_name=f"gs://{bucket}/sql/refined/dml_rf_logistics_02.sql"
+        # )
+        run_rw_logistics_02 >> pop_td_logistics_02 #>> pop_rf_logistics_02
+
+    tg_extract_logistics >> [etl_logistics_01, etl_logistics_02]
 
 

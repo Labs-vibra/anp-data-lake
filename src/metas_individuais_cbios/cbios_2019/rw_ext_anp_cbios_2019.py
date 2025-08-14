@@ -19,18 +19,24 @@ logging.basicConfig(
 
 
 def rw_ext_anp_cbios_2019():
+	"""
+	Realiza a extração de arquivos de logística da ANP:
+    - Baixa o XLSX direto do link de download
+	- Normaliza as colunas para STRING
+    - Padroniza o nome das colunas
+	- Envia os dados para o BigQuery
+	"""
+
 	logging.info("Iniciando o download do arquivo Excel...")
 	response = requests.get(BASE_URL, verify=False)
 	response.raise_for_status()
 	file_content = BytesIO(response.content)
 	logging.info("Download concluído.")
 
-	df = pd.read_excel(file_content)
+	df = pd.read_excel(file_content, dtype=str)
 	df = df.iloc[:-2]
 
 	df.rename(columns=MAPPING_COLUMNS, inplace=True)
-
-	df['codigo_agente_regulado'] = df['codigo_agente_regulado'].astype(str)
 
 	client = bigquery.Client()
 	project_id = os.getenv("GOOGLE_CLOUD_PROJECT", "ext-ecole-biomassa-468317")
