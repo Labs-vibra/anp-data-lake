@@ -1,16 +1,15 @@
-import os
 import requests
 import logging
 import pandas as pd
 from io import BytesIO
 from google.cloud import bigquery
 from datetime import date
-from dotenv import load_dotenv
 from constants import (
 	BASE_URL,
 	RAW_DATASET,
 	CBIOS_2020_TABLE,
-	MAPPING_COLUMNS
+	MAPPING_COLUMNS,
+    PROJECT_ID
 )
 
 logging.basicConfig(level=logging.INFO)
@@ -30,21 +29,13 @@ def rw_ext_anp_cbios_2020():
 	df = df.iloc[:-2]
 
 	df.rename(columns=MAPPING_COLUMNS, inplace=True)
-
-	load_dotenv()
-	os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = os.path.join(
-    os.path.dirname(__file__), "../../..","gcp.secrets.json")
 	client = bigquery.Client()
-	project_id = os.getenv("GOOGLE_PROJECT_ID", "ext-ecole-biomassa-468317")
-	bq_dataset = RAW_DATASET
-	table_name = CBIOS_2020_TABLE
 
-	table_id = f"{project_id}.{bq_dataset}.{table_name}"
+	table_id = f"{PROJECT_ID}.{RAW_DATASET}.{CBIOS_2020_TABLE}"
 
 	job_config = bigquery.LoadJobConfig(
 		write_disposition=bigquery.WriteDisposition.WRITE_APPEND,
 	)
-
 	partition_key = date.today().strftime('%Y%m%d')
 
 	partitioned_table_id = f"{table_id}${partition_key}"
@@ -56,7 +47,6 @@ def rw_ext_anp_cbios_2020():
 	)
 	job.result()
 	logging.info(f"Data for {partition_key} inserted successfully.")
-
 	logging.info("Data insertion completed!")
 
 if __name__ == "__main__":
