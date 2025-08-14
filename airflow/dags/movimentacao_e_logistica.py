@@ -59,12 +59,19 @@ with DAG(
             job_name="etl-logistics-extraction"
         )
 
-    # TaskGroup para a raw de Logística 01
+        # TaskGroup para a raw de Logística 01
     with TaskGroup("rw_ext_anp_logistics", tooltip="Raw ETL Logística 01") as rw_logistics:
         run_rw_logistics_01 = exec_cloud_run_job(
             task_id="logistics_01",
             job_name="etl-logistics-01"
         )
 
-    run_logistics_extract_task >> run_rw_logistics_01
+
+    with TaskGroup("rw_ext_anp_logistics_02", tooltip="Raw ETL Logística 02") as rw_logistics_02:
+        run_rw_logistics_02 = exec_cloud_run_job(
+            task_id="logistics_02",
+            job_name="etl-logistics-02"
+        )
+
+    run_logistics_extract_task >> [run_rw_logistics_01, run_rw_logistics_02]
 

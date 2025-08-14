@@ -6,9 +6,9 @@ LOGISTICS_URL = (
     "paineis-dinamicos-do-abastecimento/painel-dinamico-da-logistica-do-abastecimento-nacional-de-combustiveis"
 )
 
-LOGISTICS_ZIP_BUCKET_PATH = "extractions/dados_logistica.zip"
+LOGISTICS_ZIP_BUCKET_PATH = "anp/logistica/dados_logistica.zip"
 
-LOGISTICS_EXTRACTION_BUCKET_PATH = "extractions/"
+LOGISTICS_EXTRACTION_BUCKET_PATH = "anp/logistica/"
 
 LOGISTICS_CSV_FILENAME_KEYWORD = "LOGISTICA"
 
