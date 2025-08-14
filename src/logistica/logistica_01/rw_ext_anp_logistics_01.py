@@ -22,7 +22,7 @@ def format_columns_for_bq(df: pd.DataFrame) -> pd.DataFrame:
         "UF Destino": "uf_destino",
         "Produto": "produto",
         "Classificação": "classificacao",
-        "Sub classificação": "sub_classificacao",
+        "Sub Classificação": "sub_classificacao",
         "Operação": "operacao",
         "Modal": "modal",
         "Qtd Produto Líquido": "qtd_produto_liquido"
@@ -50,8 +50,6 @@ def insert_data_into_bigquery(df: pd.DataFrame) -> None:
         job.result()
     except Exception as e:
         raise RuntimeError(f"Falha ao inserir dados para {partition_key}: {str(e)}")
-
-    logging.info(f"Dados para {partition_key} inseridos com sucesso.")
 
 def rw_ext_anp_logistics_01():
     """
