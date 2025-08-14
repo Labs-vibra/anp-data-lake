@@ -1,3 +1,4 @@
+import re
 import zipfile
 import requests
 from io import BytesIO
@@ -72,6 +73,29 @@ def download_file(url):
     response.raise_for_status()
     return BytesIO(response.content)
 
+def process_file_name(file_name: str) -> str:
+    """
+    Processa o nome do arquivo para ser usado no bucket.
+    retira caracteres especiais e formata o nome.
+
+    Args:
+        file_name (str): Nome original do arquivo.
+
+    Returns:
+        str: Nome processado para ser usado no bucket.
+    """
+    substitutions = {
+        "╓": "I",
+    }
+    for old, new in substitutions.items():
+        file_name = file_name.replace(old, new)
+
+    file_name = re.sub(r"\s+", " ", file_name)
+    file_name = file_name.replace(" ", "_")
+    file_name = re.sub(r"[^a-zA-Z0-9_.]", "", file_name)
+    file_name = re.sub(r"_+", "_", file_name)
+    return file_name
+
 def process_zip_and_upload_to_gcp(zip_bytes: BytesIO, dir_prefix: str):
     """Lê um ZIP em memória e envia arquivos filtrados para o bucket.
 
@@ -85,7 +109,7 @@ def process_zip_and_upload_to_gcp(zip_bytes: BytesIO, dir_prefix: str):
             if is_target_csv(file_info.filename):
                 with zf.open(file_info) as source_file:
                     file_bytes = BytesIO(source_file.read())
-                    bucket_path = f"{dir_prefix}{file_info.filename}"
+                    bucket_path = f"{dir_prefix}{process_file_name(file_info.filename)}"
                     upload_bytes_to_bucket(file_bytes, bucket_path)
 
 def is_target_csv(filename: str) -> bool:
