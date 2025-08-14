@@ -44,8 +44,8 @@ def insert_data_into_bigquery(df: pd.DataFrame) -> None:
 
     partitioned_table_id = f"{table_id}${partition_key}"
     job = bq_client.load_table_from_dataframe(
-		df, partitioned_table_id, job_config=job_config
-	)
+         df, partitioned_table_id, job_config=job_config
+    )
     job.result()
 
 def rw_ext_anp_logistics_01():
