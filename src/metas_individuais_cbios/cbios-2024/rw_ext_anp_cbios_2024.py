@@ -8,17 +8,17 @@ from datetime import date
 from constants import (
 	BASE_URL,
 	RAW_DATASET,
-	CBIOS_2019_TABLE,
+	CBIOS_2024_TABLE,
 	MAPPING_COLUMNS
 )
 
 logging.basicConfig(
-    level=logging.INFO,
-    format="%(asctime)s - %(levelname)s - %(message)s"
+	level=logging.INFO,
+	format="%(asctime)s - %(levelname)s - %(message)s"
 )
 
 
-def rw_ext_anp_cbios_2019():
+def rw_ext_anp_cbios_2024():
 	"""
 	Realiza a extração de arquivos de logística da ANP:
     - Baixa o XLSX direto do link de download
@@ -41,7 +41,7 @@ def rw_ext_anp_cbios_2019():
 	client = bigquery.Client()
 	project_id = os.getenv("GOOGLE_CLOUD_PROJECT", "ext-ecole-biomassa-468317")
 
-	table_id = f"{project_id}.{RAW_DATASET}.{CBIOS_2019_TABLE}"
+	table_id = f"{project_id}.{RAW_DATASET}.{CBIOS_2024_TABLE}"
 
 	job_config = bigquery.LoadJobConfig(
 		write_disposition=bigquery.WriteDisposition.WRITE_APPEND,
@@ -62,4 +62,4 @@ def rw_ext_anp_cbios_2019():
 	logging.info("Data insertion completed!")
 
 if __name__ == "__main__":
-	rw_ext_anp_cbios_2019()
+	rw_ext_anp_cbios_2024()

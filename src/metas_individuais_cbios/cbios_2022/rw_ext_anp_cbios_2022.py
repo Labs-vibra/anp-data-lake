@@ -1,16 +1,18 @@
-import os
-import requests
-import logging
-import pandas as pd
 from io import BytesIO
-from google.cloud import bigquery
+import os
+from urllib import response
+import pandas as pd
+import requests
+from google.cloud import bigquery, storage
 from datetime import date
 from constants import (
-	BASE_URL,
-	RAW_DATASET,
-	CBIOS_2019_TABLE,
-	MAPPING_COLUMNS
+    URL, MAPPING_COLUMNS,
+	RAW_DATASET, CBIOS_2022_TABLE
 )
+import logging
+from dotenv import load_dotenv
+
+load_dotenv()
 
 logging.basicConfig(
     level=logging.INFO,
@@ -18,30 +20,32 @@ logging.basicConfig(
 )
 
 
-def rw_ext_anp_cbios_2019():
+def rw_ext_anp_cbios_2022():
 	"""
-	Realiza a extração de arquivos de logística da ANP:
-    - Baixa o XLSX direto do link de download
-	- Normaliza as colunas para STRING
-    - Padroniza o nome das colunas
-	- Envia os dados para o BigQuery
+	Faz o download de um arquivo Excel contendo dados de CBIOs de 2022, processa e insere os dados em uma tabela particionada do BigQuery.
+
 	"""
 
-	logging.info("Iniciando o download do arquivo Excel...")
-	response = requests.get(BASE_URL, verify=False)
-	response.raise_for_status()
-	file_content = BytesIO(response.content)
-	logging.info("Download concluído.")
+	try:
+		logging.info("Iniciando o download do arquivo Excel...")
+		response = requests.get(URL, verify=False)
+		response.raise_for_status()
+		file_content = BytesIO(response.content)
+		logging.info("Download concluído.")
 
-	df = pd.read_excel(file_content, dtype=str)
-	df = df.iloc[:-2]
+	except Exception as e:
+		logging.warning(f"Erro ao fazer download do arquivo: {e}")
+		return None
+	
+
+	df = pd.read_excel(file_content, sheet_name= 'Meta CNPE 2022 ', dtype=str)
 
 	df.rename(columns=MAPPING_COLUMNS, inplace=True)
 
 	client = bigquery.Client()
 	project_id = os.getenv("GOOGLE_CLOUD_PROJECT", "ext-ecole-biomassa-468317")
 
-	table_id = f"{project_id}.{RAW_DATASET}.{CBIOS_2019_TABLE}"
+	table_id = f"{project_id}.{RAW_DATASET}.{CBIOS_2022_TABLE}"
 
 	job_config = bigquery.LoadJobConfig(
 		write_disposition=bigquery.WriteDisposition.WRITE_APPEND,
@@ -62,4 +66,4 @@ def rw_ext_anp_cbios_2019():
 	logging.info("Data insertion completed!")
 
 if __name__ == "__main__":
-	rw_ext_anp_cbios_2019()
+	rw_ext_anp_cbios_2022()
