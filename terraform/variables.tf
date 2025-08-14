@@ -21,3 +21,15 @@ variable "service_account" {
   type        = string
   default     = "gcp-agent@ext-ecole-biomassa-468317.iam.gserviceaccount.com"
 }
+
+variable jobs_image_base_url {
+  type        = string
+  default     = "us-central1-docker.pkg.dev/ext-ecole-biomassa-468317/ar-juridico-process-anp-datalake"
+  description = "Base URL for the Docker image"
+}
+
+variable "image_version" {
+  type        = string
+  default     = "latest"
+  description = "Version of the Docker image"
+}

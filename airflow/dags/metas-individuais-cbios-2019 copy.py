@@ -1,11 +1,10 @@
+import os
 from airflow import DAG
 from airflow.utils.dates import days_ago
 from airflow.utils.task_group import TaskGroup
 from airflow.providers.google.cloud.operators.bigquery import BigQueryInsertJobOperator
 from airflow.providers.google.cloud.operators.cloud_run import CloudRunExecuteJobOperator
 from airflow.providers.google.cloud.hooks.gcs import GCSHook
-import os
-import datetime as dt
 
 default_args = {
     'owner': 'airflow',
@@ -44,27 +43,17 @@ def exec_cloud_run_job(task_id, job_name):
     )
 
 with DAG(
-    dag_id='logistics_pipeline',
+    dag_id='metas_cbios_2019_pipeline',
     default_args=default_args,
-    description='Movimentação e Logística DAG',
+    description='Metas Individuais de CBIOS 2019',
     schedule_interval='@monthly',
     catchup=False,
     max_active_tasks=2,
 ) as dag:
 
-    # TaskGroup para extração geral - arquivos de Logística
-    with TaskGroup("extract_ext_anp_logistics", tooltip="ETL Logistics") as etl_logistics:
-        run_logistics_extract_task = exec_cloud_run_job(
-            task_id="extraction_logistics",
-            job_name="etl-logistics-extraction"
+    with TaskGroup("etl_metas_cbios-2019", tooltip="ETL Metas CBIOS 2019") as etl_metas_cbios_2019:
+        run_metas = exec_cloud_run_job(
+            task_id="extraction_metas_cbios-2019",
+            job_name="extracao-metas-cbios-2019-job"
         )
-
-    # TaskGroup para a raw de Logística 01
-    with TaskGroup("rw_ext_anp_logistics", tooltip="Raw ETL Logística 01") as rw_logistics:
-        run_rw_logistics_01 = exec_cloud_run_job(
-            task_id="logistics_01",
-            job_name="etl-logistics-01"
-        )
-
-    run_logistics_extract_task >> run_rw_logistics_01
-
+        run_metas
