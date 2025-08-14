@@ -1,4 +1,4 @@
-# CREATE TABLE IF NOT EXISTS rw_ext_anp_cbios_2020 (
+CREATE TABLE IF NOT EXISTS rw_ext_anp.cbios_2020 (
     razao_social STRING,
     codigo_agente_regulado STRING,
     cnpj STRING,
