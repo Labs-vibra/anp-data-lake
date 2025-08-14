@@ -5,6 +5,7 @@ import pandas as pd
 from io import BytesIO
 from google.cloud import bigquery
 from datetime import date
+from dotenv import load_dotenv
 from constants import (
 	BASE_URL,
 	RAW_DATASET,
@@ -25,15 +26,16 @@ def rw_ext_anp_cbios_2020():
 		logging.warning(f"Erro ao fazer download do arquivo: {e}")
 		return None
 
-	df = pd.read_excel(file_content)
+	df = pd.read_excel(file_content, sheet_name=1, dtype=str)
 	df = df.iloc[:-2]
 
 	df.rename(columns=MAPPING_COLUMNS, inplace=True)
 
-	df['codigo_agente_regulado'] = df['codigo_agente_regulado'].astype(str)
-
+	load_dotenv()
+	os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = os.path.join(
+    os.path.dirname(__file__), "../../..","gcp.secrets.json")
 	client = bigquery.Client()
-	project_id = os.getenv("GOOGLE_CLOUD_PROJECT", "ext-ecole-biomassa-468317")
+	project_id = os.getenv("GOOGLE_PROJECT_ID", "ext-ecole-biomassa-468317")
 	bq_dataset = RAW_DATASET
 	table_name = CBIOS_2020_TABLE
 
