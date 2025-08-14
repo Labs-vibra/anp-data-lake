@@ -3,7 +3,7 @@ from io import BytesIO
 import pandas as pd
 from datetime import date
 from google.cloud import storage, bigquery
-from constants import BUCKET_NAME, FILE_PATH, PROJECT_ID, BQ_DATASET, TABLE_NAME
+from constants import BUCKET_NAME, RAW_FILE, PROJECT_ID, BQ_DATASET, TABLE_NAME
 import logging
 
 logging.basicConfig(
@@ -46,10 +46,7 @@ def insert_data_into_bigquery(df: pd.DataFrame) -> None:
     job = bq_client.load_table_from_dataframe(
 		df, partitioned_table_id, job_config=job_config
 	)
-    try:
-        job.result()
-    except Exception as e:
-        raise RuntimeError(f"Falha ao inserir dados para {partition_key}: {str(e)}")
+    job.result()
 
 def rw_ext_anp_logistics_01():
     """
@@ -57,15 +54,11 @@ def rw_ext_anp_logistics_01():
     lê arquivo, formata colunas e sobe a camada raw para o BigQuery.
     """
     storage_client = storage.Client()
-    file_name = FILE_PATH
 
     bucket = storage_client.bucket(BUCKET_NAME)
-    blob = bucket.blob(file_name)
+    blob = bucket.blob(RAW_FILE)
 
-    if not blob.exists():
-        raise RuntimeError(f"O arquivo {file_name} não foi encontrado no bucket {BUCKET_NAME}.")
-
-    logging.info(f"Baixando arquivo {file_name} do bucket {BUCKET_NAME}...")
+    logging.info(f"Baixando arquivo {RAW_FILE} do bucket {BUCKET_NAME}...")
     data_bytes = blob.download_as_bytes()
 
     df = pd.read_csv(BytesIO(data_bytes), sep=";", encoding="latin1")
