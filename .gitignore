@@ -1,3 +1,4 @@
+.vscode
 gcp.secrets.json
 .env
 pyproject.toml
