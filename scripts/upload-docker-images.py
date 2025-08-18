@@ -5,15 +5,52 @@ import time
 import sys
 
 docker_images = [
+    # Módulo logística
     {
-        "label": "Extração de logistica",
-        "name": "run-extract-logistcs",
+        "label": "Extração de logística",
+        "name": "run-extracao-logistica",
         "path": "./src/logistica/extracao",
     },
     {
-        "label": "raw logistica01",
-        "name": "run-extract-logistcs-01",
+        "label": "Extração de logística 01",
+        "name": "run-extracao-logistica-01",
         "path": "./src/logistica/logistica_01",
+    },
+    {
+        "label": "Extração de logística 02",
+        "name": "run-extracao-logistica-02",
+        "path": "./src/logistica/logistica_02",
+    },
+    # Módulo metas individuais CBIOs
+    {
+        "label": "Extração metas CBIOs 2019",
+        "name": "run-extracao-metas-cbios-2019-job",
+        "path": "./src/metas_individuais_cbios/cbios_2019",
+    },
+    {
+        "label": "Extração metas CBIOs 2020",
+        "name": "run-extracao-metas-cbios-2020-job",
+        "path": "./src/metas_individuais_cbios/cbios_2020",
+    },
+    {
+        "label": "Extração metas CBIOs 2021",
+        "name": "run-extracao-metas-cbios-2021-job",
+        "path": "./src/metas_individuais_cbios/cbios_2021",
+    },
+    {
+        "label": "Extração metas CBIOs 2022",
+        "name": "run-extracao-metas-cbios-2022-job",
+        "path": "./src/metas_individuais_cbios/cbios_2022",
+    },
+    {
+        "label": "Extração metas CBIOs 2023",
+        "name": "run-extracao-metas-cbios-2023-job",
+        "path": "./src/metas_individuais_cbios/cbios_2023",
+    },
+    {
+        "label": "Extração metas CBIOs 2024",
+        "name": "run-extracao-metas-cbios-2024-job",
+        "path": "./src/metas_individuais_cbios/cbios_2024",
     }
 ]
 
