@@ -52,42 +52,38 @@ with DAG(
     max_active_tasks=2,
 ) as dag:
 
-    with TaskGroup("extract_ext_anp_logistics", tooltip="Extração de arquivos de Logística") as tg_extract_logistics:
-        run_extract_logistics = exec_cloud_run_job(
-            task_id="extract_logistics_files",
-            job_name="etl-logistics-extraction"
-        )
+    run_extract_logistics = exec_cloud_run_job(
+        task_id="extract_logistics_files",
+        description="Extração de arquivos de Logística",
+        job_name="etl-logistics-extraction"
+    )
 
     with TaskGroup("etl_logistics_01", tooltip="ETL Logística 01") as etl_logistics_01:
         run_rw_logistics_01 = exec_cloud_run_job(
             task_id="logistics_01",
+            description="Camada Raw do arquivo Logística 1",
             job_name="etl-logistics-01"
         )
         pop_td_logistics_01 = populate_table(
             table="td_ext_anp.logistics_01",
+            description="Camada Trusted do arquivo Logística 1",
             sql_name=f"gs://{bucket}/sql/trusted/dml_td_logistics_01.sql"
         )
-        # pop_rf_logistics_01 = populate_table(
-        #     table="rf_ext_anp.logistics_01",
-        #     sql_name=f"gs://{bucket}/sql/refined/dml_rf_logistics_01.sql"
-        # )
-        run_rw_logistics_01 >> pop_td_logistics_01 #>> pop_rf_logistics_01
+        run_rw_logistics_01 >> pop_td_logistics_01
 
     with TaskGroup("etl_logistics_02", tooltip="ETL Logística 02") as etl_logistics_02:
         run_rw_logistics_02 = exec_cloud_run_job(
             task_id="logistics_02",
+            description="Camada Raw do arquivo Logística 2",
             job_name="etl-logistics-02"
         )
         pop_td_logistics_02 = populate_table(
             table="td_ext_anp.logistics_02",
+            description="Camada Raw do arquivo Logística 2",
             sql_name=f"gs://{bucket}/sql/trusted/dml_td_logistics_02.sql"
         )
-        # pop_rf_logistics_02 = populate_table(
-        #     table="rf_ext_anp.logistics_02",
-        #     sql_name=f"gs://{bucket}/sql/refined/dml_rf_logistics_02.sql"
-        # )
-        run_rw_logistics_02 >> pop_td_logistics_02 #>> pop_rf_logistics_02
+        run_rw_logistics_02 >> pop_td_logistics_02
 
-    tg_extract_logistics >> [etl_logistics_01, etl_logistics_02]
+    run_extract_logistics >> [etl_logistics_01, etl_logistics_02]
 
 
