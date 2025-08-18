@@ -3,61 +3,7 @@ import subprocess
 import threading
 import time
 import sys
-
-docker_images = [
-    # Módulo logística
-    {
-        "label": "Extração de logística",
-        "name": "run-extracao-logistica",
-        "path": "./src/logistica/extracao",
-    },
-    {
-        "label": "Extração de logística 01",
-        "name": "run-extracao-logistica-01",
-        "path": "./src/logistica/logistica_01",
-    },
-    {
-        "label": "Extração de logística 02",
-        "name": "run-extracao-logistica-02",
-        "path": "./src/logistica/logistica_02",
-    },
-    # Módulo metas individuais CBIOs
-    {
-        "label": "Extração metas CBIOs 2019",
-        "name": "run-extracao-metas-cbios-2019-job",
-        "path": "./src/metas_individuais_cbios/cbios_2019",
-    },
-    {
-        "label": "Extração metas CBIOs 2020",
-        "name": "run-extracao-metas-cbios-2020-job",
-        "path": "./src/metas_individuais_cbios/cbios_2020",
-    },
-    {
-        "label": "Extração metas CBIOs 2021",
-        "name": "run-extracao-metas-cbios-2021-job",
-        "path": "./src/metas_individuais_cbios/cbios_2021",
-    },
-    {
-        "label": "Extração metas CBIOs 2022",
-        "name": "run-extracao-metas-cbios-2022-job",
-        "path": "./src/metas_individuais_cbios/cbios_2022",
-    },
-    {
-        "label": "Extração metas CBIOs 2023",
-        "name": "run-extracao-metas-cbios-2023-job",
-        "path": "./src/metas_individuais_cbios/cbios_2023",
-    },
-    {
-        "label": "Extração metas CBIOs 2024",
-        "name": "run-extracao-metas-cbios-2024-job",
-        "path": "./src/metas_individuais_cbios/cbios_2024",
-    }
-]
-
-PROJECT_ID = "ext-ecole-biomassa-468317"
-ARTIFACT_REPO = "ar-juridico-process-anp-datalake"
-
-artifact_registry_base_url = f"us-central1-docker.pkg.dev/{PROJECT_ID}/{ARTIFACT_REPO}/"
+from docker_images_config import DOCKER_IMAGES, ARTIFACT_REGISTRY_BASE_URL
 
 thread_lines = {}
 lock = threading.Lock()
@@ -89,14 +35,14 @@ def build_and_push_image(image, line_number):
     build_command = [
         "docker", "build",
         "--platform", "linux/amd64",
-        "-t", f"{artifact_registry_base_url}{image_name}",
+        "-t", f"{ARTIFACT_REGISTRY_BASE_URL}{image_name}",
         image_path
     ]
 
     # Push command
     push_command = [
         "docker", "push",
-        f"{artifact_registry_base_url}{image_name}"
+        f"{ARTIFACT_REGISTRY_BASE_URL}{image_name}"
     ]
 
     try:
@@ -150,7 +96,7 @@ print("🏗️ Starting Docker images processing...")
 
 # Create and start threads for each image
 threads = []
-for i, image in enumerate(docker_images):
+for i, image in enumerate(DOCKER_IMAGES):
     line_number = i + 1
     thread = threading.Thread(target=build_and_push_image, args=(image, line_number))
     threads.append(thread)
@@ -161,4 +107,4 @@ for thread in threads:
     thread.join()
 
 # Move cursor below all the threads' output
-print(f"\033[{len(docker_images) + 2};1H🏁 All Docker images processing completed!")
+print(f"\033[{len(DOCKER_IMAGES) + 2};1H🏁 All Docker images processing completed!")
