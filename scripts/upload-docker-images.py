@@ -35,15 +35,27 @@ def build_and_push_image(image, line_number):
     image_path = image['path']
     image_label = image['label']
 
-    def print_at_line(message):
+    # Spinner characters
+    spinner_chars = ['⠋', '⠙', '⠹', '⠸', '⠼', '⠴', '⠦', '⠧', '⠇', '⠏']
+    spinner_index = 0
+
+    def print_at_line(message, show_spinner=False):
         """Print message at the specific line for this thread"""
+        nonlocal spinner_index
         with lock:
+            if show_spinner:
+                spinner = spinner_chars[spinner_index % len(spinner_chars)]
+                spinner_index += 1
+                full_message = f"{spinner} {message}"
+            else:
+                full_message = message
+
             if SUPPORTS_ANSI:
                 # Move cursor to the specific line and clear it
-                print(f"\033[{line_number};1H\033[K{message}", end="", flush=True)
+                print(f"\033[{line_number};1H\033[K{full_message}", end="", flush=True)
             else:
                 # Fallback: prefix with thread identifier
-                print(f"[Thread {line_number}] {message}", flush=True)
+                print(f"[Thread {line_number}] {full_message}", flush=True)
 
     # Build command
     build_command = [
@@ -60,27 +72,49 @@ def build_and_push_image(image, line_number):
     ]
 
     try:
-        # Build image
-        print_at_line(f"🔨 Building {image_name}...")
-        subprocess.run(
-            build_command,
-            capture_output=True,
-            text=True,
-            check=True
-        )
-        print_at_line(f"✅ Built {image_name} | 📤 Pushing...")
+        # Build image with spinner
+        print_at_line(f"Building {image_name}...", show_spinner=True)
 
-        # Push image
-        subprocess.run(
-            push_command,
-            capture_output=True,
-            text=True,
-            check=True
+        # Start build process
+        build_process = subprocess.Popen(
+            build_command,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            text=True
         )
-        print_at_line(f"✅ Pushed {image_name} | 🎉 {image_label} deployed successfully!")
+
+        # Show spinner while building
+        while build_process.poll() is None:
+            print_at_line(f"Building {image_name}...", show_spinner=True)
+            time.sleep(0.1)
+
+        # Check if build was successful
+        if build_process.returncode != 0:
+            raise subprocess.CalledProcessError(build_process.returncode, build_command)
+
+        print_at_line(f"✅ Built {image_name} | 📤 Pushing...", show_spinner=False)
+
+        # Push image with spinner
+        push_process = subprocess.Popen(
+            push_command,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            text=True
+        )
+
+        # Show spinner while pushing
+        while push_process.poll() is None:
+            print_at_line(f"✅ Built {image_name} | Pushing...", show_spinner=True)
+            time.sleep(0.1)
+
+        # Check if push was successful
+        if push_process.returncode != 0:
+            raise subprocess.CalledProcessError(push_process.returncode, push_command)
+
+        print_at_line(f"✅ Pushed {image_name} | 🎉 {image_label} deployed successfully!", show_spinner=False)
 
     except subprocess.CalledProcessError as e:
-        print_at_line(f"❌ Failed {image_name} - {e.cmd[0]} returned {e.returncode}")
+        print_at_line(f"❌ Failed {image_name} - {e.cmd[0] if e.cmd else 'unknown'} returned {e.returncode}", show_spinner=False)
 
 # Clear screen and position cursor (only if ANSI is supported)
 if SUPPORTS_ANSI:
