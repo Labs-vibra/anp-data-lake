@@ -28,3 +28,6 @@ upload-docker:
 
 upload-dags:
 	gsutil cp -r airflow/dags/* gs://$(COMPOSE_BUCKET_NAME)/dags/
+
+upload-db:
+	python3 ./scripts/upload_db.py
