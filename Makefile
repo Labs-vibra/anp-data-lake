@@ -24,8 +24,7 @@ configure-docker-gcp:
 	gcloud config set project $(PROJECT_ID)
 
 upload-docker:
-	docker build --platform linux/amd64 -t us-central1-docker.pkg.dev/$(PROJECT_ID)/${ARTIFACT_REPO}/$(IMAGE_NAME) $(IMAGE_PATH)
-	docker push us-central1-docker.pkg.dev/$(PROJECT_ID)/${ARTIFACT_REPO}/$(IMAGE_NAME)
+	python3 ./scripts/upload-docker-images.py
 
 upload-dags:
 	gsutil cp -r airflow/dags/* gs://$(COMPOSE_BUCKET_NAME)/dags/
