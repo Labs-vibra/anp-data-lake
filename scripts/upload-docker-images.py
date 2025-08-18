@@ -22,12 +22,8 @@ ARTIFACT_REPO = "ar-juridico-process-anp-datalake"
 
 artifact_registry_base_url = f"us-central1-docker.pkg.dev/{PROJECT_ID}/{ARTIFACT_REPO}/"
 
-# Global variable to track line positions for each thread
 thread_lines = {}
 lock = threading.Lock()
-
-# Check if terminal supports ANSI escape codes
-SUPPORTS_ANSI = hasattr(sys.stdout, 'isatty') and sys.stdout.isatty() and os.name != 'nt'
 
 def build_and_push_image(image, line_number):
     """Build and push a Docker image"""
@@ -50,12 +46,7 @@ def build_and_push_image(image, line_number):
             else:
                 full_message = message
 
-            if SUPPORTS_ANSI:
-                # Move cursor to the specific line and clear it
-                print(f"\033[{line_number};1H\033[K{full_message}", end="", flush=True)
-            else:
-                # Fallback: prefix with thread identifier
-                print(f"[Thread {line_number}] {full_message}", flush=True)
+            print(f"\033[{line_number};1H\033[K{full_message}", end="", flush=True)
 
     # Build command
     build_command = [
@@ -116,11 +107,9 @@ def build_and_push_image(image, line_number):
     except subprocess.CalledProcessError as e:
         print_at_line(f"❌ Failed {image_name} - {e.cmd[0] if e.cmd else 'unknown'} returned {e.returncode}", show_spinner=False)
 
-# Clear screen and position cursor (only if ANSI is supported)
-if SUPPORTS_ANSI:
-    print("\033[2J\033[H", end="")
-else:
-    print("🚀 Starting Docker image builds and pushes in parallel...")
+
+print("\033[2J\033[H", end="")
+print("🏗️ Starting Docker images processing...")
 
 # Create and start threads for each image
 threads = []
@@ -135,7 +124,4 @@ for thread in threads:
     thread.join()
 
 # Move cursor below all the threads' output
-if SUPPORTS_ANSI:
-    print(f"\033[{len(docker_images) + 2};1H🏁 All Docker images processing completed!")
-else:
-    print("All Docker images processing completed!")
+print(f"\033[{len(docker_images) + 2};1H🏁 All Docker images processing completed!")
