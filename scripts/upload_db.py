@@ -2,7 +2,7 @@ import os
 import sys
 from google.cloud import bigquery
 
-SCHEMAS_PATH = "./schemas"
+SCHEMAS_PATH = "./db/schemas"
 REGION = "us-central1"
 
 schema_files = []
