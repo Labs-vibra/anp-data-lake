@@ -28,7 +28,6 @@ def format_columns_for_bq(df: pd.DataFrame) -> pd.DataFrame:
         "Qtd Produto Líquido": "qtd_produto_liquido"
     })
     df['periodo'] = pd.to_datetime(df['periodo'], format='%Y/%m').dt.date
-    df['qtd_produto_liquido'] = df['qtd_produto_liquido'].astype(float)
     return df
 
 def insert_data_into_bigquery(df: pd.DataFrame) -> None:

@@ -7,6 +7,6 @@ CREATE TABLE IF NOT EXISTS rw_ext_anp.logistics_01 (
     sub_classificacao STRING,
     operacao STRING,
     modal STRING,
-    qtd_produto_liquido FLOAT64,
+    qtd_produto_liquido STRING,
     data_criacao TIMESTAMP DEFAULT CURRENT_TIMESTAMP()
 ) PARTITION BY DATE(data_criacao);
