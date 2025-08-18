@@ -36,7 +36,7 @@ def populate_table(table, sql_name):
 def exec_cloud_run_job(task_id, job_name):
     return CloudRunExecuteJobOperator(
         task_id=f"rw_extract_{task_id}_job",
-        job_name=f"cr-juridico-{job_name}-dev",
+        job_name=job_name,
         region='us-central1',
         project_id=project_id,
         deferrable=True,
@@ -56,21 +56,21 @@ with DAG(
     with TaskGroup("extract_ext_anp_logistics", tooltip="ETL Logistics") as etl_logistics:
         run_logistics_extract_task = exec_cloud_run_job(
             task_id="extraction_logistics",
-            job_name="etl-logistics-extraction"
+            job_name="cr-juridico-extracao-logistica-job-dev"
         )
 
         # TaskGroup para a raw de Logística 01
     with TaskGroup("rw_ext_anp_logistics", tooltip="Raw ETL Logística 01") as rw_logistics:
         run_rw_logistics_01 = exec_cloud_run_job(
             task_id="logistics_01",
-            job_name="etl-logistics-01"
+            job_name="cr-juridico-extracao-logistica-01-job-dev"
         )
 
 
     with TaskGroup("rw_ext_anp_logistics_02", tooltip="Raw ETL Logística 02") as rw_logistics_02:
         run_rw_logistics_02 = exec_cloud_run_job(
             task_id="logistics_02",
-            job_name="etl-logistics-02"
+            job_name="cr-juridico-extracao-logistica-02-job-dev"
         )
 
     run_logistics_extract_task >> [run_rw_logistics_01, run_rw_logistics_02]

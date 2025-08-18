@@ -35,7 +35,7 @@ def populate_table(table, sql_name):
 def exec_cloud_run_job(task_id, job_name):
     return CloudRunExecuteJobOperator(
         task_id=f"rw_extract_{task_id}_job",
-        job_name=f"cr-juridico-{job_name}-dev",
+        job_name=job_name,
         region='us-central1',
         project_id=project_id,
         deferrable=True,
@@ -54,6 +54,6 @@ with DAG(
     with TaskGroup("etl_metas_cbios-2023", tooltip="ETL Metas CBIOS 2023") as etl_metas_cbios_2023:
         run_metas = exec_cloud_run_job(
             task_id="extraction_metas_cbios-2023",
-            job_name="extracao-metas-cbios-2023-job"
+            job_name="cr-juridico-extracao-metas-cbios-2023-job-dev"
         )
         run_metas

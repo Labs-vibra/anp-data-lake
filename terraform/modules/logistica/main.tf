@@ -1,5 +1,5 @@
 resource "google_cloud_run_v2_job" "extracao_logistica_job" {
-  name     = "extracao-logistica-job"
+  name     = "cr-juridico-extracao-logistica-job-dev"
   location = var.region
 
   template {
@@ -12,7 +12,7 @@ resource "google_cloud_run_v2_job" "extracao_logistica_job" {
 }
 
 resource "google_cloud_run_v2_job" "extracao_logistica_01_job" {
-  name     = "extracao-logistica-01-job"
+  name     = "cr-juridico-extracao-logistica-01-job-dev"
   location = var.region
 
   template {
@@ -25,7 +25,7 @@ resource "google_cloud_run_v2_job" "extracao_logistica_01_job" {
 }
 
 resource "google_cloud_run_v2_job" "extracao_logistica_02_job" {
-  name     = "extracao-logistica-02-job"
+  name     = "cr-juridico-extracao-logistica-02-job-dev"
   location = var.region
 
   template {
