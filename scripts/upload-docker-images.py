@@ -64,7 +64,7 @@ def build_and_push_image(image, line_number):
 
     try:
         # Build image with spinner
-        print_at_line(f"Building {image_name}...", show_spinner=True)
+        print_at_line(f"Building {image_label}...", show_spinner=True)
 
         # Start build process
         build_process = subprocess.Popen(
@@ -76,14 +76,14 @@ def build_and_push_image(image, line_number):
 
         # Show spinner while building
         while build_process.poll() is None:
-            print_at_line(f"Building {image_name}...", show_spinner=True)
+            print_at_line(f"Building {image_label}...", show_spinner=True)
             time.sleep(0.1)
 
         # Check if build was successful
         if build_process.returncode != 0:
             raise subprocess.CalledProcessError(build_process.returncode, build_command)
 
-        print_at_line(f"✅ Built {image_name} | 📤 Pushing...", show_spinner=False)
+        print_at_line(f"✅ Built {image_label} | 📤 Pushing...", show_spinner=False)
 
         # Push image with spinner
         push_process = subprocess.Popen(
@@ -95,7 +95,7 @@ def build_and_push_image(image, line_number):
 
         # Show spinner while pushing
         while push_process.poll() is None:
-            print_at_line(f"✅ Built {image_name} | Pushing...", show_spinner=True)
+            print_at_line(f"✅ Built {image_label} | Pushing...", show_spinner=True)
             time.sleep(0.1)
 
         # Check if push was successful
