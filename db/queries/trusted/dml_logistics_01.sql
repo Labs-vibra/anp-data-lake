@@ -9,7 +9,7 @@ USING (
         sub_classificacao,
         operacao,
         modal,
-        SAFE_CAST(qtd_produto_liquido AS FLOAT64) AS qtd_produto_liquido
+        SAFE_CAST(qtd_produto_liquido AS NUMERIC) AS qtd_produto_liquido
     FROM
         rw_ext_anp.logistics_01
     WHERE
