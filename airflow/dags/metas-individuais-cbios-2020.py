@@ -25,6 +25,6 @@ with DAG(
         )
         pop_td_cbios_2020 = populate_table(
             table="td_ext_anp.cbios_2020",
-            sql_name=f"gs://{bucket}/sql/trusted/dml_td_cbios_2020.sql"
+            sql_name=f"/sql/trusted/dml_td_cbios_2020.sql"
         )
         run_metas >> pop_td_cbios_2020
