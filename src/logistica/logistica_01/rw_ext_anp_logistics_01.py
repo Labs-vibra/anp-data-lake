@@ -27,8 +27,7 @@ def format_columns_for_bq(df: pd.DataFrame) -> pd.DataFrame:
         "Modal": "modal",
         "Qtd Produto Líquido": "qtd_produto_liquido"
     })
-    df['periodo'] = pd.to_datetime(df['periodo'], format='%Y/%m').dt.date
-    df['qtd_produto_liquido'] = df['qtd_produto_liquido'].astype(float)
+    df = df.astype(str)
     return df
 
 def insert_data_into_bigquery(df: pd.DataFrame) -> None:
@@ -44,8 +43,8 @@ def insert_data_into_bigquery(df: pd.DataFrame) -> None:
 
     partitioned_table_id = f"{table_id}${partition_key}"
     job = bq_client.load_table_from_dataframe(
-		df, partitioned_table_id, job_config=job_config
-	)
+         df, partitioned_table_id, job_config=job_config
+    )
     job.result()
 
 def rw_ext_anp_logistics_01():

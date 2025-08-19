@@ -1,0 +1,4 @@
+pandas
+pandas_gbq
+google-cloud-bigquery
+google-cloud-storage
