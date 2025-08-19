@@ -54,7 +54,6 @@ with DAG(
 
     run_extract_logistics = exec_cloud_run_job(
         task_id="extract_logistics_files",
-        description="Extração de arquivos de Logística",
         job_name="cr-juridico-extracao-logistica-job-dev"
     )
 
@@ -65,7 +64,6 @@ with DAG(
         )
         pop_td_logistics_01 = populate_table(
             table="td_ext_anp.logistics_01",
-            description="Camada Trusted do arquivo Logística 1",
             sql_name=f"gs://{bucket}/sql/trusted/dml_td_logistics_01.sql"
         )
         run_rw_logistics_01 >> pop_td_logistics_01
