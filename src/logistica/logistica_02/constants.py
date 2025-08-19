@@ -13,4 +13,4 @@ COLUMNS_MAPPING = {
     "Produto Líquido": "produto_liquido",
 }
 
-LOGISTIC_02_TABLE_NAME = "rw_ext_anp.logistica_02"
+LOGISTIC_02_TABLE_NAME = "rw_ext_anp.logistics_02"
