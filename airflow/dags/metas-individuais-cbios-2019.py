@@ -13,7 +13,7 @@ with DAG(
     dag_id='metas_cbios_2019_pipeline',
     default_args=default_args,
     description='Metas Individuais de CBIOS 2019',
-    schedule_interval='@monthly',
+    schedule_interval=None,
     catchup=False,
     max_active_tasks=2,
 ) as dag:
@@ -23,4 +23,8 @@ with DAG(
             task_id="extraction_metas_cbios-2019",
             job_name="cr-juridico-extracao-metas-cbios-2019-job-dev"
         )
-        run_metas
+        pop_td_cbios_2019 = populate_table(
+            table="td_ext_anp.cbios_2019",
+            sql_name=f"gs://{bucket}/sql/trusted/dml_td_cbios_2019.sql"
+        )
+        run_metas >> pop_td_cbios_2019
