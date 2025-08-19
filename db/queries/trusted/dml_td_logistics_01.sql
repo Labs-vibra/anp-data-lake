@@ -1,4 +1,4 @@
-MERGE td_ext_anp.logistics_01 AS target
+MERGE td_ext_anp.logistica_01 AS target
 USING (
     SELECT
         PARSE_DATE('%Y/%m', periodo) AS periodo,
@@ -9,11 +9,12 @@ USING (
         sub_classificacao,
         operacao,
         modal,
-        SAFE_CAST(qtd_produto_liquido AS NUMERIC) AS qtd_produto_liquido
+        SAFE_CAST(qtd_produto_liquido AS NUMERIC) AS qtd_produto_liquido,
+        data_criacao
     FROM
-        rw_ext_anp.logistics_01
+        rw_ext_anp.logistica_01
     WHERE
-        data_criacao = (SELECT MAX(data_criacao) FROM rw_ext_anp.logistics_01)
+        data_criacao = (SELECT MAX(data_criacao) FROM rw_ext_anp.logistica_01)
 ) AS source
     ON source.periodo = target.periodo
    AND source.uf_origem = target.uf_origem
@@ -23,6 +24,7 @@ USING (
    AND source.sub_classificacao = target.sub_classificacao
    AND source.operacao = target.operacao
    AND source.modal = target.modal
+   AND source.data_criacao = target.data_criacao
     WHEN MATCHED THEN
     UPDATE SET
         qtd_produto_liquido = source.qtd_produto_liquido
@@ -36,7 +38,8 @@ USING (
         sub_classificacao,
         operacao,
         modal,
-        qtd_produto_liquido
+        qtd_produto_liquido,
+        data_criacao
     )
     VALUES (
         source.periodo,
@@ -47,5 +50,6 @@ USING (
         source.sub_classificacao,
         source.operacao,
         source.modal,
-        source.qtd_produto_liquido
+        source.qtd_produto_liquido,
+        source.data_criacao
 );
