@@ -1,7 +1,7 @@
 from airflow import DAG
 from airflow.utils.dates import days_ago
 from airflow.utils.task_group import TaskGroup
-from utils.operators import exec_cloud_run_job
+from utils.operators import exec_cloud_run_job, populate_table
 
 default_args = {
     'owner': 'airflow',
@@ -25,6 +25,6 @@ with DAG(
         )
         pop_td_cbios_2022 = populate_table(
             table="td_ext_anp.cbios_2022",
-            sql_name=f"gs://{bucket}/sql/trusted/dml_td_cbios_2022.sql"
+            sql_name=f"/sql/trusted/dml_td_cbios_2022.sql"
         )
         run_metas >> pop_td_cbios_2022
