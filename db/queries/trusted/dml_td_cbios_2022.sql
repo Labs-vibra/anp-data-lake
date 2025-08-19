@@ -4,9 +4,10 @@ SELECT
     codigo_agente_regulado,
 	REGEXP_REPLACE(cnpj, r'[^0-9]', '') AS cnpj,
 	razao_social,
-	CAST (somatorio_emissoes AS NUMERIC) AS somatorio_emissoes,
-	CAST (participacao_mercado AS NUMERIC) AS participacao_mercado,
-	CAST (meta_individual_2022 AS NUMERIC) AS meta_individual_2022
+	SAFE_CAST (somatorio_emissoes AS NUMERIC) AS somatorio_emissoes,
+	SAFE_CAST (participacao_mercado AS NUMERIC) AS participacao_mercado,
+	SAFE_CAST (meta_individual_2022 AS NUMERIC) AS meta_individual_2022,
+    data_criacao
 FROM
     rw_ext_anp.cbios_2022
 WHERE
@@ -19,7 +20,8 @@ WHEN MATCHED THEN
 UPDATE SET
     target.somatorio_emissoes = source.somatorio_emissoes,
     target.participacao_mercado = source.participacao_mercado,
-    target.meta_individual_2022 = source.meta_individual_2022
+    target.meta_individual_2022 = source.meta_individual_2022,
+    target.data_criacao = source.data_criacao
 WHEN NOT MATCHED THEN
 INSERT (
     codigo_agente_regulado,
@@ -27,7 +29,8 @@ INSERT (
 	razao_social,
 	somatorio_emissoes,
 	participacao_mercado,
-	meta_individual_2022
+	meta_individual_2022,
+	data_criacao
 )
 VALUES (
     source.codigo_agente_regulado,
@@ -35,5 +38,6 @@ VALUES (
     source.razao_social,
     source.somatorio_emissoes,
     source.participacao_mercado,
-    source.meta_individual_2022
+    source.meta_individual_2022,
+    source.data_criacao
 );

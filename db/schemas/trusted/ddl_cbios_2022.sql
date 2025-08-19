@@ -4,5 +4,6 @@ CREATE TABLE IF NOT EXISTS td_ext_anp.cbios_2022 (
 	razao_social STRING,
 	somatorio_emissoes NUMERIC,
 	participacao_mercado NUMERIC,
-	meta_individual_2022 NUMERIC
-);
+	meta_individual_2022 NUMERIC,
+	data_criacao TIMESTAMP DEFAULT CURRENT_TIMESTAMP()
+) PARTITION BY DATE(data_criacao);
