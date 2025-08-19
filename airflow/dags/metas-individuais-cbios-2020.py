@@ -35,7 +35,7 @@ def populate_table(table, sql_name):
 def exec_cloud_run_job(task_id, job_name):
     return CloudRunExecuteJobOperator(
         task_id=f"rw_extract_{task_id}_job",
-        job_name=job_name,
+        job_name=f"cr-juridico-{job_name}-dev",
         region='us-central1',
         project_id=project_id,
         deferrable=True,
@@ -46,7 +46,7 @@ with DAG(
     dag_id='metas_cbios_2020_pipeline',
     default_args=default_args,
     description='Metas Individuais de CBIOS 2020',
-    schedule_interval='@monthly',
+    schedule_interval=None,
     catchup=False,
     max_active_tasks=2,
 ) as dag:
@@ -54,6 +54,10 @@ with DAG(
     with TaskGroup("etl_metas_cbios-2020", tooltip="ETL Metas CBIOS 2020") as etl_metas_cbios_2020:
         run_metas = exec_cloud_run_job(
             task_id="extraction_metas_cbios-2020",
-            job_name="cr-juridico-extracao-metas-cbios-2020-job-dev"
+            job_name="extracao-metas-cbios-2020-job"
         )
-        run_metas
+        pop_td_cbios_2022 = populate_table(
+            table="td_ext_anp.cbios_2020",
+            sql_name=f"gs://{bucket}/sql/trusted/dml_td_cbios_2020.sql"
+        )
+        run_metas >> pop_td_cbios_2020
