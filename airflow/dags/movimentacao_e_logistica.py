@@ -1,7 +1,7 @@
 from airflow import DAG
 from airflow.utils.dates import days_ago
 from airflow.utils.task_group import TaskGroup
-from utils.operators import exec_cloud_run_job
+from utils.operators import exec_cloud_run_job, populate_table
 import datetime as dt
 
 default_args = {
@@ -31,7 +31,7 @@ with DAG(
         )
         pop_td_logistics_01 = populate_table(
             table="td_ext_anp.logistics_01",
-            sql_name=f"gs://{bucket}/sql/trusted/dml_td_logistics_01.sql"
+            sql_name=f"/sql/trusted/dml_td_logistics_01.sql"
         )
         run_rw_logistics_01 >> pop_td_logistics_01
 

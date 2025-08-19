@@ -12,6 +12,7 @@ def get_sql_content(sql_path):
     return gcs_hook.download(bucket_name=bucket_name, object_name=object_name).decode('utf-8')
 
 def populate_table(table, sql_name):
+    sql_name = 'gs://' + bucket + sql_name if not sql_name.startswith('gs://') else sql_name
     return BigQueryInsertJobOperator(
         task_id=f"populate_query_{table}_job",
         configuration={
