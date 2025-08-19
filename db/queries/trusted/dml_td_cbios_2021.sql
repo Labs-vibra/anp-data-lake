@@ -21,7 +21,7 @@ UPDATE SET
     target.somatorio_emissoes = source.somatorio_emissoes,
     target.participacao_mercado = source.participacao_mercado,
     target.meta_individual_2021 = source.meta_individual_2021,
-    target.data_criacao = source.data_criacao,
+    target.data_criacao = source.data_criacao
 WHEN NOT MATCHED THEN
 INSERT (
     codigo_agente_regulado,
@@ -39,5 +39,5 @@ VALUES (
     source.somatorio_emissoes,
     source.participacao_mercado,
     source.meta_individual_2021,
-    data_criacao
+    source.data_criacao
 );
