@@ -46,7 +46,7 @@ with DAG(
     dag_id='metas_cbios_2022_pipeline',
     default_args=default_args,
     description='Metas Individuais de CBIOS 2022',
-    schedule_interval='@monthly',
+    schedule_interval=None,
     catchup=False,
     max_active_tasks=2,
 ) as dag:
@@ -56,4 +56,8 @@ with DAG(
             task_id="extraction_metas_cbios-2022",
             job_name="extracao-metas-cbios-2022-job"
         )
-        run_metas
+        pop_td_cbios_2022 = populate_table(
+            table="td_ext_anp.cbios_2022",
+            sql_name=f"gs://{bucket}/sql/trusted/dml_td_cbios_2022.sql"
+        )
+        run_metas >> pop_td_cbios_2022
