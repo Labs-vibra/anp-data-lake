@@ -73,12 +73,11 @@ with DAG(
             task_id="logistics_02",
             job_name="cr-juridico-extracao-logistica-02-job-dev"
         )
-        # pop_td_logistics_02 = populate_table(
-        #     table="td_ext_anp.logistics_02",
-        #     description="Camada Raw do arquivo Logística 2",
-        #     sql_name=f"gs://{bucket}/sql/trusted/dml_td_logistics_02.sql"
-        # )
-        run_rw_logistics_02 #>> pop_td_logistics_02
+        pop_td_logistics_02 = populate_table(
+            table="td_ext_anp.logistics_02",
+            sql_name=f"gs://{bucket}/sql/trusted/dml_td_logistics_02.sql"
+        )
+        run_rw_logistics_02 >> pop_td_logistics_02
 
     run_extract_logistics >> [etl_logistics_01, etl_logistics_02]
 
