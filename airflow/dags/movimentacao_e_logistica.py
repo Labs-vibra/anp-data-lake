@@ -36,7 +36,7 @@ def populate_table(table, sql_name):
 def exec_cloud_run_job(task_id, job_name):
     return CloudRunExecuteJobOperator(
         task_id=f"rw_extract_{task_id}_job",
-        job_name=f"cr-juridico-{job_name}-dev",
+        job_name=job_name,
         region='us-central1',
         project_id=project_id,
         deferrable=True,
@@ -55,14 +55,13 @@ with DAG(
     run_extract_logistics = exec_cloud_run_job(
         task_id="extract_logistics_files",
         description="Extração de arquivos de Logística",
-        job_name="etl-logistics-extraction"
+        job_name="cr-juridico-extracao-logistica-job-dev"
     )
 
     with TaskGroup("etl_logistics_01", tooltip="ETL Logística 01") as etl_logistics_01:
         run_rw_logistics_01 = exec_cloud_run_job(
             task_id="logistics_01",
-            description="Camada Raw do arquivo Logística 1",
-            job_name="etl-logistics-01"
+            job_name="cr-juridico-extracao-logistica-01-job-dev"
         )
         pop_td_logistics_01 = populate_table(
             table="td_ext_anp.logistics_01",
@@ -74,8 +73,7 @@ with DAG(
     with TaskGroup("etl_logistics_02", tooltip="ETL Logística 02") as etl_logistics_02:
         run_rw_logistics_02 = exec_cloud_run_job(
             task_id="logistics_02",
-            description="Camada Raw do arquivo Logística 2",
-            job_name="etl-logistics-02"
+            job_name="cr-juridico-extracao-logistica-02-job-dev"
         )
         pop_td_logistics_02 = populate_table(
             table="td_ext_anp.logistics_02",

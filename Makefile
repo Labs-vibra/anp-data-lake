@@ -1,8 +1,6 @@
 PROJECT_ID=ext-ecole-biomassa-468317
 ARTIFACT_REPO=ar-juridico-process-anp-datalake
 COMPOSE_BUCKET_NAME=us-central1-composer-jur-an-2f010f0a-bucket
-IMAGE_NAME=run-extracao-metas-cbios-2019-job:latest
-IMAGE_PATH=src/metas_individuais_cbios/cbios-2019
 
 init_venv:
 	python3 -m venv .venv
