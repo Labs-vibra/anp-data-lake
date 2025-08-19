@@ -1,10 +1,7 @@
-import os
 from airflow import DAG
 from airflow.utils.dates import days_ago
 from airflow.utils.task_group import TaskGroup
-from airflow.providers.google.cloud.operators.bigquery import BigQueryInsertJobOperator
-from airflow.providers.google.cloud.operators.cloud_run import CloudRunExecuteJobOperator
-from airflow.providers.google.cloud.hooks.gcs import GCSHook
+from utils.operators import exec_cloud_run_job
 
 default_args = {
     'owner': 'airflow',
@@ -56,7 +53,7 @@ with DAG(
             task_id="extraction_metas_cbios-2020",
             job_name="extracao-metas-cbios-2020-job"
         )
-        pop_td_cbios_2022 = populate_table(
+        pop_td_cbios_2020 = populate_table(
             table="td_ext_anp.cbios_2020",
             sql_name=f"gs://{bucket}/sql/trusted/dml_td_cbios_2020.sql"
         )
