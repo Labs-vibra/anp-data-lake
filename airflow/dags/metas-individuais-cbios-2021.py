@@ -59,6 +59,6 @@ with DAG(
         
         pop_td_cbios_2021 = populate_table(
             table="td_ext_anp.cbios_2021",
-            sql_name=f"gs://{bucket}/sql/trusted/dml_td_cbios_2021.sql"
+            sql_name=f"gs://sql/trusted/dml_td_cbios_2021.sql"
         )
         run_metas >> pop_td_cbios_2021

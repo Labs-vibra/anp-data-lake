@@ -1,6 +1,3 @@
--- DML para popular a tabela trusted td_ext_anp.cbios_2021
--- Transformação da camada raw para trusted usando MERGE (upsert)
-
 MERGE td_ext_anp.cbios_2021 AS target
 USING (
 SELECT
