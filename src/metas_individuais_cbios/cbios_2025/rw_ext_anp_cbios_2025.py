@@ -9,7 +9,8 @@ from constants import (
 	BASE_URL,
 	RAW_DATASET,
 	CBIOS_2025_TABLE,
-	MAPPING_COLUMNS
+	MAPPING_COLUMNS,
+	DEV_PROJECT_ID
 )
 
 logging.basicConfig(
@@ -39,7 +40,7 @@ def rw_ext_anp_cbios_2025():
 	df.rename(columns=MAPPING_COLUMNS, inplace=True)
 
 	client = bigquery.Client()
-	project_id = os.getenv("GOOGLE_CLOUD_PROJECT", "ext-ecole-biomassa-468317")
+	project_id = os.getenv("GOOGLE_CLOUD_PROJECT", DEV_PROJECT_ID)
 
 	table_id = f"{project_id}.{RAW_DATASET}.{CBIOS_2025_TABLE}"
 
