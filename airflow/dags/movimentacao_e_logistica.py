@@ -42,7 +42,7 @@ with DAG(
         )
         pop_td_logistics_02 = populate_table(
             table="td_ext_anp.logistics_02",
-            sql_name=f"gs://{bucket}/sql/trusted/dml_td_logistics_02.sql"
+            sql_name=f"/sql/trusted/dml_td_logistics_02.sql"
         )
         run_rw_logistics_02 >> pop_td_logistics_02
 
