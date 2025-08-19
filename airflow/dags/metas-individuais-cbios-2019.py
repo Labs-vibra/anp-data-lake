@@ -1,5 +1,5 @@
 from airflow import DAG
-from utils.operators import exec_cloud_run_job
+from utils.operators import exec_cloud_run_job, populate_table
 from airflow.utils.dates import days_ago
 from airflow.utils.task_group import TaskGroup
 
@@ -25,6 +25,6 @@ with DAG(
         )
         pop_td_cbios_2019 = populate_table(
             table="td_ext_anp.cbios_2019",
-            sql_name=f"gs://{bucket}/sql/trusted/dml_td_cbios_2019.sql"
+            sql_name="/sql/trusted/dml_td_cbios_2019.sql"
         )
         run_metas >> pop_td_cbios_2019
