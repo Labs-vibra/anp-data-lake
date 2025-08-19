@@ -38,6 +38,6 @@ VALUES (
     source.razao_social,
     source.somatorio_emissoes,
     source.participacao_mercado,
-    source.meta_individual_2021
+    source.meta_individual_2021,
     data_criacao
 );
