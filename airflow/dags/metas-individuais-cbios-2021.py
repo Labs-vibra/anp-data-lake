@@ -21,7 +21,7 @@ with DAG(
     with TaskGroup("etl_metas_cbios-2021", tooltip="ETL Metas CBIOS 2021") as etl_metas_cbios_2021:
         run_metas = exec_cloud_run_job(
             task_id="extraction_metas_cbios-2021",
-            job_name="cr-juridico-extracao-metas-cbios-2021-job-dev-dev"
+            job_name="cr-juridico-extracao-metas-cbios-2021-job-dev"
         )
         
         pop_td_cbios_2021 = populate_table(
