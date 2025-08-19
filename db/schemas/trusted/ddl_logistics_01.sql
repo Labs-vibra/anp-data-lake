@@ -1,4 +1,4 @@
-CREATE TABLE IF NOT EXISTS td_ext_anp.logistics_01 (
+CREATE TABLE IF NOT EXISTS td_ext_anp.logistica_01 (
     periodo DATE,
     uf_origem STRING,
     uf_destino STRING,
