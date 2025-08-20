@@ -1,7 +1,7 @@
 from airflow import DAG
 from airflow.utils.dates import days_ago
 from airflow.utils.task_group import TaskGroup
-from utils.operators import exec_cloud_run_job
+from utils.operators import exec_cloud_run_job, populate_table
 
 default_args = {
     'owner': 'airflow',
