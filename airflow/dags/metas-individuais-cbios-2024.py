@@ -23,4 +23,8 @@ with DAG(
             task_id="extraction_metas_cbios-2024",
             job_name="cr-juridico-extracao-metas-cbios-2024-job-dev"
         )
-        run_metas
+        pop_td_cbios_2024 = populate_table(
+            table="td_ext_anp.cbios_2024",
+            sql_name=f"/sql/trusted/dml_td_cbios_2024.sql"
+        )
+        run_metas >> pop_td_cbios_2024
