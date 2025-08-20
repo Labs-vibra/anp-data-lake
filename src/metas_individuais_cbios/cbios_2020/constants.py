@@ -17,7 +17,7 @@ MAPPING_COLUMNS = {
         'Razão Social': 'razao_social',
         'Código do\nAgente Regulado': 'codigo_agente_regulado',
         'CNPJ': 'cnpj',
-        'Somatório das Emissões \n(tCO2 equivalente)': 'somatorio_das_emissoes',
-        'Participação \nde Mercado (%)': 'participacao_de_mercado',
+        'Somatório das Emissões \n(tCO2 equivalente)': 'somatorio_emissoes',
+        'Participação \nde Mercado (%)': 'participacao_mercado',
         'Meta Individual 2020\n(CBIO)': 'meta_individual_2020',
 }
