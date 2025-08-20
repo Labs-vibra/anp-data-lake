@@ -13,7 +13,7 @@ with DAG(
     dag_id='metas_cbios_2024_pipeline',
     default_args=default_args,
     description='Metas Individuais de CBIOS 2024',
-    schedule_interval='@monthly',
+    schedule_interval=None,
     catchup=False,
     max_active_tasks=2,
 ) as dag:
