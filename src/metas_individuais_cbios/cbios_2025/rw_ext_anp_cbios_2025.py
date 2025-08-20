@@ -39,6 +39,8 @@ def rw_ext_anp_cbios_2025():
 
 	df.rename(columns=MAPPING_COLUMNS, inplace=True)
 
+	df['cnpj'] = df['cnpj'].str.zfill(14)
+
 	client = bigquery.Client()
 	project_id = os.getenv("GOOGLE_CLOUD_PROJECT", DEV_PROJECT_ID)
 
