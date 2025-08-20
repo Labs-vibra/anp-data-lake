@@ -19,12 +19,12 @@ with DAG(
 ) as dag:
 
     with TaskGroup("etl_metas_cbios-2024", tooltip="ETL Metas CBIOS 2024") as etl_metas_cbios_2024:
-        run_metas = exec_cloud_run_job(
+        run_rw_metas_cbios_2024 = exec_cloud_run_job(
             task_id="extraction_metas_cbios-2024",
             job_name="cr-juridico-extracao-metas-cbios-2024-job-dev"
         )
         pop_td_cbios_2024 = populate_table(
             table="td_ext_anp.cbios_2024",
-            sql_name=f"/sql/trusted/dml_td_cbios_2024.sql"
+            sql_name="/sql/trusted/dml_td_cbios_2024.sql"
         )
-        run_metas >> pop_td_cbios_2024
+        run_rw_metas_cbios_2024 >> pop_td_cbios_2024

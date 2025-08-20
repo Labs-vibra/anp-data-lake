@@ -19,7 +19,7 @@ with DAG(
 ) as dag:
 
     with TaskGroup("etl_metas_cbios-2019", tooltip="ETL Metas CBIOS 2019") as etl_metas_cbios_2019:
-        run_metas = exec_cloud_run_job(
+        run_rw_metas_cbios_2019 = exec_cloud_run_job(
             task_id="extraction_metas_cbios-2019",
             job_name="cr-juridico-extracao-metas-cbios-2019-job-dev"
         )
@@ -27,4 +27,4 @@ with DAG(
             table="td_ext_anp.cbios_2019",
             sql_name="/sql/trusted/dml_td_cbios_2019.sql"
         )
-        run_metas >> pop_td_cbios_2019
+        run_rw_metas_cbios_2019 >> pop_td_cbios_2019
