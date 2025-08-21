@@ -7,24 +7,24 @@ resource "google_artifact_registry_repository" "anp_repo_etl" {
   project     = local.project_id
 }
 
-resource "google_composer_environment" "anp_composer" {
-  name    = "composer-jur-anp-dev"
-  region  = var.region
-  project = local.project_id
+# resource "google_composer_environment" "anp_composer" {
+#   name    = "composer-jur-anp-dev"
+#   region  = var.region
+#   project = local.project_id
 
-  config {
-    node_config {
-      service_account = local.service_account
-    }
-    software_config {
-      image_version = "composer-3-airflow-2.10.5-build.9"
-      pypi_packages = {
-        "apache-airflow-providers-google" = ""
-      }
-    }
-    environment_size = "ENVIRONMENT_SIZE_SMALL"
-  }
-}
+#   config {
+#     node_config {
+#       service_account = local.service_account
+#     }
+#     software_config {
+#       image_version = "composer-3-airflow-2.10.5-build.9"
+#       pypi_packages = {
+#         "apache-airflow-providers-google" = ""
+#       }
+#     }
+#     environment_size = "ENVIRONMENT_SIZE_SMALL"
+#   }
+# }
 
 module "logistica" {
   source              = "./modules/logistica"
