@@ -46,6 +46,17 @@ with DAG(
         )
         run_rw_logistics_02 >> pop_td_logistics_02
 
-    run_extract_logistics >> [etl_logistics_01, etl_logistics_02]
+    with TaskGroup("etl_logistics_03", tooltip="ETL Logística 03") as etl_logistics_03:
+        run_rw_logistics_03 = exec_cloud_run_job(
+            task_id="logistics_03",
+            job_name="cr-juridico-extracao-logistica-03-job-dev"
+        )
+        pop_td_logistics_03 = populate_table(
+            table="td_ext_anp.logistics_03",
+            sql_name=f"/sql/trusted/dml_td_logistics_03.sql"
+        )
+        run_rw_logistics_03 >> pop_td_logistics_03
+
+    run_extract_logistics >> [etl_logistics_01, etl_logistics_02, etl_logistics_03]
 
 

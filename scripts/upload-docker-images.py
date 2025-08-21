@@ -91,6 +91,10 @@ def build_and_push_image(image, line_number):
         print_at_line(f"❌ Failed {image_name} - {e.cmd[0] if e.cmd else 'unknown'} returned {e.returncode}", show_spinner=False)
 
 
+
+# Timer start
+start_time = time.time()
+
 print("\033[2J\033[H", end="")
 print("🏗️ Starting Docker images processing...")
 
@@ -106,5 +110,10 @@ for i, image in enumerate(DOCKER_IMAGES):
 for thread in threads:
     thread.join()
 
+
 # Move cursor below all the threads' output
 print(f"\033[{len(DOCKER_IMAGES) + 2};1H🏁 All Docker images processing completed!")
+
+# Timer end and print elapsed time
+elapsed = time.time() - start_time
+print(f"Total execution time: {elapsed:.2f} seconds")
