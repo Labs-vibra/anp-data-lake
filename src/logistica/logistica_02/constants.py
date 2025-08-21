@@ -1,6 +1,6 @@
 import os
 
-BUCKET_NAME = os.getenv("BUCKET_NAME", "ext-ecole-biomassa")
+BUCKET_NAME = os.getenv("BUCKET_NAME", "vibra-dtan-jur-anp-input")
 
 MARKET_SALES_FILE_PATH = f"anp/logistica/DADOS_ABERTOS_LOGISTICA_02_VENDAS_NO_MERCADO_BRASILEIRO_DE_COMBUSTIVEIS.csv"
 

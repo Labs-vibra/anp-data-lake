@@ -3,8 +3,8 @@ from airflow.providers.google.cloud.operators.cloud_run import CloudRunExecuteJo
 from airflow.providers.google.cloud.hooks.gcs import GCSHook
 import os
 
-bucket = os.getenv("BUCKET_NAME", "ext-ecole-biomassa")
-project_id = os.getenv("GOOGLE_CLOUD_PROJECT", "ext-ecole-biomassa-468317")
+bucket = os.getenv("BUCKET_NAME", "vibra-dtan-jur-anp-input")
+project_id = os.getenv("GOOGLE_CLOUD_PROJECT", "ext-ecole-biomassa")
 
 def get_sql_content(sql_path):
     gcs_hook = GCSHook()

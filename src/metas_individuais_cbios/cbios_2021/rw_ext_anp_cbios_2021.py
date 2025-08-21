@@ -44,7 +44,7 @@ def rw_ext_anp_cbios_2021():
 	df.rename(columns=MAPPING_COLUMNS, inplace=True)
 
 	client = bigquery.Client()
-	project_id = os.getenv("GOOGLE_CLOUD_PROJECT", "ext-ecole-biomassa-468317")
+	project_id = os.getenv("GOOGLE_CLOUD_PROJECT", "ext-ecole-biomassa")
 
 	table_id = f"{project_id}.{RAW_DATASET}.{CBIOS_2021_TABLE}"
 

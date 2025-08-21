@@ -36,14 +36,14 @@ def rw_ext_anp_cbios_2022():
 	except Exception as e:
 		logging.warning(f"Erro ao fazer download do arquivo: {e}")
 		return None
-	
+
 
 	df = pd.read_excel(file_content, sheet_name= 'Meta CNPE 2022 ', dtype=str)
 
 	df.rename(columns=MAPPING_COLUMNS, inplace=True)
 
 	client = bigquery.Client()
-	project_id = os.getenv("GOOGLE_CLOUD_PROJECT", "ext-ecole-biomassa-468317")
+	project_id = os.getenv("GOOGLE_CLOUD_PROJECT", "ext-ecole-biomassa")
 
 	table_id = f"{project_id}.{RAW_DATASET}.{CBIOS_2022_TABLE}"
 

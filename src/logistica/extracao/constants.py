@@ -1,4 +1,6 @@
-BUCKET_NAME="ext-ecole-biomassa"
+import os
+
+BUCKET_NAME= os.getenv("BUCKET_NAME", "vibra-dtan-jur-anp-input")
 
 # ETL de Logística 1, 2 e 3:
 LOGISTICS_URL = (

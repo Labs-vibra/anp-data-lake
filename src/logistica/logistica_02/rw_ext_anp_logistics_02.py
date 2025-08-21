@@ -1,5 +1,6 @@
 from io import BytesIO
 from constants import MARKET_SALES_FILE_PATH, BUCKET_NAME, COLUMNS_MAPPING, LOGISTIC_02_TABLE_NAME
+from google.cloud import bigquery
 from google.cloud import storage
 import pandas as pd
 
@@ -11,7 +12,6 @@ def get_file_bytes(file_name):
     return BytesIO(file_bytes)
 
 def insert_data_to_bigquery(df):
-    from google.cloud import bigquery
     client = bigquery.Client()
     job_config = bigquery.LoadJobConfig(
         write_disposition=bigquery.WriteDisposition.WRITE_APPEND,

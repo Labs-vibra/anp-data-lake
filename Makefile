@@ -1,6 +1,6 @@
-PROJECT_ID=ext-ecole-biomassa-468317
+PROJECT_ID ?= ext-ecole-biomassa
 ARTIFACT_REPO=ar-juridico-process-anp-datalake
-COMPOSE_BUCKET_NAME=us-central1-composer-jur-an-2f010f0a-bucket
+COMPOSE_BUCKET_NAME=us-central1-composer-ecole--8a87d5fc-bucket
 
 init_venv:
 	python3 -m venv .venv
