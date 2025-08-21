@@ -7,12 +7,12 @@ terraform {
   }
 
   backend "gcs" {
-    bucket = "ext-ecole-biomassa" // Replace with the actual bucket name
+    bucket = "ext-ecole-biomassa" #  var.is_prod ? "vibra-dtan-jur-anp-input" : "ext-ecole-biomassa"
     prefix = "terraform/state"
   }
 }
 
 provider "google" {
-  project = var.project_id
+  project = local.project_id
   region  = var.region
 }

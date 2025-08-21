@@ -29,3 +29,16 @@ upload-dags:
 
 upload-db:
 	python3 ./scripts/upload_db.py
+
+run-terraform-prod:
+	cd terraform && terraform apply -var="is_prod=true" && cd ..
+
+run-terraform-dev:
+	cd terraform && terraform apply && cd ..
+
+create-artifact-registry-prod:
+	cd terraform && terraform apply -target=google_artifact_registry_repository.anp_repo_etl -var="is_prod=true" && cd ..
+
+create-artifact-registry:
+	cd terraform && terraform apply -target=google_artifact_registry_repository.anp_repo_etl && cd ..
+
