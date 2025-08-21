@@ -3,7 +3,13 @@ from io import BytesIO
 import pandas as pd
 from datetime import date
 from google.cloud import storage, bigquery
-from constants import BUCKET_NAME, LOGISTICS_01_FILE, PROJECT_ID, BQ_DATASET, TABLE_NAME
+from constants import (
+    BUCKET_NAME,
+    LOGISTICS_01_FILE,
+    PROJECT_ID,
+    BQ_DATASET,
+    TABLE_NAME
+)
 import logging
 
 logging.basicConfig(

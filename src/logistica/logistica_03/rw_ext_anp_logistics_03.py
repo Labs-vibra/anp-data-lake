@@ -1,5 +1,10 @@
 from io import BytesIO
-from constants import CONGENERES_SALES_FILE_PATH, BUCKET_NAME, COLUMNS_MAPPING, LOGISTIC_03_TABLE_NAME
+from constants import (
+	CONGENERES_SALES_FILE_PATH,
+    BUCKET_NAME,
+    COLUMNS_MAPPING,
+    LOGISTIC_03_TABLE_NAME
+)
 from google.cloud import storage
 import pandas as pd
 

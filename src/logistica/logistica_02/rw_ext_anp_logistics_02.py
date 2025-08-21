@@ -1,5 +1,10 @@
 from io import BytesIO
-from constants import MARKET_SALES_FILE_PATH, BUCKET_NAME, COLUMNS_MAPPING, LOGISTIC_02_TABLE_NAME
+from constants import (\
+    MARKET_SALES_FILE_PATH,
+    BUCKET_NAME,
+    COLUMNS_MAPPING,
+    LOGISTIC_02_TABLE_NAME
+)
 from google.cloud import storage
 import pandas as pd
 
