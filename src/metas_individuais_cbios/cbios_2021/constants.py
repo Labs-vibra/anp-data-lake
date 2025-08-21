@@ -1,7 +1,8 @@
 
 # ETL de Metas Individuais de Cbios 2021:
 URL = (
-	"https://www.gov.br/anp/pt-br/assuntos/renovabio/metas/2021/metaindividual2021-21jul.xlsx"
+	"https://www.gov.br/anp/pt-br/assuntos/renovabio/metas/2021/metaindividual"
+	"2021-21jul.xlsx"
 )
 
 RAW_DATASET = "rw_ext_anp"
