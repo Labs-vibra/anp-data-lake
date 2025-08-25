@@ -8,9 +8,6 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-print(os.getenv("GOOGLE_CLOUD_PROJECT"))
-exit(0)
-
 thread_lines = {}
 lock = threading.Lock()
 
