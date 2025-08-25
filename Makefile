@@ -14,6 +14,9 @@ test-docker-image:
 	docker build -t extracao src/$(FOLDER)
 	rm src/$(FOLDER)/gcp.secrets.json
 
+run-test-docker-image: test-docker-image
+	docker run --env-file ./.env extracao:latest
+
 gcp-login:
 	gcloud auth application-default login --no-launch-browser
 
