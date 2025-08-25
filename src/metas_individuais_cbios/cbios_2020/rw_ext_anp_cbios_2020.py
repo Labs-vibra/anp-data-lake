@@ -27,27 +27,28 @@ def rw_ext_anp_cbios_2020():
 
 	df = pd.read_excel(file_content, sheet_name=1, dtype=str)
 	df = df.iloc[:-2]
+	print(df.columns)
 
-	df.rename(columns=MAPPING_COLUMNS, inplace=True)
-	client = bigquery.Client()
+	# df.rename(columns=MAPPING_COLUMNS, inplace=True)
+	# client = bigquery.Client()
 
-	table_id = f"{PROJECT_ID}.{RAW_DATASET}.{CBIOS_2020_TABLE}"
+	# table_id = f"{PROJECT_ID}.{RAW_DATASET}.{CBIOS_2020_TABLE}"
 
-	job_config = bigquery.LoadJobConfig(
-		write_disposition=bigquery.WriteDisposition.WRITE_APPEND,
-	)
-	partition_key = date.today().strftime('%Y%m%d')
+	# job_config = bigquery.LoadJobConfig(
+	# 	write_disposition=bigquery.WriteDisposition.WRITE_APPEND,
+	# )
+	# partition_key = date.today().strftime('%Y%m%d')
 
-	partitioned_table_id = f"{table_id}${partition_key}"
-	logging.info(f"Inserting data for partition: {partition_key}")
-	logging.info(f"Total rows to insert: {len(df)}")
+	# partitioned_table_id = f"{table_id}${partition_key}"
+	# logging.info(f"Inserting data for partition: {partition_key}")
+	# logging.info(f"Total rows to insert: {len(df)}")
 
-	job = client.load_table_from_dataframe(
-		df, partitioned_table_id, job_config=job_config
-	)
-	job.result()
-	logging.info(f"Data for {partition_key} inserted successfully.")
-	logging.info("Data insertion completed!")
+	# job = client.load_table_from_dataframe(
+	# 	df, partitioned_table_id, job_config=job_config
+	# )
+	# job.result()
+	# logging.info(f"Data for {partition_key} inserted successfully.")
+	# logging.info("Data insertion completed!")
 
 if __name__ == "__main__":
 	rw_ext_anp_cbios_2020()
