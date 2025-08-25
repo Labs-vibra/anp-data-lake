@@ -27,6 +27,10 @@ upload-docker:
 upload-dags:
 	gsutil cp -r airflow/dags/* gs://$(COMPOSE_BUCKET_NAME)/dags/
 
+upload-files:
+	gsutil cp -r db/queries/* gs://vibra-dtan-jur-anp-input/sql/
+
+
 upload-db:
 	python3 ./scripts/upload_db.py
 
