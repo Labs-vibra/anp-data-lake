@@ -1,6 +1,6 @@
-PROJECT_ID=ext-ecole-biomassa-468317
+PROJECT_ID ?= ext-ecole-biomassa
 ARTIFACT_REPO=ar-juridico-process-anp-datalake
-COMPOSE_BUCKET_NAME=us-central1-composer-jur-an-2f010f0a-bucket
+COMPOSE_BUCKET_NAME=us-central1-composer-ecole--8a87d5fc-bucket
 
 init_venv:
 	python3 -m venv .venv
@@ -27,5 +27,22 @@ upload-docker:
 upload-dags:
 	gsutil cp -r airflow/dags/* gs://$(COMPOSE_BUCKET_NAME)/dags/
 
+upload-files:
+	gsutil cp -r db/queries/* gs://vibra-dtan-jur-anp-input/sql/
+
+
 upload-db:
 	python3 ./scripts/upload_db.py
+
+run-terraform-prod:
+	cd terraform && terraform apply -var="is_prod=true" && cd ..
+
+run-terraform-dev:
+	cd terraform && terraform apply && cd ..
+
+create-artifact-registry-prod:
+	cd terraform && terraform apply -target=google_artifact_registry_repository.anp_repo_etl -var="is_prod=true" && cd ..
+
+create-artifact-registry:
+	cd terraform && terraform apply -target=google_artifact_registry_repository.anp_repo_etl && cd ..
+

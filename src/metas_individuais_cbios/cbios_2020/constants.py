@@ -8,7 +8,7 @@ BASE_URL = (
 
 RAW_DATASET = "rw_ext_anp"
 
-PROJECT_ID = os.getenv("GOOGLE_PROJECT_ID", "ext-ecole-biomassa-468317")
+PROJECT_ID = os.getenv("GOOGLE_PROJECT_ID", "ext-ecole-biomassa")
 
 
 CBIOS_2020_TABLE = "cbios_2020"

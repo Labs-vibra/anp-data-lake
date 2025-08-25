@@ -1,6 +1,6 @@
 import os
 
-BUCKET_NAME = os.getenv("BUCKET_NAME", "ext-ecole-biomassa")
+BUCKET_NAME = os.getenv("BUCKET_NAME", "vibra-dtan-jur-anp-input")
 
 CONGENERES_SALES_FILE_PATH = "anp/logistica/DADOS_ABERTOS_LOGISTICA_03_VENDAS_CONGNERES_DE_DISTRIBUIDORES.csv"
 

@@ -1,8 +1,10 @@
 """
 Configuração centralizada das imagens Docker para o projeto ANP Data Lake
 """
+import os
 
-PROJECT_ID = "ext-ecole-biomassa-468317"
+# Configuration
+PROJECT_ID = os.getenv("GOOGLE_CLOUD_PROJECT", "ext-ecole-biomassa")
 ARTIFACT_REPO = "ar-juridico-process-anp-datalake"
 ARTIFACT_REGISTRY_BASE_URL = f"us-central1-docker.pkg.dev/{PROJECT_ID}/{ARTIFACT_REPO}/"
 

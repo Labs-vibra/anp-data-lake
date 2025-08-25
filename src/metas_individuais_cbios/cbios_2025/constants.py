@@ -1,3 +1,5 @@
+import os
+
 BASE_URL = (
 	"https://www.gov.br/anp/pt-br/assuntos/renovabio/metas/2025/meta-definitiva."
 	"xlsx/@@download/file"
@@ -18,4 +20,4 @@ MAPPING_COLUMNS = {
 		'Meta individual 2025 a ser cumprida até 31/12/2025 (CBIO)': 'meta_individual_2025_a_ser_cumprida_2025'
 }
 
-DEV_PROJECT_ID = "ext-ecole-biomassa-468317"
+DEV_PROJECT_ID = os.getenv("GOOGLE_CLOUD_PROJECT", "ext-ecole-biomassa")
