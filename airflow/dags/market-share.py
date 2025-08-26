@@ -1,0 +1,22 @@
+from airflow import DAG
+from airflow.utils.dates import days_ago
+from utils.operators import exec_cloud_run_job
+
+default_args = {
+    'owner': 'airflow',
+    'start_date': days_ago(1),
+    'retries': 1,
+}
+
+with DAG(
+    dag_id='market_share_pipeline',
+    default_args=default_args,
+    description='Market Share pipeline',
+    schedule_interval='@monthly',
+    catchup=False,
+    max_active_tasks=2,
+) as dag:
+    run_rw_market_share = exec_cloud_run_job(
+        task_id="extraction_market_share",
+        job_name="cr-juridico-extracao-market-share-job-dev"
+    )

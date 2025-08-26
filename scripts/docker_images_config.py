@@ -69,6 +69,12 @@ DOCKER_IMAGES = [
         "name": "run-extracao-metas-cbios-2025-job",
         "path": "./src/metas_individuais_cbios/cbios_2025",
     }
+    # Módulo Market Share
+    ,{
+        "label": "Extração Market Share",
+        "name": "run-extracao-market-share-job",
+        "path": "./src/market_share/extracao",
+    }
 ]
 
 def get_image_by_name(image_name):

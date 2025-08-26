@@ -39,3 +39,10 @@ module "metas_individuais_cbios" {
   jobs_image_base_url = local.jobs_image_base_url
   image_version       = var.image_version
 }
+
+module "market_share" {
+  source              = "./modules/market_share"
+  region              = var.region
+  jobs_image_base_url = local.jobs_image_base_url
+  image_version       = var.image_version
+}
