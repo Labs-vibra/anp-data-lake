@@ -1,6 +1,9 @@
 import os
 import sys
 from google.cloud import bigquery
+from dotenv import load_dotenv
+
+load_dotenv()
 
 SCHEMAS_PATH = "./db/schemas"
 REGION = "us-central1"

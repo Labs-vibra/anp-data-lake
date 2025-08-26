@@ -4,6 +4,9 @@ import threading
 import time
 import sys
 from docker_images_config import DOCKER_IMAGES, ARTIFACT_REGISTRY_BASE_URL
+from dotenv import load_dotenv
+
+load_dotenv()
 
 thread_lines = {}
 lock = threading.Lock()

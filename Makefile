@@ -1,6 +1,5 @@
-PROJECT_ID ?= ext-ecole-biomassa
-ARTIFACT_REPO=ar-juridico-process-anp-datalake
-COMPOSE_BUCKET_NAME=us-central1-composer-ecole--8a87d5fc-bucket
+SHELL := /bin/bash
+include .env
 
 init_venv:
 	python3 -m venv .venv
@@ -22,7 +21,7 @@ gcp-login:
 
 configure-docker-gcp:
 	gcloud auth configure-docker us-central1-docker.pkg.dev
-	gcloud config set project $(PROJECT_ID)
+	gcloud config set project $(GOOGLE_CLOUD_PROJECT)
 
 upload-docker:
 	python3 ./scripts/upload-docker-images.py
@@ -31,7 +30,7 @@ upload-dags:
 	gsutil cp -r airflow/dags/* gs://$(COMPOSE_BUCKET_NAME)/dags/
 
 upload-files:
-	gsutil cp -r db/queries/* gs://vibra-dtan-jur-anp-input/sql/
+	gsutil cp -r db/queries/* gs://$(GOOGLE_BUCKET_NAME)/sql/
 
 
 upload-db:
