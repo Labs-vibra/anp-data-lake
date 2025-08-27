@@ -1,6 +1,8 @@
+BeautifulSoup4
 pandas
 pandas_gbq
 requests
 google-cloud-bigquery
 google-cloud-storage
-dotenv
+pyarrow
+openpyxl
