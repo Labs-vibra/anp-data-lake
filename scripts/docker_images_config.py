@@ -75,10 +75,16 @@ DOCKER_IMAGES = [
         "name": "run-extracao-market-share-job",
         "path": "./src/market_share/extracao",
     }
+    # Módulo Códigos de Instalação
     ,{
         "label": "Extração Manual SIMP",
         "name": "run-extracao-manual-simp",
         "path": "./src/manual_simp/extracao",
+    }
+    ,{
+        "label": "Extração Códigos de Instalação",
+        "name": "run-extracao-codigos-instalacao",
+        "path": "./src/manual_simp/codigos_instalacao",
     }
 ]
 
