@@ -72,7 +72,7 @@ DOCKER_IMAGES = [
     # Módulo Market Share
     ,{
         "label": "Extração Market Share",
-        "name": "run-extracao-market-share",
+        "name": "run-extracao-market-share-job",
         "path": "./src/market_share/extracao",
     }
 ]
