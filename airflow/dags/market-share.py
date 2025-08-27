@@ -26,4 +26,4 @@ with DAG(
         job_name="cr-juridico-raw-distribuidor-atual-job-dev"
     )
 
-    run_extracao_market_share
+    run_extracao_market_share >> run_raw_distribuidor_atual
