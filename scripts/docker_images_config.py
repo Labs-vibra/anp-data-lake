@@ -78,7 +78,7 @@ DOCKER_IMAGES = [
     {
         "label": "Extração Market Share Distribuidor Atual",
         "name": "run-raw-distribuidor-atual",
-        "path": "./src/market_share/extracao_distribuidor_atual",
+        "path": "./src/market_share/raw_distribuidor_atual",
     }
 ]
 
