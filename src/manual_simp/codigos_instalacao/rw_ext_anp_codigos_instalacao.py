@@ -18,8 +18,8 @@ logging.basicConfig(
 
 def rw_ext_anp_codigos_instalacao():
     """
-    Faz download do arquivo de Logística 1 do bucket no GCP,
-    lê arquivo, formata colunas e sobe a camada raw para o BigQuery.
+    Faz download do arquivo de Códigos de Instalação do arquivo zipado de tabela do i-SIMP
+    no bucket no GCP, lê arquivo, formata colunas e sobe a camada raw para o BigQuery.
     """
     storage_client = storage.Client()
 
