@@ -81,6 +81,11 @@ DOCKER_IMAGES = [
         "name": "run-extracao-manual-simp",
         "path": "./src/manual_simp/extracao",
     }
+    ,{
+        "label": "Extração Códigos de Instalação",
+        "name": "run-extracao-codigos-instalacao",
+        "path": "./src/manual_simp/codigos_instalacao",
+    }
 ]
 
 def get_image_by_name(image_name):
