@@ -7,4 +7,4 @@ COPY . .
 RUN pip install --upgrade pip && \
     pip install --no-cache-dir -r requirements.txt
 
-CMD ["python3", "rw_ext_anp_liquidos_entregas_historicos.py"]
+CMD ["python3", "rw_ext_anp_liquidos_entrega_historico.py"]

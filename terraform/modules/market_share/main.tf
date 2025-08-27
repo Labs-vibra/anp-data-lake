@@ -24,3 +24,16 @@ resource "google_cloud_run_v2_job" "run_raw_importacao_distribuidores" {
     }
   }
 }
+
+resource "google_cloud_run_v2_job" "run_raw_liquidos_entrega_historico" {
+  name     = "cr-juridico-raw-liquidos_entrega_historico-job-dev"
+  location = var.region
+
+  template {
+    template {
+        containers {
+            image = "${var.jobs_image_base_url}/run-raw-liquidos-entrega_historico:${var.image_version}"
+        }
+    }
+  }
+}
