@@ -2,7 +2,6 @@ from io import BytesIO
 import pandas as pd
 from datetime import date
 from google.cloud import storage, bigquery
-from dotenv import load_dotenv
 from constants import (
     BUCKET_NAME,
     CODIGOS_INSTALACAO_FILE,
@@ -22,7 +21,6 @@ def rw_ext_anp_codigos_instalacao():
     Faz download do arquivo de Logística 1 do bucket no GCP,
     lê arquivo, formata colunas e sobe a camada raw para o BigQuery.
     """
-    load_dotenv()
     storage_client = storage.Client()
 
     bucket = storage_client.bucket(BUCKET_NAME)
