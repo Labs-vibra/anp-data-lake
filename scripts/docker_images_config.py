@@ -75,6 +75,11 @@ DOCKER_IMAGES = [
         "name": "run-extracao-market-share",
         "path": "./src/market_share/extracao",
     }
+    ,{
+        "label": "Extração Manual SIMP",
+        "name": "run-extracao-manual-simp",
+        "path": "./src/manual_simp/extracao",
+    }
 ]
 
 def get_image_by_name(image_name):

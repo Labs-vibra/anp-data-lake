@@ -4,7 +4,7 @@ import requests
 from io import BytesIO
 from bs4 import BeautifulSoup
 from google.cloud import storage
-from constants import BUCKET_NAME, MANUAL_SIMP_XLSX_FILENAME_KEYWORD, MANUAL_SIMP_XLSX_ALLOWED_NUMBERS, MANUAL_SIMP_XLSX_EXTENSION
+from constants import BUCKET_NAME
 
 def fetch_html(url):
     """
@@ -109,22 +109,6 @@ def process_zip_and_upload_to_gcp(zip_bytes: BytesIO, dir_prefix: str):
                 file_bytes = BytesIO(source_file.read())
                 bucket_path = f"{dir_prefix}{process_file_name(file_info.filename)}"
                 upload_bytes_to_bucket(file_bytes, bucket_path)
-
-def is_target_XLSX(filename: str) -> bool:
-    """Verifica se o arquivo atende aos critérios de seleção.
-
-    Args:
-        filename (str): Nome do arquivo para checagem.
-
-    Returns:
-        bool: True se o arquivo atende aos critérios, False caso contrário.
-    """
-    file_upper = filename.upper()
-    return (
-        MANUAL_SIMP_XLSX_FILENAME_KEYWORD in file_upper
-        and any(num in file_upper for num in MANUAL_SIMP_XLSX_ALLOWED_NUMBERS)
-        and file_upper.endswith(MANUAL_SIMP_XLSX_EXTENSION)
-    )
 
 def upload_bytes_to_bucket(arquivo_bytes, nome_no_bucket):
     client = storage.Client()
