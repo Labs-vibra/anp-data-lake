@@ -27,7 +27,7 @@ def format_columns_for_bq(df: pd.DataFrame) -> pd.DataFrame:
         "Mês": "mes",
         "Agente Regulado": "agente_regulado",
         "Código do Produto": "codigo_produto",
-        "Nome do Porduto": "nome_produto",
+        "Nome do Produto": "nome_produto",
         "Descrição do Produto": "descricao_produto",
         "Região Origem": "regiao_origem",
         "UF Origem": "uf_origem",
