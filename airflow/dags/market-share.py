@@ -1,6 +1,8 @@
+from asyncio import TaskGroup
 from airflow import DAG
 from airflow.utils.dates import days_ago
-from utils.operators import exec_cloud_run_job
+from airflow.utils.task_group import TaskGroup
+from utils.operators import exec_cloud_run_job, populate_table
 
 default_args = {
     'owner': 'airflow',
@@ -26,9 +28,20 @@ with DAG(
         job_name="cr-juridico-raw-importacao-distribuidores-job-dev"
     )
 
-    run_raw_historico_entregas = exec_cloud_run_job(
-        task_id="raw_historico_entregas",
-        job_name="cr-juridico-raw-historico-entregas-job-dev"
-    )
+    with TaskGroup("etl_historico_entregas", tooltip="ETL Histórico de Entregas") as etl_historico_entregas:
 
-    run_rw_market_share >> run_raw_importacao_distribuidores >> run_raw_historico_entregas
+        run_raw_historico_entregas = exec_cloud_run_job(
+            task_id="raw_historico_entregas",
+            job_name="cr-juridico-raw-historico-entregas-job-dev"
+        )
+
+        pop_td_historico_entregas = populate_table(
+            table="td_ext_anp.liquidos_entrega_historico",
+            sql_name="/sql/trusted/dml_td_liquidos_entrega_historico.sql"
+        )
+
+        run_raw_historico_entregas >> pop_td_historico_entregas
+
+
+    run_rw_market_share >> [run_raw_importacao_distribuidores, etl_historico_entregas]
+    #Atualizar e colocar o etl de importacao_distribuidores depois!!!
