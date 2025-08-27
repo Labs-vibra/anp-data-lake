@@ -1,5 +1,6 @@
 from airflow import DAG
 from airflow.utils.dates import days_ago
+from airflow.utils.task_group import TaskGroup
 from utils.operators import exec_cloud_run_job
 
 default_args = {
@@ -16,9 +17,15 @@ with DAG(
     catchup=False,
     max_active_tasks=2,
 ) as dag:
+
     run_extraction_manual_simp = exec_cloud_run_job(
         task_id="extracao_manual_simp",
         job_name="cr-juridico-extracao-manual-simp-job-dev"
     )
 
-    run_extraction_manual_simp
+    with TaskGroup("etl_codigos_instalacao", tooltip="ETL Códigos de Instalação") as etl_codigos_instalacao:
+        run_rw_codigos_instalacao = exec_cloud_run_job(
+            task_id="codigos_instalacao",
+            job_name="cr-juridico-extracao-codigos-instalacao-job-dev"
+        )
+        run_rw_codigos_instalacao
