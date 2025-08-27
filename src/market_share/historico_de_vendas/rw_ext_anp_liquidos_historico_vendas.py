@@ -6,7 +6,7 @@ from google.cloud import storage, bigquery
 from constants import (
     BUCKET_NAME,
     MARKET_SHARE_FOLDER,
-    MAPPING_COLUMNS,
+    COLUMNS,
     PROJECT_ID,
     BQ_DATASET,
     TABLE_NAME
@@ -41,6 +41,13 @@ def rw_ext_anp_liquidos_historico_vendas():
     """
     Faz download do arquivo LIQUIDOS_VENDAS_HISTORICO_2007_A_2017 mais recente do bucket no GCP,
     lê o arquivo, formata colunas e sobe a camada raw para o BigQuery.
+
+    Particularidade do arquivo:
+    - O CSV não possui header (nomes das colunas).
+    - A primeira linha contém os nomes antigos das colunas e precisa ser removida.
+    - A tabela final possui 10 colunas, em ordem:
+        ano, mes, distribuidor, codigo_produto, nome_produto,
+        regiao_origem, uf_origem, regiao_destinatario, uf_destino, quantidade_produto_mil_m3
     """
     storage_client = storage.Client()
 
@@ -55,9 +62,19 @@ def rw_ext_anp_liquidos_historico_vendas():
     logging.info(f"Baixando arquivo {latest_blob.name} do bucket {BUCKET_NAME}...")
     data_bytes = latest_blob.download_as_bytes()
 
-    df = pd.read_csv(BytesIO(data_bytes), sep=";", encoding="latin1", dtype=str)
+    # Lê CSV sem header
+    df = pd.read_csv(BytesIO(data_bytes), sep=";", encoding="latin1", header=None, dtype=str)
 
-    df.rename(columns=MAPPING_COLUMNS, inplace=True)
+    # Remove coluna extra se existir
+    if df.shape[1] > 10:
+        df = df.iloc[:, :10]
+
+    df.columns = COLUMNS
+
+    # Remove primeira linha que tinha nomes antigos
+    df = df.iloc[1:].reset_index(drop=True)
+
+    logging.info(f"Arquivo carregado com {len(df)} registros.")
 
     insert_data_into_bigquery(df)
     logging.info("Inserção de dados concluída.")
