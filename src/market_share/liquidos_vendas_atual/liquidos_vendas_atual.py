@@ -5,7 +5,7 @@ from datetime import date
 from google.cloud import storage, bigquery
 from constants import (
     BUCKET_NAME,
-    LIQ_VEND_ATUAL,
+    liquidos_vendas_atual,
     PROJECT_ID,
     BQ_DATASET,
     TABLE_NAME
@@ -56,7 +56,7 @@ def insert_data_into_bigquery(df: pd.DataFrame) -> None:
     )
     job.result()
 
-def rw_ext_anp_liq_vend_atual():
+def rw_ext_anp_liquidos_vendas_atual():
     """
     Faz download do arquivo de Liquidos de vendas atual do bucket no GCP,
     lê arquivo, formata colunas e sobe a camada raw para o BigQuery.
@@ -64,9 +64,9 @@ def rw_ext_anp_liq_vend_atual():
     storage_client = storage.Client()
 
     bucket = storage_client.bucket(BUCKET_NAME)
-    blob = bucket.blob(LIQ_VEND_ATUAL)
+    blob = bucket.blob(liquidos_vendas_atual)
 
-    logging.info(f"Baixando arquivo {LIQ_VEND_ATUAL} do bucket {BUCKET_NAME}...")
+    logging.info(f"Baixando arquivo {liquidos_vendas_atual} do bucket {BUCKET_NAME}...")
     data_bytes = blob.download_as_bytes()
 
     df = pd.read_csv(BytesIO(data_bytes), sep=";", encoding="latin1")
@@ -78,4 +78,4 @@ def rw_ext_anp_liq_vend_atual():
     logging.info("Inserção de dados concluída.")
 
 if __name__ == "__main__":
-	rw_ext_anp_liq_vend_atual()
+	rw_ext_anp_liquidos_vendas_atual()
