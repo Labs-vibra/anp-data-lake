@@ -20,3 +20,5 @@ with DAG(
         task_id="extraction_market_share",
         job_name="cr-juridico-extracao-market-share-job-dev"
     )
+
+    run_rw_market_share
