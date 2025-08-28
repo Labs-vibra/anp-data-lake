@@ -1,6 +1,7 @@
 from airflow import DAG
 from airflow.utils.dates import days_ago
-from utils.operators import exec_cloud_run_job
+from airflow.utils.task_group import TaskGroup
+from utils.operators import exec_cloud_run_job, populate_table
 
 default_args = {
     'owner': 'airflow',
@@ -26,9 +27,20 @@ with DAG(
         job_name="cr-juridico-raw-importacao-distribuidores-job-dev"
     )
 
-    run_raw_historico_vendas = exec_cloud_run_job(
-    task_id="raw_historico_vendas",
-    job_name="cr-juridico-raw-historico-vendas-job-dev"
-    )
+    with TaskGroup("etl_historico_vendas", tooltip="ETL Histórico de Vendas") as etl_historico_vendas:
 
-    run_rw_market_share >> run_raw_importacao_distribuidores >> run_raw_historico_vendas
+        run_raw_historico_vendas = exec_cloud_run_job(
+            task_id="raw_historico_vendas",
+            job_name="cr-juridico-raw-historico-vendas-job-dev"
+        )
+
+        pop_td_historico_vendas = populate_table(
+            table="td_ext_anp.liquidos_entrega_historico",
+            sql_name="/sql/trusted/dml_td_liquidos_vendas_historico.sql"
+        )
+
+        run_raw_historico_vendas >> pop_td_historico_vendas
+
+
+    run_rw_market_share >> [run_raw_importacao_distribuidores, etl_historico_vendas]
+    #Atualizar e colocar o etl de importacao_distribuidores depois!!!
