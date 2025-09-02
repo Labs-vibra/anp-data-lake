@@ -18,9 +18,9 @@ logger = logging.getLogger(__name__)
 storage_client = storage.Client()
 bucket = storage_client.bucket(BUCKET_NAME)
 blobs = list(bucket.list_blobs(prefix=file_folder))
-blobs_filtrados = [b for b in blobs if "LIQUIDOS_IMPORTACAO_DE_DISTRIBUIDORES" in b.name]
+blobs_filtrados = [b for b in blobs if "LIQUIDOS_ENTREGAS_DISTRIBUIDOR_ATUAL.CSV" in b.name]
 if not blobs_filtrados:
-    raise FileNotFoundError("Nenhum arquivo encontrado com 'LIQUIDOS_IMPORTACAO_DE_DISTRIBUIDORES' no nome.")
+    raise FileNotFoundError("Nenhum arquivo encontrado com 'LIQUIDOS_ENTREGAS_DISTRIBUIDOR_ATUAL.CSV' no nome.")
 latest_blob = max(blobs_filtrados, key=lambda b: b.updated)
 
 data = latest_blob.download_as_bytes()
