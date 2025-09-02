@@ -24,3 +24,17 @@ resource "google_cloud_run_v2_job" "run_raw_importacao_distribuidores" {
     }
   }
 }
+
+
+resource "google_cloud_run_v2_job" "run_raw_run_raw_vendas_atual" {
+  name     = "cr-juridico-raw-vendas-atual-job-dev"
+  location = var.region
+
+  template {
+    template {
+        containers {
+            image = "${var.jobs_image_base_url}/run-raw-vendas-atual:${var.image_version}"
+        }
+    }
+  }
+}

@@ -31,4 +31,4 @@ with DAG(
         job_name="cr-juridico-raw-vendas-atual-job-dev"
     )
 
-    run_rw_market_share >> [run_raw_importacao_distribuidores, run_raw_vendas_atual]
+    run_rw_market_share >> run_raw_importacao_distribuidores >> run_raw_vendas_atual
