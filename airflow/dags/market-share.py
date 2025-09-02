@@ -21,6 +21,11 @@ with DAG(
         job_name="cr-juridico-extracao-market-share-job-dev"
     )
 
+    run_raw_distribuidor_atual = exec_cloud_run_job(
+        task_id="raw_distribuidor_atual",
+        job_name="cr-juridico-raw-distribuidor-atual-job-dev"
+    )
+
     run_raw_importacao_distribuidores = exec_cloud_run_job(
         task_id="raw_importacao_distribuidores",
         job_name="cr-juridico-raw-importacao-distribuidores-job-dev"
@@ -31,4 +36,4 @@ with DAG(
         job_name="cr-juridico-raw-vendas-atual-job-dev"
     )
 
-    run_rw_market_share >> run_raw_importacao_distribuidores >> run_raw_vendas_atual
+    run_rw_market_share >> run_raw_distribuidor_atual >> run_raw_importacao_distribuidores >> run_raw_vendas_atual
