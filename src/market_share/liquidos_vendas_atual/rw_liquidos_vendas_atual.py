@@ -8,7 +8,8 @@ from constants import (
     MARKET_SHARE_FOLDER,
     PROJECT_ID,
     BQ_DATASET,
-    TABLE_NAME
+    TABLE_NAME,
+    MAPPING_COLUMNS
 )
 import logging
 
@@ -16,28 +17,6 @@ logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s - %(levelname)s - %(message)s"
 )
-
-def format_columns_for_bq(df: pd.DataFrame) -> pd.DataFrame:
-    """ Renomeia colunas e ajusta tipos para BigQuery. """
-
-    df.columns = df.columns.str.strip()
-    df.columns = df.columns.str.replace(r'\s+', ' ', regex=True)
-    df = df.rename(columns={
-        "Ano": "ano",
-        "Mês": "mes",
-        "Agente Regulado": "agente_regulado",
-        "Código do Produto": "codigo_produto",
-        "Nome do Produto": "nome_produto",
-        "Descrição do Produto": "descricao_produto",
-        "Região Origem": "regiao_origem",
-        "UF Origem": "uf_origem",
-        "Região Destinatário": "regiao_destinatario",
-        "UF Destino": "uf_destino",
-        "Mercado Destinatário": "mercado_destinatario",
-        "Quantidade de Produto (mil m³)": "quantidade_produto"
-    })
-    df = df.astype(str)
-    return df
 
 def insert_data_into_bigquery(df: pd.DataFrame) -> None:
     """ Insere dados no BigQuery com particionamento por data. """
@@ -58,21 +37,25 @@ def insert_data_into_bigquery(df: pd.DataFrame) -> None:
 
 def rw_ext_anp_liquidos_vendas_atual():
     """
-    Faz download do arquivo de Liquidos de vendas atual do bucket no GCP,
-    lê arquivo, formata colunas e sobe a camada raw para o BigQuery.
+    Faz download do arquivo Liquidos_Importacao_de_Distribuidores.csv mais recente do bucket no GCP,
+    lê o arquivo, formata colunas e sobe a camada raw para o BigQuery.
     """
     storage_client = storage.Client()
 
     bucket = storage_client.bucket(BUCKET_NAME)
-    blob = bucket.blob(MARKET_SHARE_FOLDER)
+    
+    blobs = list(bucket.list_blobs(prefix=MARKET_SHARE_FOLDER))
+    blobs_filtrados = [b for b in blobs if "LIQUIDOS_VENDAS_TOTAL" in b.name]
+    if not blobs_filtrados:
+        raise FileNotFoundError("Nenhum arquivo encontrado com 'LIQUIDOS_VENDAS_TOTAL' no nome.")
+    latest_blob = max(blobs_filtrados, key=lambda b: b.updated)
 
-    logging.info(f"Baixando arquivo {MARKET_SHARE_FOLDER} do bucket {BUCKET_NAME}...")
-    data_bytes = blob.download_as_bytes()
+    logging.info(f"Baixando arquivo {latest_blob.name} do bucket {BUCKET_NAME}...")
+    data_bytes = latest_blob.download_as_bytes()
 
-    df = pd.read_csv(BytesIO(data_bytes), sep=";", encoding="latin1")
-    logging.info(f"Arquivo carregado com {len(df)} registros.")
+    df = pd.read_csv(BytesIO(data_bytes), sep=";", encoding="latin1", dtype=str)
 
-    df = format_columns_for_bq(df)
+    df.rename(columns=MAPPING_COLUMNS, inplace=True)
 
     insert_data_into_bigquery(df)
     logging.info("Inserção de dados concluída.")
