@@ -16,14 +16,14 @@ with DAG(
     catchup=False,
     max_active_tasks=2,
 ) as dag:
-    run_rw_market_share = exec_cloud_run_job(
+    run_extracao_market_share = exec_cloud_run_job(
         task_id="extraction_market_share",
         job_name="cr-juridico-extracao-market-share-job-dev"
     )
-
-    run_raw_importacao_distribuidores = exec_cloud_run_job(
-        task_id="raw_importacao_distribuidores",
-        job_name="cr-juridico-raw-importacao-distribuidores-job-dev"
+    
+    run_raw_distribuidor_atual = exec_cloud_run_job(
+        task_id="raw_distribuidor_atual",
+        job_name="cr-juridico-raw-distribuidor-atual-job-dev"
     )
 
-    run_rw_market_share >> run_raw_importacao_distribuidores
+    run_extracao_market_share >> run_raw_distribuidor_atual
