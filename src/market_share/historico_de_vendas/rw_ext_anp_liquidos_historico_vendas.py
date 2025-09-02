@@ -35,8 +35,6 @@ def insert_data_into_bigquery(df: pd.DataFrame) -> None:
     )
     job.result()
 
-# ext-ecole-biomassa/anp/market_share/extracao/20250825_LIQUIDOS_VENDAS_HISTORICO_2007_A_2017.CSV
-
 def rw_ext_anp_liquidos_historico_vendas():
     """
     Faz download do arquivo LIQUIDOS_VENDAS_HISTORICO_2007_A_2017 mais recente do bucket no GCP,
