@@ -16,7 +16,7 @@ with DAG(
     catchup=False,
     max_active_tasks=2,
 ) as dag:
-    run_rw_market_share = exec_cloud_run_job(
+    run_extracao_market_share = exec_cloud_run_job(
         task_id="extraction_market_share",
         job_name="cr-juridico-extracao-market-share-job-dev"
     )
@@ -36,4 +36,4 @@ with DAG(
         job_name="cr-juridico-raw-vendas-atual-job-dev"
     )
 
-    run_rw_market_share >> run_raw_distribuidor_atual >> run_raw_importacao_distribuidores >> run_raw_vendas_atual
+    run_estracao_market_share >> run_raw_distribuidor_atual >> run_raw_importacao_distribuidores >> run_raw_vendas_atual
