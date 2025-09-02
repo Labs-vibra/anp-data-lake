@@ -3,7 +3,7 @@ import pandas as pd
 from io import BytesIO
 from datetime import date
 from constants import (
-    file_name,
+    file_folder,
     BUCKET_NAME,
     DISTRIBUTOR_COLUMN_MAPPING,
     PROJECT_ID,
@@ -17,10 +17,15 @@ logger = logging.getLogger(__name__)
 
 storage_client = storage.Client()
 bucket = storage_client.bucket(BUCKET_NAME)
-blob = bucket.blob(file_name)
-data = blob.download_as_bytes()
+blobs = list(bucket.list_blobs(prefix=file_folder))
+blobs_filtrados = [b for b in blobs if "LIQUIDOS_IMPORTACAO_DE_DISTRIBUIDORES" in b.name]
+if not blobs_filtrados:
+    raise FileNotFoundError("Nenhum arquivo encontrado com 'LIQUIDOS_IMPORTACAO_DE_DISTRIBUIDORES' no nome.")
+latest_blob = max(blobs_filtrados, key=lambda b: b.updated)
 
-logger.info(f"Downloaded file {file_name} from bucket {BUCKET_NAME}")
+data = latest_blob.download_as_bytes()
+
+logger.info(f"Downloaded file {latest_blob.name} from bucket {BUCKET_NAME}")
 df = pd.read_csv(BytesIO(data), sep=";", encoding="latin-1", dtype=str)
 df = df.rename(columns=DISTRIBUTOR_COLUMN_MAPPING)
 

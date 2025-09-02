@@ -6,9 +6,7 @@ PROJECT_ID = os.getenv("GOOGLE_CLOUD_PROJECT", "ext-ecole-biomassa")
 BQ_DATASET = os.getenv("BQ_DATASET", "rw_ext_anp")
 TABLE_NAME = "liquidos_entregas_distribuidor_atual"
 
-file_name = "anp/market_share/extracao/"
-file_name += datetime.now().strftime("%Y%m25")
-file_name += "_LIQUIDOS_ENTREGAS_DISTRIBUIDOR_ATUAL.CSV"
+file_folder = "anp/market_share/extracao"
 
 DISTRIBUTOR_COLUMN_MAPPING = {
     "Ano": "ano",
