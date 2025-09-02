@@ -1,0 +1,20 @@
+<<<<<<<< HEAD:src/market_share/liquidos_vendas_atual/requirements.txt
+BeautifulSoup4
+pandas
+pandas_gbq
+requests
+google-cloud-bigquery
+google-cloud-storage
+pyarrow
+openpyxl
+dotenv
+========
+BeautifulSoup4
+pandas
+pandas_gbq
+requests
+google-cloud-bigquery
+google-cloud-storage
+pyarrow
+openpyxl
+>>>>>>>> develop:src/manual_simp/codigos_instalacao/requirements.txt

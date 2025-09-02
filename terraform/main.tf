@@ -46,3 +46,10 @@ module "market_share" {
   jobs_image_base_url = local.jobs_image_base_url
   image_version       = var.image_version
 }
+
+module "codigos_instalacao" {
+  source              = "./modules/codigos_instalacao"
+  region              = var.region
+  jobs_image_base_url = local.jobs_image_base_url
+  image_version       = var.image_version
+}
