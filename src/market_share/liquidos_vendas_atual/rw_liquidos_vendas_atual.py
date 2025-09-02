@@ -8,8 +8,7 @@ from constants import (
     MARKET_SHARE_FOLDER,
     PROJECT_ID,
     BQ_DATASET,
-    TABLE_NAME,
-    MAPPING_COLUMNS
+    TABLE_NAME
 )
 import logging
 
@@ -45,9 +44,9 @@ def rw_ext_anp_liquidos_vendas_atual():
     bucket = storage_client.bucket(BUCKET_NAME)
     
     blobs = list(bucket.list_blobs(prefix=MARKET_SHARE_FOLDER))
-    blobs_filtrados = [b for b in blobs if "LIQUIDOS_VENDAS_TOTAL" in b.name]
+    blobs_filtrados = [b for b in blobs if "LIQUIDOS_VENDAS_ATUAL" in b.name]
     if not blobs_filtrados:
-        raise FileNotFoundError("Nenhum arquivo encontrado com 'LIQUIDOS_VENDAS_TOTAL' no nome.")
+        raise FileNotFoundError("Nenhum arquivo encontrado com 'LIQUIDOS_VENDAS_ATUAL' no nome.")
     latest_blob = max(blobs_filtrados, key=lambda b: b.updated)
 
     logging.info(f"Baixando arquivo {latest_blob.name} do bucket {BUCKET_NAME}...")
