@@ -1,8 +1,8 @@
 CREATE TABLE IF NOT EXISTS td_ext_anp.codigos_instalacao (
-	cod_instalacao NUMERIC,
+	cod_instalacao STRING,
 	num_cnpj STRING,
 	nom_razao_social STRING,
-	num_cep NUMERIC,
+	num_cep STRING,
 	txt_endereco STRING,
 	num_numero NUMERIC,
 	txt_complemento STRING,

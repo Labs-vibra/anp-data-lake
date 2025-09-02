@@ -1,10 +1,10 @@
 MERGE td_ext_anp.codigos_instalacao AS target
 USING (
 SELECT
-    SAFE_CAST(cod_instalacao AS NUMERIC) AS cod_instalacao,
+    cod_instalacao,
     num_cnpj,
     nom_razao_social,
-    SAFE_CAST(num_cep AS NUMERIC) AS num_cep,
+    num_cep,
     txt_endereco,
     SAFE_CAST(num_numero AS NUMERIC) AS num_numero,
     txt_complemento,
