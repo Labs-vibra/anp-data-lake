@@ -36,7 +36,7 @@ def insert_data_into_bigquery(df: pd.DataFrame) -> None:
 
 def rw_ext_anp_liquidos_vendas_atual():
     """
-    Faz download do arquivo Liquidos_Importacao_de_Distribuidores.csv mais recente do bucket no GCP,
+    Faz download do arquivo Liquidos_Vendas_Atual.csv mais recente do bucket no GCP,
     lê o arquivo, formata colunas e sobe a camada raw para o BigQuery.
     """
     storage_client = storage.Client()
