@@ -70,12 +70,18 @@ with DAG(
         job_name="cr-juridico-raw-vendas-atual-job-dev"
     )
 
-    run_extracao_market_share >> [run_raw_distribuidor_atual,
+    run_raw_entregas_fornecedor_atual = exec_cloud_run_job(
+        task_id="raw_entregas_fornecedor_atual",
+        job_name="cr-juridico-raw-entregas-fornecedor-atual-job-dev"
+    )
+
+    run_rw_market_share >> [run_raw_distribuidor_atual,
                             run_raw_importacao_distribuidores,
                             run_raw_historico_entregas,
                             run_raw_importacao_distribuidores,
-                            run_raw_vendas_atual,
+                            run_raw_vendas_atual
+                            run_raw_entregas_fornecedor_atual,
                             run_raw_historico_vendas,
                             etl_historico_vendas,
                             etl_historico_entregas
-                                 ]
+                           ]

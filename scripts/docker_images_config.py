@@ -91,6 +91,16 @@ DOCKER_IMAGES = [
         "path": "./src/market_share/historico_de_entregas",
     },
     {
+        "label": "Extração Líquidos Vendas Atual",
+        "name": "run-raw-vendas-atual",
+        "path": "./src/market_share/liquidos_vendas_atual",
+    },
+    {
+        "label": "Extração Líquidos Entregas Fornecedor Atual",
+        "name": "run-raw-entregas-fornecedor-atual",
+        "path": "./src/market_share/liquidos_entregas_fornecedor_atual",
+    },
+    {
         "label": "Extração Líquidos Histórico Vendas",
         "name": "run-raw-liquidos-historico-vendas",
         "path": "./src/market_share/historico_de_vendas",
