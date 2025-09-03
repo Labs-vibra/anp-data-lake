@@ -68,9 +68,9 @@ DOCKER_IMAGES = [
         "label": "Extração Metas CBIOs 2025",
         "name": "run-extracao-metas-cbios-2025-job",
         "path": "./src/metas_individuais_cbios/cbios_2025",
-    }
+    },
     # Módulo Market Share
-    ,{
+    {
         "label": "Extração Market Share",
         "name": "run-extracao-market-share-job",
         "path": "./src/market_share/extracao",
@@ -99,14 +99,19 @@ DOCKER_IMAGES = [
         "label": "Extração Líquidos Entregas Fornecedor Atual",
         "name": "run-raw-entregas-fornecedor-atual",
         "path": "./src/market_share/liquidos_entregas_fornecedor_atual",
-    }
+    },
+    {
+        "label": "Extração Líquidos Histórico Vendas",
+        "name": "run-raw-liquidos-historico-vendas",
+        "path": "./src/market_share/historico_de_vendas",
+    },
     # Módulo Códigos de Instalação
-    ,{
+    {
         "label": "Extração Manual SIMP",
         "name": "run-extracao-manual-simp",
         "path": "./src/manual_simp/extracao",
     },
-    ,{
+    {
         "label": "Extração Códigos de Instalação",
         "name": "run-extracao-codigos-instalacao",
         "path": "./src/manual_simp/codigos_instalacao",
