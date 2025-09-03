@@ -24,7 +24,6 @@ resource "google_cloud_run_service" "raw_distribuidor_atual" {
   }
 }
 
-
 resource "google_cloud_run_service" "raw_importacao_distribuidores" {
   name     = "cr-juridico-raw-importacao-distribuidores-job-dev"
   location = var.region
@@ -34,6 +33,20 @@ resource "google_cloud_run_service" "raw_importacao_distribuidores" {
       containers {
         image = "${var.jobs_image_base_url}/run-raw-importacao-distribuidores:${var.image_version}"
       }
+    }
+  }
+}
+
+
+resource "google_cloud_run_v2_job" "run_raw_run_raw_vendas_atual" {
+  name     = "cr-juridico-raw-vendas-atual-job-dev"
+  location = var.region
+
+  template {
+    template {
+        containers {
+            image = "${var.jobs_image_base_url}/run-raw-vendas-atual:${var.image_version}"
+        }
     }
   }
 }
