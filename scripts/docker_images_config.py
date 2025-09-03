@@ -89,6 +89,16 @@ DOCKER_IMAGES = [
         "label": "Extração Líquidos Histórico Entregas",
         "name": "run-raw-liquidos-historico-entregas",
         "path": "./src/market_share/historico_de_entregas",
+    },
+    {
+        "label": "Extração Líquidos Vendas Atual",
+        "name": "run-raw-vendas-atual",
+        "path": "./src/market_share/liquidos_vendas_atual",
+    },
+    {
+        "label": "Extração Líquidos Entregas Fornecedor Atual",
+        "name": "run-raw-entregas-fornecedor-atual",
+        "path": "./src/market_share/liquidos_entregas_fornecedor_atual",
     }
     # Módulo Códigos de Instalação
     ,{
