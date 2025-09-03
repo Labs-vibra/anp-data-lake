@@ -63,3 +63,16 @@ resource "google_cloud_run_v2_job" "run_raw_liquidos_entrega_historico" {
     }
   }
 }
+
+resource "google_cloud_run_v2_job" "run_raw_entregas_fornecedor_atual" {
+  name     = "cr-juridico-raw-entregas-fornecedor-atual-job-dev"
+  location = var.region
+
+  template {
+    template {
+        containers {
+            image = "${var.jobs_image_base_url}/run-raw-entregas-fornecedor-atual:${var.image_version}"
+        }
+    }
+  }
+}
