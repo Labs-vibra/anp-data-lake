@@ -4,6 +4,6 @@ CREATE TABLE IF NOT EXISTS rw_ext_anp.cbios_2020 (
     cnpj STRING,
     somatorio_emissoes STRING,
     participacao_mercado STRING,
-    meta_individual_2020_cbios STRING,
+    meta_individual_2020 STRING,
     data_criacao TIMESTAMP DEFAULT CURRENT_TIMESTAMP()
 ) PARTITION BY DATE(data_criacao);

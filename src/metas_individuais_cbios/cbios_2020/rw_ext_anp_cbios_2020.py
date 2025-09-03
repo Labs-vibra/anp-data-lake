@@ -22,7 +22,7 @@ def rw_ext_anp_cbios_2020():
 		file_content = BytesIO(response.content)
 		logging.info("Download concluído.")
 	except Exception as e:
-		logging.warning(f"Erro ao fazer download do arquivo: {e}")
+		logging.error(f"Erro ao fazer download do arquivo: {e}")
 		return None
 
 	df = pd.read_excel(file_content, sheet_name=1, dtype=str)
