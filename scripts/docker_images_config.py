@@ -72,8 +72,34 @@ DOCKER_IMAGES = [
     # Módulo Market Share
     ,{
         "label": "Extração Market Share",
-        "name": "run-extracao-market-share",
+        "name": "run-extracao-market-share-job",
         "path": "./src/market_share/extracao",
+    },
+    {
+        "label": "Extração Market Share Distribuidor Atual",
+        "name": "run-raw-distribuidor-atual",
+        "path": "./src/market_share/raw_distribuidor_atual",
+    },
+    {
+        "label": "Extração Liquidos Importacao Distribuidores",
+        "name": "run-raw-importacao-distribuidores",
+        "path": "./src/market_share/extracao_importacao_distribuidores",
+    },
+    {
+        "label": "Extração Líquidos Histórico Entregas",
+        "name": "run-raw-liquidos-historico-entregas",
+        "path": "./src/market_share/historico_de_entregas",
+    }
+    # Módulo Códigos de Instalação
+    ,{
+        "label": "Extração Manual SIMP",
+        "name": "run-extracao-manual-simp",
+        "path": "./src/manual_simp/extracao",
+    },
+    ,{
+        "label": "Extração Códigos de Instalação",
+        "name": "run-extracao-codigos-instalacao",
+        "path": "./src/manual_simp/codigos_instalacao",
     }
 ]
 

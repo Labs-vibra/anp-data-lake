@@ -10,7 +10,7 @@ install_deps:
 
 test-docker-image:
 	cp ~/gcp.secrets.json src/$(FOLDER)
-	docker build -t extracao src/$(FOLDER)
+	docker build --no-cache -t extracao src/$(FOLDER) 
 	rm src/$(FOLDER)/gcp.secrets.json
 
 run-test-docker-image: test-docker-image
