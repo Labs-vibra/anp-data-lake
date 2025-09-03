@@ -1,3 +1,4 @@
+from asyncio import TaskGroup
 from airflow import DAG
 from airflow.utils.dates import days_ago
 from airflow.utils.task_group import TaskGroup
@@ -17,7 +18,7 @@ with DAG(
     catchup=False,
     max_active_tasks=2,
 ) as dag:
-    run_extracao_market_share = exec_cloud_run_job(
+    run_extraction_market_share = exec_cloud_run_job(
         task_id="extraction_market_share",
         job_name="cr-juridico-extracao-market-share-job-dev"
     )
@@ -46,10 +47,18 @@ with DAG(
 
         run_raw_historico_vendas >> pop_td_historico_vendas
 
-    run_raw_historico_entregas = exec_cloud_run_job(
-        task_id="raw_historico_entregas",
-        job_name="cr-juridico-raw-historico-entregas-job-dev"
-    )
+    with TaskGroup("etl_historico_entregas", tooltip="ETL Histórico de Entregas") as etl_historico_entregas:
+        run_raw_historico_entregas = exec_cloud_run_job(
+            task_id="raw_historico_entregas",
+            job_name="cr-juridico-raw-historico-entregas-job-dev"
+        )
+
+        pop_td_historico_entregas = populate_table(
+            table="td_ext_anp.liquidos_entrega_historico",
+            sql_name="/sql/trusted/dml_td_liquidos_entrega_historico.sql"
+        )
+
+        run_raw_historico_entregas >> pop_td_historico_entregas
 
     run_raw_historico_vendas = exec_cloud_run_job(
         task_id="raw_historico_vendas",
@@ -67,5 +76,6 @@ with DAG(
                             run_raw_importacao_distribuidores,
                             run_raw_vendas_atual,
                             run_raw_historico_vendas,
-                            etl_historico_vendas
+                            etl_historico_vendas,
+                            etl_historico_entregas
                                  ]
