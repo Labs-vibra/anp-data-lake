@@ -12,9 +12,6 @@ RAW_DATASET = "rw_ext_anp"
 
 PROJECT_ID = os.getenv("GOOGLE_CLOUD_PROJECT", "ext-ecole-biomassa")
 
-print(f"Using PROJECT_ID: {PROJECT_ID}")
-
-
 CBIOS_2020_TABLE = "cbios_2020"
 
 MAPPING_COLUMNS = {

@@ -31,8 +31,6 @@ def rw_ext_anp_cbios_2020():
 	df.rename(columns=MAPPING_COLUMNS, inplace=True)
 	client = bigquery.Client()
 
-	print(df.columns)
-
 	table_id = f"{PROJECT_ID}.{RAW_DATASET}.{CBIOS_2020_TABLE}"
 
 	job_config = bigquery.LoadJobConfig(
