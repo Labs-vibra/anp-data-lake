@@ -84,13 +84,18 @@ DOCKER_IMAGES = [
         "label": "Extração Liquidos Importacao Distribuidores",
         "name": "run-raw-importacao-distribuidores",
         "path": "./src/market_share/extracao_importacao_distribuidores",
+    },
+    {
+        "label": "Extração Líquidos Histórico Entregas",
+        "name": "run-raw-liquidos-historico-entregas",
+        "path": "./src/market_share/historico_de_entregas",
     }
     # Módulo Códigos de Instalação
     ,{
         "label": "Extração Manual SIMP",
         "name": "run-extracao-manual-simp",
         "path": "./src/manual_simp/extracao",
-    }
+    },
     ,{
         "label": "Extração Códigos de Instalação",
         "name": "run-extracao-codigos-instalacao",
