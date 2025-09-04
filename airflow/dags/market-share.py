@@ -89,12 +89,12 @@ with DAG(
             job_name="cr-juridico-raw-entregas-fornecedor-atual-job-dev"
         )
 
-        # pop_td_entregas_fornecedor_atual = populate_table(
-        #     table="td_ext_anp.entregas_fornecedor_atual",
-        #     sql_name="/sql/trusted/dml_td_entregas_fornecedor_atual.sql"
-        # )
+        pop_td_entregas_fornecedor_atual = populate_table(
+            table="td_ext_anp.entregas_fornecedor_atual",
+            sql_name="/sql/trusted/dml_td_entregas_fornecedor_atual.sql"
+        )
 
-        run_raw_entregas_fornecedor_atual #>> pop_td_entregas_fornecedor_atual
+        run_raw_entregas_fornecedor_atual >> pop_td_entregas_fornecedor_atual
 
     run_extraction_market_share >> [
         etl_historico_vendas,
