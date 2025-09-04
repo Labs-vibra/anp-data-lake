@@ -10,6 +10,7 @@ import traceback
 import pandas as pd
 import os
 import time
+import subprocess
 
 
 def await_file_download(download_dir, timeout=120):
@@ -66,26 +67,40 @@ def scrape_cbio_data():
         driver.find_elements(By.CSS_SELECTOR, '[b3button][icon="download"]')[1].click()
 
         downloaded_file = await_file_download("/tmp", timeout=120)
-
-        if not downloaded_file:
-            raise Exception("File download timed out.")
-
-        print(f"File downloaded to: {downloaded_file}")
-
-        df = pd.read_csv(downloaded_file, sep=';', encoding='latin1')
-        print(df.head())
-
-        if os.path.exists(downloaded_file):
-            os.remove(downloaded_file)
-            print(f"File {downloaded_file} deleted.")
+        return downloaded_file
     except Exception as e:
-        print(f"An error occurred: {e}")
+        print("An error occurred:")
         traceback.print_exc()
-
     finally:
         # Close the browser
-        # driver.quit()
+        driver.quit()
         print('Finished')
 
+def cbios_retirement_extract():
+    downloaded_file = scrape_cbio_data()
+    if downloaded_file:
+        print(f"File downloaded to: {downloaded_file}")
+        # Inspect the file before loading
+        with open(downloaded_file, 'rb') as f:
+            print("File content:")
+            for _ in range(5):
+                print(f.readline())
+
+        # Try reading the CSV with different configurations
+        df = pd.read_csv(downloaded_file, sep=';', encoding='latin1', skipinitialspace=True)
+        df = df.rename(columns={
+            'Data': 'data',
+            'Quantidade (Parte Obrigada)': 'quantidade_parte_obrigada',
+            'Quantidade (Parte Não Obrigada)': 'quantidade_parte_nao_obrigada',
+            'Totalização': 'totalizacao'
+        })  # Clean column names
+
+        print("DataFrame preview:")
+        print(df.columns)
+        print(df["data"])
+
+
+
 if __name__ == "__main__":
-    scrape_cbio_data()
+    cbios_retirement_extract()
+
