@@ -1,4 +1,7 @@
 import os
+from dotenv import load_dotenv
+
+load_dotenv()
 
 BUCKET_NAME= os.getenv("BUCKET_NAME", "ext-ecole-biomassa")
 
@@ -20,5 +23,5 @@ MAPPING_COLUMNS = {
     "Região Destinatário": "regiao_destinatario",
     "UF Destino": "uf_destino",
     "Mercado Destinatário": "mercado_destinatario",
-    "Quantidade de Produto (mil m³)": "quantidade_produto"
+    "Quantidade de Produto (mil m³)": "quantidade_produto_mil_m3"
 }
