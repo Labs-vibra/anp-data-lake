@@ -68,6 +68,12 @@ with DAG(
             job_name="cr-juridico-raw-importacao-distribuidores-job-dev"
         )
 
+        pop_td_importacao_distribuidores = populate_table(
+            table="td_ext_anp.liquidos_importacao_distribuidores",
+            sql_name="/sql/trusted/dml_td_liquidos_importacao_distribuidores.sql"
+        )
+        run_raw_importacao_distribuidores >> pop_td_importacao_distribuidores
+
     # TaskGroup para o arquivo Vendas Atual
     with TaskGroup("etl_vendas_atual", tooltip="ETL Vendas Atual") as etl_vendas_atual:
         run_raw_vendas_atual = exec_cloud_run_job(
