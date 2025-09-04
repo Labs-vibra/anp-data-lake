@@ -10,8 +10,7 @@ import traceback
 import pandas as pd
 import os
 import time
-import subprocess
-
+from google.cloud import bigquery
 
 def await_file_download(download_dir, timeout=120):
     start_time = time.time()
@@ -30,6 +29,7 @@ def await_file_download(download_dir, timeout=120):
     raise Exception("File download timed out.")
 
 def configure_driver():
+    print("Configuring WebDriver...")
     service = Service(ChromeDriverManager().install())
     options = webdriver.ChromeOptions()
     options.add_experimental_option("prefs", {
@@ -38,7 +38,12 @@ def configure_driver():
         "download.directory_upgrade": True,
         "safebrowsing.enabled": True
     })
+    options.add_argument("--headless")  # Enable headless mode
+    options.add_argument("--disable-gpu")
+    options.add_argument("--no-sandbox")
+    options.add_argument("--disable-dev-shm-usage")
     driver = webdriver.Chrome(service=service, options=options)
+    print("WebDriver configured successfully.")
     return driver
 
 def scrape_cbio_data():
@@ -80,25 +85,19 @@ def cbios_retirement_extract():
     downloaded_file = scrape_cbio_data()
     if downloaded_file:
         print(f"File downloaded to: {downloaded_file}")
-        # Inspect the file before loading
-        with open(downloaded_file, 'rb') as f:
-            print("File content:")
-            for _ in range(5):
-                print(f.readline())
-
-        # Try reading the CSV with different configurations
-        df = pd.read_csv(downloaded_file, sep=';', encoding='latin1', skipinitialspace=True)
+        df = pd.read_csv(downloaded_file, sep=';', encoding='latin1', dtype=str, index_col=False).fillna('')
         df = df.rename(columns={
             'Data': 'data',
             'Quantidade (Parte Obrigada)': 'quantidade_parte_obrigada',
             'Quantidade (Parte Não Obrigada)': 'quantidade_parte_nao_obrigada',
             'Totalização': 'totalizacao'
-        })  # Clean column names
+        })
 
-        print("DataFrame preview:")
-        print(df.columns)
-        print(df["data"])
-
+        bq_client = bigquery.Client()
+        table_id = "rw_ext_anp.aposentadoria_cbios"
+        job = bq_client.load_table_from_dataframe(df, table_id)
+        job.result()  # Wait for the job to complete
+        print(f"Loaded {job.output_rows} rows into {table_id}.")
 
 
 if __name__ == "__main__":
