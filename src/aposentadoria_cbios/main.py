@@ -1,6 +1,5 @@
 from selenium import webdriver
 from selenium.webdriver.common.by import By
-from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.chrome.service import Service
 from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.support.ui import WebDriverWait
@@ -11,6 +10,8 @@ import pandas as pd
 import os
 import time
 from google.cloud import bigquery
+
+from constants import B3_URL, CBIOS_COL_MAPPING, TABLE_ID
 
 def await_file_download(download_dir, timeout=120):
     start_time = time.time()
@@ -46,12 +47,12 @@ def configure_driver():
     print("WebDriver configured successfully.")
     return driver
 
-def scrape_cbio_data():
+def scrape_cbio_data(year = "2023"):
+    print("Starting data scrape...")
     # Setup Chrome WebDriver
     driver = configure_driver()
     try:
-        url = "https://sistemaswebb3-balcao.b3.com.br/historicalSeriesPage/?language=pt-BR"
-        driver.get(url)
+        driver.get(B3_URL)
         ELEMENT_ID = "div_idInformation"
 
         sleep(5)  # Additional wait to ensure all elements are loaded
@@ -67,7 +68,7 @@ def scrape_cbio_data():
         select_year = driver.find_element(By.ID, "year")
         select_year.click()
         parent_element = select_year.find_element(By.XPATH, "../..")
-        year_element = parent_element.find_element(By.XPATH, "//a[@role='option' and contains(text(), '2023')]")
+        year_element = parent_element.find_element(By.XPATH, f"//a[@role='option' and contains(text(), '{year}')]")
         year_element.click()
         driver.find_elements(By.CSS_SELECTOR, '[b3button][icon="download"]')[1].click()
 
@@ -82,22 +83,17 @@ def scrape_cbio_data():
         print('Finished')
 
 def cbios_retirement_extract():
-    downloaded_file = scrape_cbio_data()
+    year_to_extract = os.getenv("YEAR_TO_EXTRACT", "2023")
+    downloaded_file = scrape_cbio_data(year_to_extract)
     if downloaded_file:
         print(f"File downloaded to: {downloaded_file}")
         df = pd.read_csv(downloaded_file, sep=';', encoding='latin1', dtype=str, index_col=False).fillna('')
-        df = df.rename(columns={
-            'Data': 'data',
-            'Quantidade (Parte Obrigada)': 'quantidade_parte_obrigada',
-            'Quantidade (Parte Não Obrigada)': 'quantidade_parte_nao_obrigada',
-            'Totalização': 'totalizacao'
-        })
+        df = df.rename(columns=CBIOS_COL_MAPPING)
 
         bq_client = bigquery.Client()
-        table_id = "rw_ext_anp.aposentadoria_cbios"
-        job = bq_client.load_table_from_dataframe(df, table_id)
-        job.result()  # Wait for the job to complete
-        print(f"Loaded {job.output_rows} rows into {table_id}.")
+        job = bq_client.load_table_from_dataframe(df, TABLE_ID)
+        job.result()
+        print(f"Loaded {job.output_rows} rows into {TABLE_ID}.")
 
 
 if __name__ == "__main__":
