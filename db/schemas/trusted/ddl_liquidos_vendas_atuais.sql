@@ -1,4 +1,4 @@
-CREATE TABLE IF NOT EXISTS rw_ext_anp.liquidos_vendas_atual (
+CREATE TABLE IF NOT EXISTS td_ext_anp.liquidos_vendas_atual (
     data DATE,
     agente_regulado STRING,
     codigo_produto STRING,
@@ -9,6 +9,6 @@ CREATE TABLE IF NOT EXISTS rw_ext_anp.liquidos_vendas_atual (
     regiao_destinatario STRING,
     uf_destino STRING,
     mercado_destinatario STRING,
-    quantidade_produto NUMERIC,
+    quantidade_produto_mil_m3 NUMERIC,
 	data_criacao TIMESTAMP DEFAULT CURRENT_TIMESTAMP()
 ) PARTITION BY DATE(data_criacao);
