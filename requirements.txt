@@ -4,3 +4,5 @@ dotenv
 pandas
 pyarrow
 openpyxl
+selenium
+webdriver-manager
