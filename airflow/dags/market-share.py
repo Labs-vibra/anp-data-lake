@@ -81,12 +81,12 @@ with DAG(
             job_name="cr-juridico-raw-vendas-atual-job-dev"
         )
 
-        # pop_td_vendas_atual = populate_table(
-        #     table="td_ext_anp.vendas_atual",
-        #     sql_name="/sql/trusted/dml_td_vendas_atual.sql"
-        # )
+        pop_td_vendas_atual = populate_table(
+            table="td_ext_anp.vendas_atual",
+            sql_name="/sql/trusted/dml_td_vendas_atual.sql"
+        )
 
-        run_raw_vendas_atual #>> pop_td_vendas_atual
+        run_raw_vendas_atual >> pop_td_vendas_atual
 
     #TaskGroup para o arquivo Entregas Fornecedor Atual
     with TaskGroup("etl_entregas_fornecedor_atual", tooltip="ETL Entregas Fornecedor Atual") as etl_entregas_fornecedor_atual:
