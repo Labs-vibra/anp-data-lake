@@ -1,7 +1,7 @@
 MERGE td_ext_anp.codigos_instalacao AS target
 USING (
 SELECT
-    FARM_FINGERPRINT(CONCAT(cod_instalacao, num_cnpj)) AS id,
+    FARM_FINGERPRINT(CONCAT(cod_instalacao, num_cnpj, nom_razao_social)) AS id,
     cod_instalacao,
     num_cnpj,
     LOWER(REGEXP_REPLACE(NORMALIZE(nom_razao_social, NFD), r'\pM', '')) AS nom_razao_social,
