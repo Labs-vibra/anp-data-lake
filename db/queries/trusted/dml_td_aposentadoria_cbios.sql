@@ -21,7 +21,8 @@ WHEN MATCHED AND (
     UPDATE SET
         quantidade_parte_obrigada = source.quantidade_parte_obrigada,
         quantidade_parte_nao_obrigada = source.quantidade_parte_nao_obrigada,
-        totalizacao = source.totalizacao
+        totalizacao = source.totalizacao,
+        data_criacao = source.data_criacao
 WHEN NOT MATCHED THEN
     INSERT (
         data,
