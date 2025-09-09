@@ -11,111 +11,48 @@ PROJECT_ID = os.getenv("GOOGLE_CLOUD_PROJECT", "ext-ecole-biomassa")
 ARTIFACT_REPO = os.getenv("ARTIFACT_REPO", "ar-juridico-process-anp-datalake")
 ARTIFACT_REGISTRY_BASE_URL = f"us-central1-docker.pkg.dev/{PROJECT_ID}/{ARTIFACT_REPO}/"
 
+LOGISTICA_IMAGES = [
+    {"label": "Extração de logística", "name": "run-extracao-logistica", "path": "./src/logistica/extracao"},
+    {"label": "Extração de Logística 01", "name": "run-extracao-logistica-01", "path": "./src/logistica/logistica_01"},
+    {"label": "Extração de Logística 02", "name": "run-extracao-logistica-02", "path": "./src/logistica/logistica_02"},
+    {"label": "Extração de Logística 03", "name": "run-extracao-logistica-03", "path": "./src/logistica/logistica_03"},
+]
+
+CBIOS_METAS_IMAGES = [
+    {"label": "Extração Metas CBIOs 2019", "name": "run-extracao-metas-cbios-2019-job", "path": "./src/metas_individuais_cbios/cbios_2019"},
+    {"label": "Extração Metas CBIOs 2020", "name": "run-extracao-metas-cbios-2020-job", "path": "./src/metas_individuais_cbios/cbios_2020"},
+    {"label": "Extração Metas CBIOs 2021", "name": "run-extracao-metas-cbios-2021-job", "path": "./src/metas_individuais_cbios/cbios_2021"},
+    {"label": "Extração Metas CBIOs 2022", "name": "run-extracao-metas-cbios-2022-job", "path": "./src/metas_individuais_cbios/cbios_2022"},
+    {"label": "Extração Metas CBIOs 2023", "name": "run-extracao-metas-cbios-2023-job", "path": "./src/metas_individuais_cbios/cbios_2023"},
+    {"label": "Extração Metas CBIOs 2024", "name": "run-extracao-metas-cbios-2024-job", "path": "./src/metas_individuais_cbios/cbios_2024"},
+    {"label": "Extração Metas CBIOs 2025", "name": "run-extracao-metas-cbios-2025-job", "path": "./src/metas_individuais_cbios/cbios_2025"},
+]
+
+CBIOS_RETIREMENT_IMAGES = [
+    {"label": "Extração Aposentadoria CBIOs", "name": "run-extracao-aposentadoria-cbios-job", "path": "./src/aposentadoria_cbios"},
+]
+
+MARKET_SHARE_IMAGES = [
+    {"label": "Extração Market Share", "name": "run-extracao-market-share-job", "path": "./src/market_share/extracao"},
+    {"label": "Extração Market Share Distribuidor Atual", "name": "run-raw-distribuidor-atual", "path": "./src/market_share/raw_distribuidor_atual"},
+    {"label": "Extração Liquidos Importacao Distribuidores", "name": "run-raw-importacao-distribuidores", "path": "./src/market_share/extracao_importacao_distribuidores"},
+    {"label": "Extração Líquidos Histórico Entregas", "name": "run-raw-liquidos-historico-entregas", "path": "./src/market_share/historico_de_entregas"},
+    {"label": "Extração Líquidos Vendas Atual", "name": "run-raw-vendas-atual", "path": "./src/market_share/liquidos_vendas_atual"},
+    {"label": "Extração Líquidos Entregas Fornecedor Atual", "name": "run-raw-entregas-fornecedor-atual", "path": "./src/market_share/liquidos_entregas_fornecedor_atual"},
+    {"label": "Extração Líquidos Histórico Vendas", "name": "run-raw-liquidos-historico-vendas", "path": "./src/market_share/historico_de_vendas"},
+]
+
+INSTALLATION_CODES_IMAGES = [
+    {"label": "Extração Códigos de Instalação", "name": "run-extracao-codigos-instalacao", "path": "./src/manual_simp/codigos_instalacao"},
+    {"label": "Extração Manual SIMP", "name": "run-extracao-manual-simp", "path": "./src/manual_simp/extracao"},
+]
+
 DOCKER_IMAGES = [
-    # Módulo logística
-    {
-        "label": "Extração de logística",
-        "name": "run-extracao-logistica",
-        "path": "./src/logistica/extracao",
-    },
-    {
-        "label": "Extração de Logística 01",
-        "name": "run-extracao-logistica-01",
-        "path": "./src/logistica/logistica_01",
-    },
-    {
-        "label": "Extração de Logística 02",
-        "name": "run-extracao-logistica-02",
-        "path": "./src/logistica/logistica_02",
-    },
-    {
-        "label": "Extração de Logística 03",
-        "name": "run-extracao-logistica-03",
-        "path": "./src/logistica/logistica_03",
-    },
-    # Módulo metas individuais CBIOs
-    {
-        "label": "Extração Metas CBIOs 2019",
-        "name": "run-extracao-metas-cbios-2019-job",
-        "path": "./src/metas_individuais_cbios/cbios_2019",
-    },
-    {
-        "label": "Extração Metas CBIOs 2020",
-        "name": "run-extracao-metas-cbios-2020-job",
-        "path": "./src/metas_individuais_cbios/cbios_2020",
-    },
-    {
-        "label": "Extração Metas CBIOs 2021",
-        "name": "run-extracao-metas-cbios-2021-job",
-        "path": "./src/metas_individuais_cbios/cbios_2021",
-    },
-    {
-        "label": "Extração Metas CBIOs 2022",
-        "name": "run-extracao-metas-cbios-2022-job",
-        "path": "./src/metas_individuais_cbios/cbios_2022",
-    },
-    {
-        "label": "Extração Metas CBIOs 2023",
-        "name": "run-extracao-metas-cbios-2023-job",
-        "path": "./src/metas_individuais_cbios/cbios_2023",
-    },
-    {
-        "label": "Extração Metas CBIOs 2024",
-        "name": "run-extracao-metas-cbios-2024-job",
-        "path": "./src/metas_individuais_cbios/cbios_2024",
-    },
-    {
-        "label": "Extração Metas CBIOs 2025",
-        "name": "run-extracao-metas-cbios-2025-job",
-        "path": "./src/metas_individuais_cbios/cbios_2025",
-    },
-    # Módulo Market Share
-    {
-        "label": "Extração Market Share",
-        "name": "run-extracao-market-share-job",
-        "path": "./src/market_share/extracao",
-    },
-    {
-        "label": "Extração Market Share Distribuidor Atual",
-        "name": "run-raw-distribuidor-atual",
-        "path": "./src/market_share/raw_distribuidor_atual",
-    },
-    {
-        "label": "Extração Liquidos Importacao Distribuidores",
-        "name": "run-raw-importacao-distribuidores",
-        "path": "./src/market_share/extracao_importacao_distribuidores",
-    },
-    {
-        "label": "Extração Líquidos Histórico Entregas",
-        "name": "run-raw-liquidos-historico-entregas",
-        "path": "./src/market_share/historico_de_entregas",
-    },
-    {
-        "label": "Extração Líquidos Vendas Atual",
-        "name": "run-raw-vendas-atual",
-        "path": "./src/market_share/liquidos_vendas_atual",
-    },
-    {
-        "label": "Extração Líquidos Entregas Fornecedor Atual",
-        "name": "run-raw-entregas-fornecedor-atual",
-        "path": "./src/market_share/liquidos_entregas_fornecedor_atual",
-    },
-    {
-        "label": "Extração Líquidos Histórico Vendas",
-        "name": "run-raw-liquidos-historico-vendas",
-        "path": "./src/market_share/historico_de_vendas",
-    },
-    # Módulo Códigos de Instalação
-    {
-        "label": "Extração Manual SIMP",
-        "name": "run-extracao-manual-simp",
-        "path": "./src/manual_simp/extracao",
-    },
-    {
-        "label": "Extração Códigos de Instalação",
-        "name": "run-extracao-codigos-instalacao",
-        "path": "./src/manual_simp/codigos_instalacao",
-    }
+    *LOGISTICA_IMAGES,
+    *CBIOS_METAS_IMAGES,
+    *CBIOS_RETIREMENT_IMAGES,
+    *MARKET_SHARE_IMAGES,
+    *INSTALLATION_CODES_IMAGES,
 ]
 
 def get_image_by_name(image_name):
