@@ -21,7 +21,7 @@ CREATE TABLE IF NOT EXISTS `rw_ext_anp.codigos_instalacao`
   dat_mesano_vigencia_inicial STRING OPTIONS(description="Data de vigência inicial (formato original)"),
   dat_mesano_vigencia_final STRING OPTIONS(description="Data de vigência final (formato original)"),
   data_versao STRING OPTIONS(description="Versão dos dados"),
-  data_criacao TIMESTAMP DEFAULT CURRENT_TIMESTAMP() OPTIONS(description="Data e hora de ingestão dos dados")
+  data_criacao TIMESTAMP DEFAULT CURRENT_TIMESTAMP() OPTIONS(description="Data de ingestão dos dados")
 )
 PARTITION BY DATE(data_criacao)
 OPTIONS(description="Tabela Raw contendo os códigos de instalação da ANP, conforme fonte original, sem transformações.");
