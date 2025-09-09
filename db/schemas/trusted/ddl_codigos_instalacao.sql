@@ -20,7 +20,8 @@ CREATE TABLE IF NOT EXISTS `td_ext_anp.codigos_instalacao`
   dat_mesano_vigencia_inicial DATE OPTIONS(description="Data de vigência inicial"),
   dat_mesano_vigencia_final DATE OPTIONS(description="Data de vigência final"),
   data_versao TIMESTAMP OPTIONS(description="Versão dos dados"),
-  data_ingestao_td TIMESTAMP DEFAULT CURRENT_TIMESTAMP() OPTIONS(description="Data e hora de ingestão no Trusted")
+  data_criacao TIMESTAMP DEFAULT OPTIONS(description="Data de criação do registro na camada raw"),
+  data_ingestao_td TIMESTAMP DEFAULT CURRENT_TIMESTAMP() OPTIONS(description="Data de ingestão na camada trusted")
 )
 PARTITION BY DATE(data_ingestao_td)
 OPTIONS(description="Tabela Trusted contendo os códigos de instalação da ANP, com dados normalizados, tipados e deduplicados.");

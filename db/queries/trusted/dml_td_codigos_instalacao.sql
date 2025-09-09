@@ -1,7 +1,6 @@
 MERGE td_ext_anp.codigos_instalacao AS target
 USING (
 SELECT
-    id,
     cod_instalacao,
     num_cnpj,
     nom_razao_social,
@@ -21,11 +20,11 @@ SELECT
     SAFE.PARSE_DATE('%Y%m', dat_mesano_vigencia_inicial || '01') AS dat_mesano_vigencia_inicial,
     SAFE.PARSE_DATE('%Y%m', dat_mesano_vigencia_final || '01') AS dat_mesano_vigencia_final,
     SAFE.PARSE_TIMESTAMP('%d/%m/%Y %H:%M', data_versao) AS data_versao,
-    data_ingestao_td
+    data_criacao
 FROM
     rw_ext_anp.codigos_instalacao
 WHERE
-    data_ingestao_td = (SELECT MAX(data_ingestao_td) FROM rw_ext_anp.codigos_instalacao)
+    data_criacao = (SELECT MAX(data_criacao) FROM rw_ext_anp.codigos_instalacao)
 ) AS source
 ON source.cod_instalacao = target.cod_instalacao
 AND source.num_cnpj = target.num_cnpj
@@ -48,7 +47,7 @@ UPDATE SET
     target.dat_mesano_vigencia_inicial = source.dat_mesano_vigencia_inicial,
     target.dat_mesano_vigencia_final = source.dat_mesano_vigencia_final,
     target.data_versao = source.data_versao,
-    target.data_ingestao_td = source.data_ingestao_td
+    target.data_criacao = source.data_criacao
 WHEN NOT MATCHED THEN
 INSERT (
     cod_instalacao,
@@ -70,7 +69,7 @@ INSERT (
     dat_mesano_vigencia_inicial,
     dat_mesano_vigencia_final,
     data_versao,
-    data_ingestao_td
+    data_criacao
 ) VALUES (
     source.cod_instalacao,
     source.num_cnpj,
@@ -91,5 +90,5 @@ INSERT (
     source.dat_mesano_vigencia_inicial,
     source.dat_mesano_vigencia_final,
     source.data_versao,
-    source.data_ingestao_td
+    source.data_criacao
 );
