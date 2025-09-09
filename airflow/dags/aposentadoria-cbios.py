@@ -23,7 +23,10 @@ with DAG(
             task_id="extraction_aposentadoria_cbios",
             job_name="cr-juridico-extracao-aposentadoria-cbios-job-dev"
         )
-
-        run_rw_aposentadoria_cbios
+        pop_td_aposentadoria_cbios = populate_table(
+            table="td_ext_anp.aposentadoria_cbios",
+            sql_name="/sql/trusted/dml_td_aposentadoria_cbios.sql"
+        )
+        run_rw_aposentadoria_cbios >> pop_td_aposentadoria_cbios
 
     etl_aposentadoria_cbios
