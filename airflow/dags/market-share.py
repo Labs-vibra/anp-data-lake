@@ -55,11 +55,11 @@ with DAG(
             job_name="cr-juridico-raw-distribuidor-atual-job-dev"
         )
 
-        # pop_td_distribuidor_atual = populate_table(
-        #     table="td_ext_anp.distribuidor_atual",
-        #     sql_name="/sql/trusted/dml_td_distribuidor_atual.sql"
-        # )
-        run_raw_distribuidor_atual #>> pop_td_distribuidor_atual
+        pop_td_distribuidor_atual = populate_table(
+            table="td_ext_anp.distribuidor_atual",
+            sql_name="/sql/trusted/dml_td_distribuidor_atual.sql"
+        )
+        run_raw_distribuidor_atual >> pop_td_distribuidor_atual
 
     # TaskGroup para o arquivo Importação Distribuidores
     with TaskGroup("etl_importacao_distribuidores", tooltip="ETL Importação Distribuidores") as etl_importacao_distribuidores:
