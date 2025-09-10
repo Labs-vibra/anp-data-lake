@@ -3,14 +3,14 @@ USING (
     SELECT
         FARM_FINGERPRINT(CONCAT(ano, '-', mes, '-', distribuidor, '-', regiao, '-', uf, '-', codigo_produto, '-', nome_produto, '-', descricao_produto, '-', regiao_origem, '-', uf_origem)) AS id,
         PARSE_DATE('%Y-%m-%d', CONCAT(ano, '-', mes, '-01')) AS data,
-        LOWER(REGEXP_REPLACE(NORMALIZE(distribuidor, NFD), r'[\u0300-\u036f]', '')) AS distribuidor,
-        LOWER(regiao) AS regiao,
-        LOWER(uf) AS uf,
+        REGEXP_REPLACE(LOWER(TRIM(NORMALIZE(distribuidor, NFD))), '[^a-zA-Z0-9_\\s-.\']', '') AS distribuidor,
+        LOWER(TRIM(regiao)) AS regiao,
+        LOWER(TRIM(uf)) AS uf,
         codigo_produto,
-        LOWER(REGEXP_REPLACE(NORMALIZE(nome_produto, NFD), r'[\u0300-\u036f]', '')) AS nome_produto,
-        LOWER(REGEXP_REPLACE(NORMALIZE(descricao_produto, NFD), r'[\u0300-\u036f]', '')) AS descricao_produto,
-        LOWER(regiao_origem) AS regiao_origem,
-        LOWER(uf_origem) AS uf_origem,
+        REGEXP_REPLACE(LOWER(TRIM(NORMALIZE(nome_produto, NFD))), '[^a-zA-Z0-9_\\s-.\']', '') AS nome_produto,
+        REGEXP_REPLACE(LOWER(TRIM(NORMALIZE(descricao_produto, NFD))), '[^a-zA-Z0-9_\\s-.\']', '') AS descricao_produto,
+        LOWER(TRIM(regiao_origem)) AS regiao_origem,
+        LOWER(TRIM(uf_origem)) AS uf_origem,
         SAFE_CAST(REPLACE(quantidade_produto_mil_m3, ',', '.') AS NUMERIC) AS quantidade_produto_mil_m3,
         data_criacao
     FROM rw_ext_anp.liquidos_importacao_distribuidores
