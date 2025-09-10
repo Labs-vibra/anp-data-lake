@@ -7,7 +7,7 @@ SELECT
     LOWER(REGEXP_REPLACE(NORMALIZE(nom_razao_social, NFD), r'\pM', '')) AS nom_razao_social,
     num_cep,
     LOWER(REGEXP_REPLACE(NORMALIZE(txt_endereco, NFD), r'\pM', '')) AS txt_endereco,
-    SAFE_CAST(num_numero AS NUMERIC) AS num_numero,
+    SAFE_CAST(NULLIF(num_numero, 'S/N') AS NUMERIC) AS num_numero,
     LOWER(REGEXP_REPLACE(NORMALIZE(txt_complemento, NFD), r'\pM', '')) AS txt_complemento,
     LOWER(REGEXP_REPLACE(NORMALIZE(nom_bairro, NFD), r'\pM', '')) AS nom_bairro,
     LOWER(REGEXP_REPLACE(NORMALIZE(nom_municipio, NFD), r'\pM', '')) AS nom_municipio,
