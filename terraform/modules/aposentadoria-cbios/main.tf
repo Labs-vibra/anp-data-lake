@@ -4,9 +4,9 @@ resource "google_cloud_run_v2_job" "extracao_aposentadoria_cbios_job" {
 
   template {
     template {
-        containers {
-            image = "${var.jobs_image_base_url}/run-extracao-aposentadoria-cbios-job:${var.image_version}"
-        }
+      containers {
+        image = "${var.jobs_image_base_url}/run-extracao-aposentadoria-cbios-job:${var.image_version}"
+      }
     }
   }
 }
