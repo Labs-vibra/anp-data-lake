@@ -97,7 +97,7 @@ with DAG(
 
         pop_td_entregas_fornecedor_atual = populate_table(
             table="td_ext_anp.entregas_fornecedor_atual",
-            sql_name="/sql/trusted/dml_td_entregas_fornecedor_atual.sql"
+            sql_name="/sql/trusted/dml_td_liquidos_entregas_fornecedor_atual.sql"
         )
 
         run_raw_entregas_fornecedor_atual >> pop_td_entregas_fornecedor_atual

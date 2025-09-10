@@ -30,7 +30,7 @@ upload-dags:
 	gsutil cp -r airflow/dags/* gs://$(COMPOSE_BUCKET_NAME)/dags/
 
 upload-files:
-	gsutil cp -r db/queries/* gs://$(GOOGLE_BUCKET_NAME)/sql/
+	gsutil cp -r db/queries/* gs://$(BUCKET_NAME)/sql/
 
 
 upload-db:
