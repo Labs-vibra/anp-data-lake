@@ -11,7 +11,7 @@ USING (
         REGEXP_REPLACE(LOWER(TRIM(NORMALIZE(descricao_produto, NFD))), '[^a-zA-Z0-9_\\s-.\']', '') AS descricao_produto,
         LOWER(TRIM(regiao_origem)) AS regiao_origem,
         LOWER(TRIM(uf_origem)) AS uf_origem,
-        SAFE_CAST(REPLACE(quantidade_produto_mil_m3, ',', '.') AS NUMERIC) AS quantidade_produto_mil_m3,
+        IFNULL(SAFE_CAST(NULLIF(REPLACE(quantidade_produto_mil_m3, ',', '.'), '') AS NUMERIC), 0) AS quantidade_produto_mil_m3,
         data_criacao
     FROM rw_ext_anp.liquidos_importacao_distribuidores
     WHERE data_criacao = (
