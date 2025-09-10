@@ -1,22 +1,22 @@
-resource "google_cloud_run_service" "market-share-extraction" {
+resource "google_cloud_run_v2_job" "market-share-extraction" {
   name     = "cr-juridico-extracao-market-share-job-dev"
   location = var.region
 
   template {
-    spec {
+    template {
       containers {
-        image = "${var.jobs_image_base_url}/run-extracao-market-share:${var.image_version}"
+        image = "${var.jobs_image_base_url}/run-extracao-market-share-job:${var.image_version}"
       }
     }
   }
 }
 
-resource "google_cloud_run_service" "raw-distribuidor-atual" {
+resource "google_cloud_run_v2_job" "raw-distribuidor-atual" {
   name     = "cr-juridico-raw-distribuidor-atual-job-dev"
   location = var.region
 
   template {
-    spec {
+    template {
       containers {
         image = "${var.jobs_image_base_url}/run-raw-distribuidor-atual:${var.image_version}"
       }
@@ -24,12 +24,12 @@ resource "google_cloud_run_service" "raw-distribuidor-atual" {
   }
 }
 
-resource "google_cloud_run_service" "raw-importacao-distribuidores" {
+resource "google_cloud_run_v2_job" "raw-importacao-distribuidores" {
   name     = "cr-juridico-raw-importacao-distribuidores-job-dev"
   location = var.region
 
   template {
-    spec {
+    template {
       containers {
         image = "${var.jobs_image_base_url}/run-raw-importacao-distribuidores:${var.image_version}"
       }
@@ -44,9 +44,9 @@ resource "google_cloud_run_v2_job" "run-raw-vendas-atual" {
 
   template {
     template {
-        containers {
-            image = "${var.jobs_image_base_url}/run-raw-vendas-atual:${var.image_version}"
-        }
+      containers {
+        image = "${var.jobs_image_base_url}/run-raw-vendas-atual:${var.image_version}"
+      }
     }
   }
 }
@@ -57,9 +57,9 @@ resource "google_cloud_run_v2_job" "run-raw-liquidos-entrega-historico" {
 
   template {
     template {
-        containers {
-            image = "${var.jobs_image_base_url}/run-raw-liquidos-entrega_historico:${var.image_version}"
-        }
+      containers {
+        image = "${var.jobs_image_base_url}/run-raw-liquidos-historico-entregas:${var.image_version}"
+      }
     }
   }
 }
@@ -70,9 +70,9 @@ resource "google_cloud_run_v2_job" "run-raw-entregas-fornecedor-atual" {
 
   template {
     template {
-        containers {
-            image = "${var.jobs_image_base_url}/run-raw-entregas-fornecedor-atual:${var.image_version}"
-        }
+      containers {
+        image = "${var.jobs_image_base_url}/run-raw-entregas-fornecedor-atual:${var.image_version}"
+      }
     }
   }
 }
