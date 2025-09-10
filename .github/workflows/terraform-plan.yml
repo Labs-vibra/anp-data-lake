@@ -50,7 +50,7 @@ jobs:
     - name: Terraform Format Check
       id: fmt
       run: terraform fmt -check -recursive
-      continue-on-error: true
+      continue-on-error: false
 
     - name: Terraform Init
       id: init
@@ -65,7 +65,7 @@ jobs:
       run: |
         terraform plan -no-color -out=tfplan
         terraform show -no-color tfplan > plan_output.txt
-      continue-on-error: true
+      continue-on-error: false
 
     - name: Update Pull Request
       uses: actions/github-script@v7
