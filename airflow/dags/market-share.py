@@ -27,11 +27,11 @@ with DAG(
     with TaskGroup("etl_historico_vendas", tooltip="ETL Histórico de Vendas") as etl_historico_vendas:
         run_raw_historico_vendas = exec_cloud_run_job(
             task_id="raw_historico_vendas",
-            job_name="cr-juridico-raw-historico-vendas-job-dev"
+            job_name="cr-juridico-raw-vendas-atual-job-dev"
         )
         pop_td_historico_vendas = populate_table(
-            table="td_ext_anp.liquidos_entrega_historico",
-            sql_name="/sql/trusted/dml_td_liquidos_vendas_historico.sql"
+            table="td_ext_anp.liquidos_vendas_atual",
+            sql_name="/sql/trusted/dml_td_liquidos_vendas_atual.sql"
         )
         run_raw_historico_vendas >> pop_td_historico_vendas
 
@@ -39,12 +39,12 @@ with DAG(
     with TaskGroup("etl_historico_entregas", tooltip="ETL Histórico de Entregas") as etl_historico_entregas:
         run_raw_historico_entregas = exec_cloud_run_job(
             task_id="raw_historico_entregas",
-            job_name="cr-juridico-raw-historico-entregas-job-dev"
+            job_name="cr-juridico-raw-liquidos-entrega-historico-job-dev"
         )
 
         pop_td_historico_entregas = populate_table(
             table="td_ext_anp.liquidos_entrega_historico",
-            sql_name="/sql/trusted/dml_td_liquidos_entrega_historico.sql"
+            sql_name="/sql/trusted/dml_td_liquidos_historico_entregas.sql"
         )
         run_raw_historico_entregas >> pop_td_historico_entregas
 
@@ -55,11 +55,11 @@ with DAG(
             job_name="cr-juridico-raw-distribuidor-atual-job-dev"
         )
 
-        # pop_td_distribuidor_atual = populate_table(
-        #     table="td_ext_anp.distribuidor_atual",
-        #     sql_name="/sql/trusted/dml_td_distribuidor_atual.sql"
-        # )
-        run_raw_distribuidor_atual #>> pop_td_distribuidor_atual
+        pop_td_distribuidor_atual = populate_table(
+            table="td_ext_anp.market_share_distribuidor_atual",
+            sql_name="/sql/trusted/dml_td_market_share_distribuidor_atual.sql"
+        )
+        run_raw_distribuidor_atual >> pop_td_distribuidor_atual
 
     # TaskGroup para o arquivo Importação Distribuidores
     with TaskGroup("etl_importacao_distribuidores", tooltip="ETL Importação Distribuidores") as etl_importacao_distribuidores:
@@ -82,8 +82,8 @@ with DAG(
         )
 
         pop_td_vendas_atual = populate_table(
-            table="td_ext_anp.vendas_atual",
-            sql_name="/sql/trusted/dml_td_vendas_atual.sql"
+            table="td_ext_anp.liquidos_vendas_atual",
+            sql_name="/sql/trusted/dml_td_liquidos_vendas_atual.sql"
         )
 
         run_raw_vendas_atual >> pop_td_vendas_atual
@@ -97,7 +97,7 @@ with DAG(
 
         pop_td_entregas_fornecedor_atual = populate_table(
             table="td_ext_anp.entregas_fornecedor_atual",
-            sql_name="/sql/trusted/dml_td_entregas_fornecedor_atual.sql"
+            sql_name="/sql/trusted/dml_td_liquidos_entregas_fornecedor_atual.sql"
         )
 
         run_raw_entregas_fornecedor_atual >> pop_td_entregas_fornecedor_atual
