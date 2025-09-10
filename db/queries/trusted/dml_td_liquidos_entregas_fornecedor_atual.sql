@@ -1,12 +1,13 @@
 MERGE td_ext_anp.liquidos_entregas_fornecedor_atual AS target
 USING (
     SELECT
+        FARM_FINGERPRINT(CONCAT(ano, mes, fornecedor, codigo_produto, nome_produto, regiao)) AS id,
         PARSE_DATE('%Y-%m-%d', CONCAT(ano, '-', mes, '-01')) AS data,
-        fornecedor,
+        LOWER(REGEXP_REPLACE(NORMALIZE(fornecedor, NFD), r'\pM', '')) AS fornecedor,
         codigo_produto,
-        nome_produto,
-        regiao,
-        SAFE_CAST(REPLACE(quantidade_produto_mil_m3, ',', '.') AS NUMERIC) AS quantidade_produto_mil_m3,
+        LOWER(REGEXP_REPLACE(NORMALIZE(nome_produto, NFD), r'\pM', '')) AS nome_produto,
+        LOWER(REGEXP_REPLACE(NORMALIZE(regiao, NFD), r'\pM', '')) AS regiao,
+        IFNULL(SAFE_CAST(REPLACE(quantidade_produto_mil_m3, ',', '.') AS NUMERIC), 0) AS quantidade_produto_mil_m3,
         data_criacao
     FROM rw_ext_anp.liquidos_entregas_fornecedor_atual
     WHERE data_criacao = (
