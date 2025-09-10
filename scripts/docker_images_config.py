@@ -36,10 +36,10 @@ MARKET_SHARE_IMAGES = [
     {"label": "Extração Market Share", "name": "run-extracao-market-share-job", "path": "./src/market_share/extracao"},
     {"label": "Extração Market Share Distribuidor Atual", "name": "run-raw-distribuidor-atual", "path": "./src/market_share/raw_distribuidor_atual"},
     {"label": "Extração Liquidos Importacao Distribuidores", "name": "run-raw-importacao-distribuidores", "path": "./src/market_share/importacao_de_distribuidores"},
-    {"label": "Extração Líquidos Histórico Entregas", "name": "run-raw-liquidos-historico-entregas", "path": "./src/market_share/liquidos_vendas_atual"},
+    {"label": "Extração Líquidos Histórico Entregas", "name": "run-raw-liquidos-historico-entregas", "path": "./src/market_share/historico_de_entregas"},
     {"label": "Extração Líquidos Vendas Atual", "name": "run-raw-vendas-atual", "path": "./src/market_share/liquidos_vendas_atual"},
     {"label": "Extração Líquidos Entregas Fornecedor Atual", "name": "run-raw-entregas-fornecedor-atual", "path": "./src/market_share/liquidos_entregas_fornecedor_atual"},
-    {"label": "Extração Líquidos Histórico Vendas", "name": "run-raw-liquidos-historico-vendas", "path": "./src/market_share/historico_de_vendas"},
+    {"label": "Extração Líquidos Histórico Vendas", "name": "run-raw-liquidos-historico-vendas", "path": "./src/market_share/historico_de_vendas"}
 ]
 
 INSTALLATION_CODES_IMAGES = [
