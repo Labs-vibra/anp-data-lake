@@ -10,7 +10,7 @@ install_deps:
 
 test-docker-image:
 	cp ~/gcp.secrets.json src/$(FOLDER)
-	docker build --no-cache -t extracao src/$(FOLDER) 
+	docker build --no-cache -t extracao src/$(FOLDER)
 	rm src/$(FOLDER)/gcp.secrets.json
 
 run-test-docker-image: test-docker-image
@@ -53,4 +53,17 @@ create-artifact-registry-prod:
 
 create-artifact-registry:
 	cd terraform && terraform apply -target=google_artifact_registry_repository.anp_repo_etl && cd ..
+
+upload-one-docker-image:
+	python3 ./scripts/upload-single-docker-image.py $(IMAGE)
+
+deploy-sprint-3-images:
+# make upload-one-docker-image IMAGE=run-extracao-market-share-job
+# make upload-one-docker-image IMAGE=run-raw-distribuidor-atual
+	make upload-one-docker-image IMAGE=run-raw-importacao-distribuidores
+	make upload-one-docker-image IMAGE=run-raw-liquidos-historico-entregas
+	make upload-one-docker-image IMAGE=run-raw-vendas-atual
+	make upload-one-docker-image IMAGE=run-raw-entregas-fornecedor-atual
+	make upload-one-docker-image IMAGE=run-raw-liquidos-historico-vendas
+	make upload-one-docker-image IMAGE=run-extracao-aposentadoria-cbios-job
 

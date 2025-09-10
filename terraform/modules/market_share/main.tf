@@ -1,4 +1,4 @@
-resource "google_cloud_run_service" "market_share_extraction" {
+resource "google_cloud_run_service" "market-share-extraction" {
   name     = "cr-juridico-extracao-market-share-job-dev"
   location = var.region
 
@@ -11,7 +11,7 @@ resource "google_cloud_run_service" "market_share_extraction" {
   }
 }
 
-resource "google_cloud_run_service" "raw_distribuidor_atual" {
+resource "google_cloud_run_service" "raw-distribuidor-atual" {
   name     = "cr-juridico-raw-distribuidor-atual-job-dev"
   location = var.region
 
@@ -24,7 +24,7 @@ resource "google_cloud_run_service" "raw_distribuidor_atual" {
   }
 }
 
-resource "google_cloud_run_service" "raw_importacao_distribuidores" {
+resource "google_cloud_run_service" "raw-importacao-distribuidores" {
   name     = "cr-juridico-raw-importacao-distribuidores-job-dev"
   location = var.region
 
@@ -38,7 +38,7 @@ resource "google_cloud_run_service" "raw_importacao_distribuidores" {
 }
 
 
-resource "google_cloud_run_v2_job" "run_raw_run_raw_vendas_atual" {
+resource "google_cloud_run_v2_job" "run-raw-vendas-atual" {
   name     = "cr-juridico-raw-vendas-atual-job-dev"
   location = var.region
 
@@ -51,8 +51,8 @@ resource "google_cloud_run_v2_job" "run_raw_run_raw_vendas_atual" {
   }
 }
 
-resource "google_cloud_run_v2_job" "run_raw_liquidos_entrega_historico" {
-  name     = "cr-juridico-raw-liquidos_entrega_historico-job-dev"
+resource "google_cloud_run_v2_job" "run-raw-liquidos-entrega-historico" {
+  name     = "cr-juridico-raw-liquidos-entrega-historico-job-dev"
   location = var.region
 
   template {
@@ -64,7 +64,7 @@ resource "google_cloud_run_v2_job" "run_raw_liquidos_entrega_historico" {
   }
 }
 
-resource "google_cloud_run_v2_job" "run_raw_entregas_fornecedor_atual" {
+resource "google_cloud_run_v2_job" "run-raw-entregas-fornecedor-atual" {
   name     = "cr-juridico-raw-entregas-fornecedor-atual-job-dev"
   location = var.region
 
