@@ -1,5 +1,5 @@
 CREATE TABLE IF NOT EXISTS td_ext_anp.liquidos_entregas_distribuidor_atual (
-    id STRING OPTIONS(description="ID único do registro"),
+    id INT64 OPTIONS(description="ID único do registro"),
     data DATE OPTIONS(description="Data da entrega"),
     distribuidor STRING OPTIONS(description="Nome do distribuidor"),
     codigo_produto STRING OPTIONS(description="Código do produto"),
