@@ -27,7 +27,6 @@ services:
       - AIRFLOW__DATABASE__SQL_ALCHEMY_CONN=postgresql+psycopg2://airflow:airflow@postgres:5432/airflow
       - GOOGLE_APPLICATION_CREDENTIALS=/gcp.secrets.json
       - AIRFLOW__CORE__EXECUTOR=LocalExecutor
-      - BIGQUERY_EMULATOR_HOST=bigquery-emulator:9050
       - BUCKET_NAME=ext-ecole-biomassa
       - GOOGLE_CLOUD_PROJECT=ext-ecole-biomassa-468317
     volumes:
@@ -65,3 +64,4 @@ services:
 volumes:
   postgres-data:
   bigquery-data:
+

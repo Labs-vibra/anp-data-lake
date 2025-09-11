@@ -9,6 +9,6 @@ RUN apt-get update && \
 USER airflow
 
 # Install provider packages from requirements.txt
-COPY ~/gcp.secrets.json /gcp.secrets.json
+COPY gcp.secrets.json /gcp.secrets.json
 COPY requirements.txt /tmp/requirements.txt
 RUN pip install -r /tmp/requirements.txt
