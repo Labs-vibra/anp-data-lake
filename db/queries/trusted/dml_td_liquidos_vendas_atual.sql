@@ -34,7 +34,7 @@ WHEN MATCHED AND (
     target.quantidade_produto_mil_m3 IS DISTINCT FROM source.quantidade_produto_mil_m3
 ) THEN
     UPDATE SET
-        quantidade_produto_mil_m3 = source.quantidade_produto_mil_m3
+        quantidade_produto_mil_m3 = source.quantidade_produto_mil_m3,
         data_criacao = source.data_criacao
 WHEN NOT MATCHED THEN
     INSERT (
