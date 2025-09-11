@@ -1,6 +1,6 @@
 CREATE TABLE IF NOT EXISTS `td_ext_anp.codigos_instalacao`
 (
-  id INT64 OPTIONS(description="Identificador único gerado via FARM_FINGERPRINT"),
+  id INT64 OPTIONS(description="Identificador único gerado a partir de cod_instalacao, num_cnpj e nom_razao_social"),
   cod_instalacao STRING OPTIONS(description="Código da instalação"),
   num_cnpj STRING OPTIONS(description="CNPJ da instalação"),
   nom_razao_social STRING OPTIONS(description="Razão social da instalação, normalizada"),
