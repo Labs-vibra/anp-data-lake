@@ -1,8 +1,8 @@
 pandas
 pandas_gbq
-requests
 google-cloud-bigquery
 google-cloud-storage
-dotenv
+requests
 beautifulsoup4
-
+lxml
+python-dotenv

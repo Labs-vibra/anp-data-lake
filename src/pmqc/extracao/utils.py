@@ -1,60 +1,60 @@
 import datetime
+import os
 import re
-import zipfile
 import requests
-import logging
 from io import BytesIO
 from bs4 import BeautifulSoup
 from google.cloud import storage
+from venv import logging
 from constants import BUCKET_NAME
 
-# Configurar logging
 logging.basicConfig(
     level=logging.INFO,
     format='%(asctime)s - %(levelname)s - %(message)s'
 )
 logger = logging.getLogger(__name__)
 
-def process_file_name(file_name: str) -> str:
+def normalize_filename(filename: str, year: str) -> str:
     """
-    Processa o nome do arquivo para ser usado no bucket.
-    retira caracteres especiais e formata o nome.
-
-    Args:
-        file_name (str): Nome original do arquivo.
-
-    Returns:
-        str: Nome processado para ser usado no bucket.
+    Normaliza nomes de arquivos PMQC para o padrão pmqc_YYYY_MM.csv.
     """
-    substitutions = {
-        "╓": "I",
-    }
-    for old, new in substitutions.items():
-        file_name = file_name.replace(old, new)
+    match = re.search(r'(\d{4})[_-]?(\d{2})', filename)
+    if match:
+        year_match, month = match.groups()
+        return f"pmqc_{year_match}_{month}.csv"
 
-    file_name = re.sub(r"\s+", " ", file_name)
-    file_name = file_name.replace(" ", "_")
-    file_name = re.sub(r"[^a-zA-Z0-9_.]", "", file_name)
-    file_name = re.sub(r"_+", "_", file_name)
+    match_month_only = re.search(r'(\d{2})', filename)
+    if match_month_only:
+        month = match_month_only.group(1)
+        return f"pmqc_{year}_{month}.csv"
 
-    timestamp = datetime.datetime.now().strftime("%Y%m%d")
-    file_name = f"{timestamp}_{file_name}"
-    file_name = file_name.upper()
-    return file_name
+    return filename
 
-def process_zip_and_upload_to_gcp(zip_bytes: BytesIO, dir_prefix: str):
-    """Lê um ZIP em memória e envia arquivos filtrados para o bucket.
+def fetch_html(url):
+    response = requests.get(url, verify=False)
+    response.raise_for_status()
+    return BeautifulSoup(response.content, "html.parser")
 
-    Args:
-        zip_bytes (BytesIO): Objeto em memória contendo o arquivo ZIP.
-        dir_prefix (str): Prefixo/pasta no bucket onde os arquivos serão enviados.
+def find_all_csv_links(soup):
     """
-    with zipfile.ZipFile(zip_bytes) as zf:
-        for file_info in zf.infolist():
-            source_file = zf.open(file_info)
-            file_bytes = BytesIO(source_file.read())
-            bucket_path = f"{dir_prefix}{process_file_name(file_info.filename)}"
-            upload_bytes_to_bucket(file_bytes, bucket_path)
+    Busca todos os links CSV dentro do conteúdo principal da página de PMQC.
+    Retorna lista de URLs.
+    """
+    csv_links = []
+    for a_tag in soup.find_all("a", href=True):
+        href = a_tag["href"]
+        if href.endswith(".csv"):
+            csv_links.append(href)
+    return csv_links
+
+def download_file(url):
+    """
+    Faz download de arquivo CSV e retorna em BytesIO.
+    """
+    logger.info(f"Baixando arquivo: {url}")
+    response = requests.get(url, timeout=300, verify=False)
+    response.raise_for_status()
+    return BytesIO(response.content)
 
 def upload_bytes_to_bucket(arquivo_bytes, nome_no_bucket):
     client = storage.Client()
