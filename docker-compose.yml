@@ -30,6 +30,7 @@ services:
       - AIRFLOW__CORE__EXECUTOR=LocalExecutor
       - BUCKET_NAME=ext-ecole-biomassa
       - GOOGLE_CLOUD_PROJECT=ext-ecole-biomassa-468317
+      - ENVIRONMENT=dev
     volumes:
       - ./airflow/dags:/opt/airflow/dags
       - ./airflow/logs:/opt/airflow/logs
