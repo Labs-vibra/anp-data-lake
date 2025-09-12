@@ -19,6 +19,7 @@ services:
   myairflow:
     image: myairflow:latest
     container_name: airflow-standalone
+    user: "1001:0"
     depends_on:
       postgres:
         condition: service_healthy
@@ -34,6 +35,7 @@ services:
       - ./airflow/logs:/opt/airflow/logs
       - ./airflow/plugins:/opt/airflow/plugins
       - ./airflow/config:/opt/airflow/config
+      - /var/run/docker.sock:/var/run/docker.sock
 
     ports:
       - "8080:8080"
@@ -45,6 +47,9 @@ services:
         airflow db migrate &&
         airflow standalone
       "
+
+      depends_on:
+        - postgres
   bigquery-emulator:
       image: ghcr.io/goccy/bigquery-emulator:latest
       container_name: bigquery-emulator
