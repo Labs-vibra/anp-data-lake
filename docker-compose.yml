@@ -37,7 +37,8 @@ services:
       - ./airflow/plugins:/opt/airflow/plugins
       - ./airflow/config:/opt/airflow/config
       - /var/run/docker.sock:/var/run/docker.sock
-
+    env_file:
+      - ./.env
     ports:
       - "8080:8080"
 

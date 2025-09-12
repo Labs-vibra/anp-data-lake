@@ -6,7 +6,7 @@ import os
 
 bucket = os.getenv("BUCKET_NAME", "vibra-dtan-jur-anp-input")
 project_id = os.getenv("GOOGLE_CLOUD_PROJECT", "ext-ecole-biomassa")
-is_prod = False
+is_prod = os.getenv("ENVIRONMENT", "dev") == "prod"
 
 def get_sql_content(sql_path):
     gcs_hook = GCSHook()
