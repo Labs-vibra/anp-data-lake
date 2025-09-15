@@ -10,4 +10,4 @@ CREATE TABLE IF NOT EXISTS rw_ext_anp.liquidos_entregas_fornecedor_atual (
 ) PARTITION BY DATE(data_criacao)
 OPTIONS (
   description = "Dados brutos da ANP - entregas de líquidos por fornecedor"
-);;
+);
