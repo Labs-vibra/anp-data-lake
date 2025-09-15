@@ -36,6 +36,7 @@ WHEN NOT MATCHED THEN
         data_criacao
     )
     VALUES (
+        source.id,
         source.data,
         source.fornecedor,
         source.codigo_produto,
