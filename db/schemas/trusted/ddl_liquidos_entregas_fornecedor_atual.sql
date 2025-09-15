@@ -1,5 +1,5 @@
 CREATE TABLE IF NOT EXISTS td_ext_anp.liquidos_entregas_fornecedor_atual (
-    id INT64 OPTIONS(description="Identificador único gerado via FARM_FINGERPRINT")
+    id INT64 OPTIONS(description="Identificador único gerado via FARM_FINGERPRINT"),
     data DATE OPTIONS(description="Data"),
     fornecedor STRING OPTIONS(description="Fornecedor"),
     codigo_produto STRING OPTIONS(description="Código do produto"),
