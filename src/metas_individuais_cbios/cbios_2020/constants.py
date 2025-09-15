@@ -1,7 +1,4 @@
 import os
-from dotenv import load_dotenv
-
-load_dotenv()
 
 BASE_URL = (
 	"https://www.gov.br/anp/pt-br/assuntos/renovabio/metas/2020/metas-individ"

@@ -1,17 +1,18 @@
 MERGE td_ext_anp.liquidos_entrega_historico AS target
 USING (
     SELECT
+        FARM_FINGERPRINT(CONCAT(ano, '-', mes, '-', fornecedor_destino, '-', distribuidor_origem, '-', codigo_produto, '-', nome_produto, '-', regiao_origem, '-', uf_origem, '-', localidade_destino, '-', regiao_destinatario, '-', uf_destino)) AS id,
         PARSE_DATE('%Y-%m-%d', CONCAT(ano, '-', mes, '-01')) AS data,
-        fornecedor_destino,
-        distribuidor_origem,
-        codigo_produto,
-        nome_produto,
-        regiao_origem,
-        uf_origem,
-        localidade_destino,
-        regiao_destinatario,
-        uf_destino,
-        SAFE_CAST(REPLACE(quantidade_produto_mil_m3, ',', '.') AS NUMERIC) AS quantidade_produto_mil_m3,
+        REGEXP_REPLACE(LOWER(TRIM(NORMALIZE(fornecedor_destino, NFD))), '[^a-zA-Z0-9_\\s-.\']', '') AS fornecedor_destino,
+        REGEXP_REPLACE(LOWER(TRIM(NORMALIZE(distribuidor_origem, NFD))), '[^a-zA-Z0-9_\\s-.\']', '') AS distribuidor_origem,
+        REGEXP_REPLACE(LOWER(TRIM(NORMALIZE(codigo_produto, NFD))), '[^a-zA-Z0-9_\\s-.\']', '') AS codigo_produto,
+        REGEXP_REPLACE(LOWER(TRIM(NORMALIZE(nome_produto, NFD))), '[^a-zA-Z0-9_\\s-.\']', '') AS nome_produto,
+        REGEXP_REPLACE(LOWER(TRIM(NORMALIZE(regiao_origem, NFD))), '[^a-zA-Z0-9_\\s-.\']', '') AS regiao_origem,
+        REGEXP_REPLACE(LOWER(TRIM(NORMALIZE(uf_origem, NFD))), '[^a-zA-Z0-9_\\s-.\']', '') AS uf_origem,
+        REGEXP_REPLACE(LOWER(TRIM(NORMALIZE(localidade_destino, NFD))), '[^a-zA-Z0-9_\\s-.\']', '') AS localidade_destino,
+        REGEXP_REPLACE(LOWER(TRIM(NORMALIZE(regiao_destinatario, NFD))), '[^a-zA-Z0-9_\\s-.\']', '') AS regiao_destinatario,
+        REGEXP_REPLACE(LOWER(TRIM(NORMALIZE(uf_destino, NFD))), '[^a-zA-Z0-9_\\s-.\']', '') AS uf_destino,
+        IFNULL(SAFE_CAST(NULLIF(REPLACE(quantidade_produto_mil_m3, ',', '.'), '') AS NUMERIC), 0) AS quantidade_produto_mil_m3,
         data_criacao
     FROM rw_ext_anp.liquidos_entrega_historico
     WHERE data_criacao = (
@@ -29,11 +30,15 @@ ON source.data = target.data
    AND source.localidade_destino = target.localidade_destino
    AND source.regiao_destinatario = target.regiao_destinatario
    AND source.uf_destino = target.uf_destino
-WHEN MATCHED THEN
+WHEN MATCHED AND (
+    target.quantidade_produto_mil_m3 IS DISTINCT FROM source.quantidade_produto_mil_m3
+) THEN
     UPDATE SET
-        quantidade_produto_mil_m3 = source.quantidade_produto_mil_m3
+        quantidade_produto_mil_m3 = source.quantidade_produto_mil_m3,
+        data_criacao = source.data_criacao
 WHEN NOT MATCHED THEN
     INSERT (
+        id,
         data,
         fornecedor_destino,
         distribuidor_origem,
@@ -48,6 +53,7 @@ WHEN NOT MATCHED THEN
         data_criacao
     )
     VALUES (
+        source.id,
         source.data,
         source.fornecedor_destino,
         source.distribuidor_origem,
