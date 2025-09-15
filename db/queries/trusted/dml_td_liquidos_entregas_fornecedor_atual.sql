@@ -23,7 +23,7 @@ AND target.regiao              = source.regiao
 WHEN MATCHED THEN
     UPDATE SET
         quantidade_produto_mil_m3 = source.quantidade_produto_mil_m3,
-        target.data_criacao = source.data_criacao
+        data_criacao = source.data_criacao
 WHEN NOT MATCHED THEN
     INSERT (
         id,
