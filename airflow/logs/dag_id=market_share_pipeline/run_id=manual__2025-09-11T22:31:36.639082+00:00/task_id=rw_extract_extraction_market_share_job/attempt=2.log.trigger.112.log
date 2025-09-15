@@ -1,0 +1,4 @@
+[2025-09-11T22:43:33.841+0000] {connection.py:277} WARNING - Connection schemes (type: google_cloud_platform) shall not contain '_' according to RFC3986.
+[2025-09-11T22:43:33.842+0000] {base.py:84} INFO - Retrieving connection 'google_cloud_default'
+[2025-09-11T22:43:33.842+0000] {credentials_provider.py:402} INFO - Getting connection using `google.auth.default()` since no explicit credentials are provided.
+[2025-09-11T22:49:48.080+0000] {triggerer_job_runner.py:631} INFO - Trigger market_share_pipeline/manual__2025-09-11T22:31:36.639082+00:00/rw_extract_extraction_market_share_job/-1/2 (ID 4) fired: TriggerEvent<{'status': 'Fail', 'operation_error_code': 10, 'operation_error_message': 'Task cr-juridico-extracao-market-share-job-dev-hgdrh-task0 failed with message: The container exited with an error.', 'job_name': 'cr-juridico-extracao-market-share-job-dev'}>

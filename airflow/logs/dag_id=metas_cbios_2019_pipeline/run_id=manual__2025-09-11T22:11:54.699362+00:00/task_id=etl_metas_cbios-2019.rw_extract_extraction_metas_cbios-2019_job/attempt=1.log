@@ -1,0 +1,102 @@
+[2025-09-11T22:11:56.588+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2025-09-11T22:11:56.604+0000] {taskinstance.py:2614} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: metas_cbios_2019_pipeline.etl_metas_cbios-2019.rw_extract_extraction_metas_cbios-2019_job manual__2025-09-11T22:11:54.699362+00:00 [queued]>
+[2025-09-11T22:11:56.611+0000] {taskinstance.py:2614} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: metas_cbios_2019_pipeline.etl_metas_cbios-2019.rw_extract_extraction_metas_cbios-2019_job manual__2025-09-11T22:11:54.699362+00:00 [queued]>
+[2025-09-11T22:11:56.611+0000] {taskinstance.py:2867} INFO - Starting attempt 1 of 2
+[2025-09-11T22:11:56.624+0000] {taskinstance.py:2890} INFO - Executing <Task(CloudRunExecuteJobOperator): etl_metas_cbios-2019.rw_extract_extraction_metas_cbios-2019_job> on 2025-09-11 22:11:54.699362+00:00
+[2025-09-11T22:11:56.632+0000] {standard_task_runner.py:104} INFO - Running: ['***', 'tasks', 'run', 'metas_cbios_2019_pipeline', 'etl_metas_cbios-2019.rw_extract_extraction_metas_cbios-2019_job', 'manual__2025-09-11T22:11:54.699362+00:00', '--job-id', '106', '--raw', '--subdir', 'DAGS_FOLDER/metas-individuais-cbios-2019.py', '--cfg-path', '/tmp/tmpg_3l8s73']
+[2025-09-11T22:11:56.634+0000] {standard_task_runner.py:105} INFO - Job 106: Subtask etl_metas_cbios-2019.rw_extract_extraction_metas_cbios-2019_job
+[2025-09-11T22:11:56.634+0000] {logging_mixin.py:190} WARNING - /home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:70 DeprecationWarning: This process (pid=542) is multi-threaded, use of fork() may lead to deadlocks in the child.
+[2025-09-11T22:11:56.635+0000] {standard_task_runner.py:72} INFO - Started process 544 to run task
+[2025-09-11T22:11:56.675+0000] {task_command.py:467} INFO - Running <TaskInstance: metas_cbios_2019_pipeline.etl_metas_cbios-2019.rw_extract_extraction_metas_cbios-2019_job manual__2025-09-11T22:11:54.699362+00:00 [running]> on host 35f429d0e7ee
+[2025-09-11T22:11:56.735+0000] {taskinstance.py:3134} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='***' AIRFLOW_CTX_DAG_ID='metas_cbios_2019_pipeline' AIRFLOW_CTX_TASK_ID='etl_metas_cbios-2019.rw_extract_extraction_metas_cbios-2019_job' AIRFLOW_CTX_EXECUTION_DATE='2025-09-11T22:11:54.699362+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='manual__2025-09-11T22:11:54.699362+00:00'
+[2025-09-11T22:11:56.736+0000] {taskinstance.py:732} INFO - ::endgroup::
+[2025-09-11T22:11:56.777+0000] {connection.py:277} WARNING - Connection schemes (type: google_cloud_platform) shall not contain '_' according to RFC3986.
+[2025-09-11T22:11:56.778+0000] {base.py:84} INFO - Retrieving connection 'google_cloud_default'
+[2025-09-11T22:11:56.778+0000] {credentials_provider.py:402} INFO - Getting connection using `google.auth.default()` since no explicit credentials are provided.
+[2025-09-11T22:11:57.975+0000] {crypto.py:82} WARNING - empty cryptography key - values will not be stored encrypted.
+[2025-09-11T22:11:57.994+0000] {taskinstance.py:289} INFO - Pausing task as DEFERRED. dag_id=metas_cbios_2019_pipeline, task_id=etl_metas_cbios-2019.rw_extract_extraction_metas_cbios-2019_job, run_id=manual__2025-09-11T22:11:54.699362+00:00, execution_date=20250911T221154, start_date=20250911T221156
+[2025-09-11T22:11:57.994+0000] {taskinstance.py:341} INFO - ::group::Post task execution logs
+[2025-09-11T22:11:58.014+0000] {local_task_job_runner.py:260} INFO - Task exited with return code 100 (task deferral)
+[2025-09-11T22:11:58.014+0000] {local_task_job_runner.py:245} INFO - ::endgroup::
+[2025-09-11T22:16:45.915+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2025-09-11T22:16:45.927+0000] {taskinstance.py:2614} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: metas_cbios_2019_pipeline.etl_metas_cbios-2019.rw_extract_extraction_metas_cbios-2019_job manual__2025-09-11T22:11:54.699362+00:00 [queued]>
+[2025-09-11T22:16:45.934+0000] {taskinstance.py:2614} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: metas_cbios_2019_pipeline.etl_metas_cbios-2019.rw_extract_extraction_metas_cbios-2019_job manual__2025-09-11T22:11:54.699362+00:00 [queued]>
+[2025-09-11T22:16:45.934+0000] {taskinstance.py:2865} INFO - Resuming after deferral
+[2025-09-11T22:16:45.944+0000] {taskinstance.py:2890} INFO - Executing <Task(CloudRunExecuteJobOperator): etl_metas_cbios-2019.rw_extract_extraction_metas_cbios-2019_job> on 2025-09-11 22:11:54.699362+00:00
+[2025-09-11T22:16:45.952+0000] {standard_task_runner.py:104} INFO - Running: ['***', 'tasks', 'run', 'metas_cbios_2019_pipeline', 'etl_metas_cbios-2019.rw_extract_extraction_metas_cbios-2019_job', 'manual__2025-09-11T22:11:54.699362+00:00', '--job-id', '107', '--raw', '--subdir', 'DAGS_FOLDER/metas-individuais-cbios-2019.py', '--cfg-path', '/tmp/tmpfukzbu73']
+[2025-09-11T22:16:45.953+0000] {standard_task_runner.py:105} INFO - Job 107: Subtask etl_metas_cbios-2019.rw_extract_extraction_metas_cbios-2019_job
+[2025-09-11T22:16:45.954+0000] {logging_mixin.py:190} WARNING - /home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:70 DeprecationWarning: This process (pid=1194) is multi-threaded, use of fork() may lead to deadlocks in the child.
+[2025-09-11T22:16:45.955+0000] {standard_task_runner.py:72} INFO - Started process 1196 to run task
+[2025-09-11T22:16:45.986+0000] {task_command.py:467} INFO - Running <TaskInstance: metas_cbios_2019_pipeline.etl_metas_cbios-2019.rw_extract_extraction_metas_cbios-2019_job manual__2025-09-11T22:11:54.699362+00:00 [running]> on host 35f429d0e7ee
+[2025-09-11T22:16:46.035+0000] {taskinstance.py:732} INFO - ::endgroup::
+[2025-09-11T22:16:46.041+0000] {taskinstance.py:3313} ERROR - Task failed with exception
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 768, in _execute_task
+    result = _execute_callable(context=context, **execute_callable_kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 734, in _execute_callable
+    return ExecutionCallableRunner(
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/operator_helpers.py", line 252, in run
+    return self.func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/baseoperator.py", line 1816, in resume_execution
+    return execute_callable(context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/providers/google/cloud/operators/cloud_run.py", line 331, in execute_complete
+    raise AirflowException(
+airflow.exceptions.AirflowException: Operation failed with error code [10] and error message [Task cr-juridico-extracao-metas-cbios-2019-job-dev-8dfkb-task0 failed with message: The container exited with an error.]
+[2025-09-11T22:16:46.049+0000] {taskinstance.py:1226} INFO - Marking task as UP_FOR_RETRY. dag_id=metas_cbios_2019_pipeline, task_id=etl_metas_cbios-2019.rw_extract_extraction_metas_cbios-2019_job, run_id=manual__2025-09-11T22:11:54.699362+00:00, execution_date=20250911T221154, start_date=20250911T221156, end_date=20250911T221646
+[2025-09-11T22:16:46.072+0000] {taskinstance.py:341} INFO - ::group::Post task execution logs
+[2025-09-11T22:16:46.072+0000] {standard_task_runner.py:124} ERROR - Failed to execute job 107 for task etl_metas_cbios-2019.rw_extract_extraction_metas_cbios-2019_job (Operation failed with error code [10] and error message [Task cr-juridico-extracao-metas-cbios-2019-job-dev-8dfkb-task0 failed with message: The container exited with an error.]; 1196)
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/task/task_runner/standard_task_runner.py", line 117, in _start_by_fork
+    ret = args.func(args, dag=self.dag)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/cli/cli_config.py", line 49, in command
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/cli.py", line 116, in wrapper
+    return f(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/cli/commands/task_command.py", line 483, in task_run
+    task_return_code = _run_task_by_selected_method(args, _dag, ti)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/cli/commands/task_command.py", line 256, in _run_task_by_selected_method
+    return _run_raw_task(args, ti)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/cli/commands/task_command.py", line 341, in _run_raw_task
+    return ti._run_raw_task(
+           ^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/session.py", line 97, in wrapper
+    return func(*args, session=session, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 3006, in _run_raw_task
+    return _run_raw_task(
+           ^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 274, in _run_raw_task
+    TaskInstance._execute_task_with_callbacks(
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 3161, in _execute_task_with_callbacks
+    result = self._execute_task(context, task_orig)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 3185, in _execute_task
+    return _execute_task(self, context, task_orig)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 768, in _execute_task
+    result = _execute_callable(context=context, **execute_callable_kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 734, in _execute_callable
+    return ExecutionCallableRunner(
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/operator_helpers.py", line 252, in run
+    return self.func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/baseoperator.py", line 1816, in resume_execution
+    return execute_callable(context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/providers/google/cloud/operators/cloud_run.py", line 331, in execute_complete
+    raise AirflowException(
+airflow.exceptions.AirflowException: Operation failed with error code [10] and error message [Task cr-juridico-extracao-metas-cbios-2019-job-dev-8dfkb-task0 failed with message: The container exited with an error.]
+[2025-09-11T22:16:46.088+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 1
+[2025-09-11T22:16:46.103+0000] {taskinstance.py:3901} INFO - 0 downstream tasks scheduled from follow-on schedule check
+[2025-09-11T22:16:46.104+0000] {local_task_job_runner.py:245} INFO - ::endgroup::

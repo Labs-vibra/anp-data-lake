@@ -1,0 +1,4 @@
+[2025-09-11T22:12:00.504+0000] {connection.py:277} WARNING - Connection schemes (type: google_cloud_platform) shall not contain '_' according to RFC3986.
+[2025-09-11T22:12:00.504+0000] {base.py:84} INFO - Retrieving connection 'google_cloud_default'
+[2025-09-11T22:12:00.504+0000] {credentials_provider.py:402} INFO - Getting connection using `google.auth.default()` since no explicit credentials are provided.
+[2025-09-11T22:16:42.823+0000] {triggerer_job_runner.py:631} INFO - Trigger metas_cbios_2019_pipeline/manual__2025-09-11T22:11:54.699362+00:00/etl_metas_cbios-2019.rw_extract_extraction_metas_cbios-2019_job/-1/1 (ID 1) fired: TriggerEvent<{'status': 'Fail', 'operation_error_code': 10, 'operation_error_message': 'Task cr-juridico-extracao-metas-cbios-2019-job-dev-8dfkb-task0 failed with message: The container exited with an error.', 'job_name': 'cr-juridico-extracao-metas-cbios-2019-job-dev'}>

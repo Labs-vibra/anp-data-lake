@@ -1,0 +1,182 @@
+[2025-09-11T22:25:25.270+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2025-09-11T22:25:25.286+0000] {taskinstance.py:2614} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: metas_cbios_2019_pipeline.etl_metas_cbios-2019.populate_query_td_ext_anp.cbios_2019_job manual__2025-09-11T22:24:10.729111+00:00 [queued]>
+[2025-09-11T22:25:25.292+0000] {taskinstance.py:2614} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: metas_cbios_2019_pipeline.etl_metas_cbios-2019.populate_query_td_ext_anp.cbios_2019_job manual__2025-09-11T22:24:10.729111+00:00 [queued]>
+[2025-09-11T22:25:25.292+0000] {taskinstance.py:2867} INFO - Starting attempt 1 of 2
+[2025-09-11T22:25:25.301+0000] {taskinstance.py:2890} INFO - Executing <Task(BigQueryInsertJobOperator): etl_metas_cbios-2019.populate_query_td_ext_anp.cbios_2019_job> on 2025-09-11 22:24:10.729111+00:00
+[2025-09-11T22:25:25.308+0000] {standard_task_runner.py:104} INFO - Running: ['***', 'tasks', 'run', 'metas_cbios_2019_pipeline', 'etl_metas_cbios-2019.populate_query_td_ext_anp.cbios_2019_job', 'manual__2025-09-11T22:24:10.729111+00:00', '--job-id', '110', '--raw', '--subdir', 'DAGS_FOLDER/metas-individuais-cbios-2019.py', '--cfg-path', '/tmp/tmpcegt0arc']
+[2025-09-11T22:25:25.309+0000] {standard_task_runner.py:105} INFO - Job 110: Subtask etl_metas_cbios-2019.populate_query_td_ext_anp.cbios_2019_job
+[2025-09-11T22:25:25.310+0000] {logging_mixin.py:190} WARNING - /home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:70 DeprecationWarning: This process (pid=2295) is multi-threaded, use of fork() may lead to deadlocks in the child.
+[2025-09-11T22:25:25.311+0000] {standard_task_runner.py:72} INFO - Started process 2301 to run task
+[2025-09-11T22:25:25.342+0000] {task_command.py:467} INFO - Running <TaskInstance: metas_cbios_2019_pipeline.etl_metas_cbios-2019.populate_query_td_ext_anp.cbios_2019_job manual__2025-09-11T22:24:10.729111+00:00 [running]> on host 35f429d0e7ee
+[2025-09-11T22:25:25.411+0000] {taskinstance.py:3134} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='***' AIRFLOW_CTX_DAG_ID='metas_cbios_2019_pipeline' AIRFLOW_CTX_TASK_ID='etl_metas_cbios-2019.populate_query_td_ext_anp.cbios_2019_job' AIRFLOW_CTX_EXECUTION_DATE='2025-09-11T22:24:10.729111+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='manual__2025-09-11T22:24:10.729111+00:00'
+[2025-09-11T22:25:25.413+0000] {taskinstance.py:732} INFO - ::endgroup::
+[2025-09-11T22:25:25.430+0000] {connection.py:277} WARNING - Connection schemes (type: google_cloud_platform) shall not contain '_' according to RFC3986.
+[2025-09-11T22:25:25.431+0000] {base.py:84} INFO - Retrieving connection 'google_cloud_default'
+[2025-09-11T22:25:25.431+0000] {credentials_provider.py:402} INFO - Getting connection using `google.auth.default()` since no explicit credentials are provided.
+[2025-09-11T22:25:25.475+0000] {bigquery.py:2665} INFO - Executing: {'query': {'query': "MERGE td_ext_anp.cbios_2019 AS target\nUSING (\nSELECT\n    codigo_agente_regulado,\n\tREGEXP_REPLACE(cnpj, r'[^0-9]', '') AS cnpj,\n\trazao_social,\n\tSAFE_CAST(somatorio_emissoes AS NUMERIC) AS somatorio_emissoes,\n\tSAFE_CAST(participacao_mercado AS NUMERIC) AS participacao_mercado,\n\tSAFE_CAST(meta_individual_2019 AS NUMERIC) AS meta_individual_2019,\n\tSAFE_CAST(meta_individual_2019_diaria AS NUMERIC) AS meta_individual_2019_diaria,\n    data_criacao\nFROM\n    rw_ext_anp.cbios_2019\nWHERE\n    data_criacao = (SELECT MAX(data_criacao) FROM rw_ext_anp.cbios_2019)\n) AS source\nON source.codigo_agente_regulado = target.codigo_agente_regulado\nAND source.cnpj = target.cnpj\nAND source.razao_social = target.razao_social\nWHEN MATCHED THEN\nUPDATE SET\n    target.somatorio_emissoes = source.somatorio_emissoes,\n    target.participacao_mercado = source.participacao_mercado,\n    target.meta_individual_2019 = source.meta_individual_2019,\n    target.meta_individual_2019_diaria = source.meta_individual_2019_diaria,\n    target.data_criacao = source.data_criacao\nWHEN NOT MATCHED THEN\nINSERT (\n    codigo_agente_regulado,\n\tcnpj,\n\trazao_social,\n\tsomatorio_emissoes,\n\tparticipacao_mercado,\n\tmeta_individual_2019,\n\tmeta_individual_2019_diaria,\n\tdata_criacao\n)\nVALUES (\n    source.codigo_agente_regulado,\n    source.cnpj,\n    source.razao_social,\n    source.somatorio_emissoes,\n    source.participacao_mercado,\n    source.meta_individual_2019,\n    source.meta_individual_2019_diaria,\n    source.data_criacao\n);", 'useLegacySql': False}}'
+[2025-09-11T22:25:25.476+0000] {bigquery.py:1241} INFO - Inserting job ***_metas_cbios_2019_pipeline_etl_metas_cbios_2019_populate_query_td_ext_anp_cbios_2019_job_2025_09_11T22_24_10_729111_00_00_2c4ab96db66f9dd83d6a60675b30405a
+[2025-09-11T22:25:25.728+0000] {taskinstance.py:3313} ERROR - Task failed with exception
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 768, in _execute_task
+    result = _execute_callable(context=context, **execute_callable_kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 734, in _execute_callable
+    return ExecutionCallableRunner(
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/operator_helpers.py", line 252, in run
+    return self.func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/baseoperator.py", line 424, in wrapper
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/providers/google/cloud/operators/bigquery.py", line 2667, in execute
+    job: BigQueryJob | UnknownJob = self._submit_job(hook, self.job_id)
+                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/providers/google/cloud/operators/bigquery.py", line 2625, in _submit_job
+    return hook.insert_job(
+           ^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/providers/google/common/hooks/base_google.py", line 553, in inner_wrapper
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/providers/google/cloud/hooks/bigquery.py", line 1244, in insert_job
+    job_api_repr._begin()
+  File "/home/airflow/.local/lib/python3.12/site-packages/google/cloud/bigquery/job/query.py", line 1374, in _begin
+    super(QueryJob, self)._begin(client=client, retry=retry, timeout=timeout)
+  File "/home/airflow/.local/lib/python3.12/site-packages/google/cloud/bigquery/job/base.py", line 740, in _begin
+    api_response = client._call_api(
+                   ^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/google/cloud/bigquery/client.py", line 831, in _call_api
+    return call()
+           ^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/google/api_core/retry/retry_unary.py", line 293, in retry_wrapped_func
+    return retry_target(
+           ^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/google/api_core/retry/retry_unary.py", line 153, in retry_target
+    _retry_error_helper(
+  File "/home/airflow/.local/lib/python3.12/site-packages/google/api_core/retry/retry_base.py", line 212, in _retry_error_helper
+    raise final_exc from source_exc
+  File "/home/airflow/.local/lib/python3.12/site-packages/google/api_core/retry/retry_unary.py", line 144, in retry_target
+    result = target()
+             ^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/google/cloud/_http/__init__.py", line 482, in api_request
+    response = self._make_request(
+               ^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/google/cloud/_http/__init__.py", line 341, in _make_request
+    return self._do_request(
+           ^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/google/cloud/_http/__init__.py", line 379, in _do_request
+    return self.http.request(
+           ^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/google/auth/transport/requests.py", line 537, in request
+    response = super(AuthorizedSession, self).request(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/requests/sessions.py", line 589, in request
+    resp = self.send(prep, **send_kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/requests/sessions.py", line 697, in send
+    adapter = self.get_adapter(url=request.url)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/requests/sessions.py", line 792, in get_adapter
+    raise InvalidSchema(f"No connection adapters were found for {url!r}")
+requests.exceptions.InvalidSchema: No connection adapters were found for 'bigquery-emulator:9050/bigquery/v2/projects/ext-ecole-biomassa-468317/jobs?prettyPrint=false'
+[2025-09-11T22:25:25.751+0000] {taskinstance.py:1226} INFO - Marking task as UP_FOR_RETRY. dag_id=metas_cbios_2019_pipeline, task_id=etl_metas_cbios-2019.populate_query_td_ext_anp.cbios_2019_job, run_id=manual__2025-09-11T22:24:10.729111+00:00, execution_date=20250911T222410, start_date=20250911T222525, end_date=20250911T222525
+[2025-09-11T22:25:25.779+0000] {taskinstance.py:341} INFO - ::group::Post task execution logs
+[2025-09-11T22:25:25.779+0000] {standard_task_runner.py:124} ERROR - Failed to execute job 110 for task etl_metas_cbios-2019.populate_query_td_ext_anp.cbios_2019_job (No connection adapters were found for 'bigquery-emulator:9050/bigquery/v2/projects/ext-ecole-biomassa-468317/jobs?prettyPrint=false'; 2301)
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/task/task_runner/standard_task_runner.py", line 117, in _start_by_fork
+    ret = args.func(args, dag=self.dag)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/cli/cli_config.py", line 49, in command
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/cli.py", line 116, in wrapper
+    return f(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/cli/commands/task_command.py", line 483, in task_run
+    task_return_code = _run_task_by_selected_method(args, _dag, ti)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/cli/commands/task_command.py", line 256, in _run_task_by_selected_method
+    return _run_raw_task(args, ti)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/cli/commands/task_command.py", line 341, in _run_raw_task
+    return ti._run_raw_task(
+           ^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/session.py", line 97, in wrapper
+    return func(*args, session=session, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 3006, in _run_raw_task
+    return _run_raw_task(
+           ^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 274, in _run_raw_task
+    TaskInstance._execute_task_with_callbacks(
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 3161, in _execute_task_with_callbacks
+    result = self._execute_task(context, task_orig)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 3185, in _execute_task
+    return _execute_task(self, context, task_orig)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 768, in _execute_task
+    result = _execute_callable(context=context, **execute_callable_kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 734, in _execute_callable
+    return ExecutionCallableRunner(
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/operator_helpers.py", line 252, in run
+    return self.func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/baseoperator.py", line 424, in wrapper
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/providers/google/cloud/operators/bigquery.py", line 2667, in execute
+    job: BigQueryJob | UnknownJob = self._submit_job(hook, self.job_id)
+                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/providers/google/cloud/operators/bigquery.py", line 2625, in _submit_job
+    return hook.insert_job(
+           ^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/providers/google/common/hooks/base_google.py", line 553, in inner_wrapper
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/providers/google/cloud/hooks/bigquery.py", line 1244, in insert_job
+    job_api_repr._begin()
+  File "/home/airflow/.local/lib/python3.12/site-packages/google/cloud/bigquery/job/query.py", line 1374, in _begin
+    super(QueryJob, self)._begin(client=client, retry=retry, timeout=timeout)
+  File "/home/airflow/.local/lib/python3.12/site-packages/google/cloud/bigquery/job/base.py", line 740, in _begin
+    api_response = client._call_api(
+                   ^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/google/cloud/bigquery/client.py", line 831, in _call_api
+    return call()
+           ^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/google/api_core/retry/retry_unary.py", line 293, in retry_wrapped_func
+    return retry_target(
+           ^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/google/api_core/retry/retry_unary.py", line 153, in retry_target
+    _retry_error_helper(
+  File "/home/airflow/.local/lib/python3.12/site-packages/google/api_core/retry/retry_base.py", line 212, in _retry_error_helper
+    raise final_exc from source_exc
+  File "/home/airflow/.local/lib/python3.12/site-packages/google/api_core/retry/retry_unary.py", line 144, in retry_target
+    result = target()
+             ^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/google/cloud/_http/__init__.py", line 482, in api_request
+    response = self._make_request(
+               ^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/google/cloud/_http/__init__.py", line 341, in _make_request
+    return self._do_request(
+           ^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/google/cloud/_http/__init__.py", line 379, in _do_request
+    return self.http.request(
+           ^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/google/auth/transport/requests.py", line 537, in request
+    response = super(AuthorizedSession, self).request(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/requests/sessions.py", line 589, in request
+    resp = self.send(prep, **send_kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/requests/sessions.py", line 697, in send
+    adapter = self.get_adapter(url=request.url)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/requests/sessions.py", line 792, in get_adapter
+    raise InvalidSchema(f"No connection adapters were found for {url!r}")
+requests.exceptions.InvalidSchema: No connection adapters were found for 'bigquery-emulator:9050/bigquery/v2/projects/ext-ecole-biomassa-468317/jobs?prettyPrint=false'
+[2025-09-11T22:25:25.805+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 1
+[2025-09-11T22:25:25.821+0000] {taskinstance.py:3901} INFO - 0 downstream tasks scheduled from follow-on schedule check
+[2025-09-11T22:25:25.823+0000] {local_task_job_runner.py:245} INFO - ::endgroup::

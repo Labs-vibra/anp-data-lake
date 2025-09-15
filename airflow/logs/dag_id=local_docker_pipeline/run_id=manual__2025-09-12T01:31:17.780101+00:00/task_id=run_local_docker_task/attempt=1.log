@@ -1,0 +1,27 @@
+[2025-09-12T01:31:18.512+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2025-09-12T01:31:18.543+0000] {taskinstance.py:2614} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: local_docker_pipeline.run_local_docker_task manual__2025-09-12T01:31:17.780101+00:00 [queued]>
+[2025-09-12T01:31:18.561+0000] {taskinstance.py:2614} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: local_docker_pipeline.run_local_docker_task manual__2025-09-12T01:31:17.780101+00:00 [queued]>
+[2025-09-12T01:31:18.561+0000] {taskinstance.py:2867} INFO - Starting attempt 1 of 2
+[2025-09-12T01:31:18.574+0000] {taskinstance.py:2890} INFO - Executing <Task(DockerOperator): run_local_docker_task> on 2025-09-12 01:31:17.780101+00:00
+[2025-09-12T01:31:18.583+0000] {standard_task_runner.py:104} INFO - Running: ['***', 'tasks', 'run', 'local_docker_pipeline', 'run_local_docker_task', 'manual__2025-09-12T01:31:17.780101+00:00', '--job-id', '194', '--raw', '--subdir', 'DAGS_FOLDER/dag_w_local.py', '--cfg-path', '/tmp/tmp67e5xcn6']
+[2025-09-12T01:31:18.584+0000] {standard_task_runner.py:105} INFO - Job 194: Subtask run_local_docker_task
+[2025-09-12T01:31:18.585+0000] {logging_mixin.py:190} WARNING - /home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:70 DeprecationWarning: This process (pid=705) is multi-threaded, use of fork() may lead to deadlocks in the child.
+[2025-09-12T01:31:18.585+0000] {standard_task_runner.py:72} INFO - Started process 706 to run task
+[2025-09-12T01:31:18.620+0000] {task_command.py:467} INFO - Running <TaskInstance: local_docker_pipeline.run_local_docker_task manual__2025-09-12T01:31:17.780101+00:00 [running]> on host 35cb1cdab7a4
+[2025-09-12T01:31:18.685+0000] {taskinstance.py:3134} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='***' AIRFLOW_CTX_DAG_ID='local_docker_pipeline' AIRFLOW_CTX_TASK_ID='run_local_docker_task' AIRFLOW_CTX_EXECUTION_DATE='2025-09-12T01:31:17.780101+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='manual__2025-09-12T01:31:17.780101+00:00'
+[2025-09-12T01:31:18.686+0000] {taskinstance.py:732} INFO - ::endgroup::
+[2025-09-12T01:31:18.725+0000] {docker.py:345} INFO - Starting docker container from image extracao:latest
+[2025-09-12T01:31:18.728+0000] {docker.py:353} WARNING - Using remote engine or docker-in-docker and mounting temporary volume from host is not supported. Falling back to `mount_tmp_dir=False` mode. You can set `mount_tmp_dir` parameter to False to disable mounting and remove the warning
+[2025-09-12T01:31:31.008+0000] {docker.py:69} INFO - /usr/local/lib/python3.9/site-packages/google/cloud/bigquery/_pandas_helpers.py:484: FutureWarning: Loading pandas DataFrame into BigQuery will require pandas-gbq package version 0.26.1 or greater in the future. Tried to import pandas-gbq and got: No module named 'pandas_gbq'
+[2025-09-12T01:31:31.008+0000] {docker.py:69} INFO -   warnings.warn(
+[2025-09-12T01:31:40.488+0000] {docker.py:69} INFO - Starting data scrape year 2023...
+[2025-09-12T01:31:40.489+0000] {docker.py:69} INFO - Configuring WebDriver...
+[2025-09-12T01:31:40.489+0000] {docker.py:69} INFO - WebDriver configured successfully.
+[2025-09-12T01:31:40.490+0000] {docker.py:69} INFO - Finished
+[2025-09-12T01:31:40.490+0000] {docker.py:69} INFO - File downloaded to: /tmp/Series_Historicas.csv
+[2025-09-12T01:31:40.490+0000] {docker.py:69} INFO - Loaded 127 rows into rw_ext_anp.aposentadoria_cbios.
+[2025-09-12T01:31:40.788+0000] {taskinstance.py:341} INFO - ::group::Post task execution logs
+[2025-09-12T01:31:40.788+0000] {taskinstance.py:353} INFO - Marking task as SUCCESS. dag_id=local_docker_pipeline, task_id=run_local_docker_task, run_id=manual__2025-09-12T01:31:17.780101+00:00, execution_date=20250912T013117, start_date=20250912T013118, end_date=20250912T013140
+[2025-09-12T01:31:40.852+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 0
+[2025-09-12T01:31:40.864+0000] {taskinstance.py:3901} INFO - 0 downstream tasks scheduled from follow-on schedule check
+[2025-09-12T01:31:40.865+0000] {local_task_job_runner.py:245} INFO - ::endgroup::

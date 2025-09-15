@@ -1,0 +1,39 @@
+[2025-09-11T22:24:12.796+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2025-09-11T22:24:12.808+0000] {taskinstance.py:2614} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: metas_cbios_2019_pipeline.etl_metas_cbios-2019.rw_extract_extraction_metas_cbios-2019_job manual__2025-09-11T22:24:10.729111+00:00 [queued]>
+[2025-09-11T22:24:12.813+0000] {taskinstance.py:2614} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: metas_cbios_2019_pipeline.etl_metas_cbios-2019.rw_extract_extraction_metas_cbios-2019_job manual__2025-09-11T22:24:10.729111+00:00 [queued]>
+[2025-09-11T22:24:12.814+0000] {taskinstance.py:2867} INFO - Starting attempt 1 of 2
+[2025-09-11T22:24:12.824+0000] {taskinstance.py:2890} INFO - Executing <Task(CloudRunExecuteJobOperator): etl_metas_cbios-2019.rw_extract_extraction_metas_cbios-2019_job> on 2025-09-11 22:24:10.729111+00:00
+[2025-09-11T22:24:12.833+0000] {standard_task_runner.py:104} INFO - Running: ['***', 'tasks', 'run', 'metas_cbios_2019_pipeline', 'etl_metas_cbios-2019.rw_extract_extraction_metas_cbios-2019_job', 'manual__2025-09-11T22:24:10.729111+00:00', '--job-id', '108', '--raw', '--subdir', 'DAGS_FOLDER/metas-individuais-cbios-2019.py', '--cfg-path', '/tmp/tmpakn3ec25']
+[2025-09-11T22:24:12.835+0000] {standard_task_runner.py:105} INFO - Job 108: Subtask etl_metas_cbios-2019.rw_extract_extraction_metas_cbios-2019_job
+[2025-09-11T22:24:12.835+0000] {logging_mixin.py:190} WARNING - /home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:70 DeprecationWarning: This process (pid=2106) is multi-threaded, use of fork() may lead to deadlocks in the child.
+[2025-09-11T22:24:12.836+0000] {standard_task_runner.py:72} INFO - Started process 2108 to run task
+[2025-09-11T22:24:12.868+0000] {task_command.py:467} INFO - Running <TaskInstance: metas_cbios_2019_pipeline.etl_metas_cbios-2019.rw_extract_extraction_metas_cbios-2019_job manual__2025-09-11T22:24:10.729111+00:00 [running]> on host 35f429d0e7ee
+[2025-09-11T22:24:12.927+0000] {taskinstance.py:3134} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='***' AIRFLOW_CTX_DAG_ID='metas_cbios_2019_pipeline' AIRFLOW_CTX_TASK_ID='etl_metas_cbios-2019.rw_extract_extraction_metas_cbios-2019_job' AIRFLOW_CTX_EXECUTION_DATE='2025-09-11T22:24:10.729111+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='manual__2025-09-11T22:24:10.729111+00:00'
+[2025-09-11T22:24:12.928+0000] {taskinstance.py:732} INFO - ::endgroup::
+[2025-09-11T22:24:12.947+0000] {connection.py:277} WARNING - Connection schemes (type: google_cloud_platform) shall not contain '_' according to RFC3986.
+[2025-09-11T22:24:12.948+0000] {base.py:84} INFO - Retrieving connection 'google_cloud_default'
+[2025-09-11T22:24:12.948+0000] {credentials_provider.py:402} INFO - Getting connection using `google.auth.default()` since no explicit credentials are provided.
+[2025-09-11T22:24:14.038+0000] {crypto.py:82} WARNING - empty cryptography key - values will not be stored encrypted.
+[2025-09-11T22:24:14.049+0000] {taskinstance.py:289} INFO - Pausing task as DEFERRED. dag_id=metas_cbios_2019_pipeline, task_id=etl_metas_cbios-2019.rw_extract_extraction_metas_cbios-2019_job, run_id=manual__2025-09-11T22:24:10.729111+00:00, execution_date=20250911T222410, start_date=20250911T222412
+[2025-09-11T22:24:14.049+0000] {taskinstance.py:341} INFO - ::group::Post task execution logs
+[2025-09-11T22:24:14.093+0000] {local_task_job_runner.py:260} INFO - Task exited with return code 100 (task deferral)
+[2025-09-11T22:24:14.094+0000] {local_task_job_runner.py:245} INFO - ::endgroup::
+[2025-09-11T22:25:22.500+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2025-09-11T22:25:22.511+0000] {taskinstance.py:2614} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: metas_cbios_2019_pipeline.etl_metas_cbios-2019.rw_extract_extraction_metas_cbios-2019_job manual__2025-09-11T22:24:10.729111+00:00 [queued]>
+[2025-09-11T22:25:22.515+0000] {taskinstance.py:2614} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: metas_cbios_2019_pipeline.etl_metas_cbios-2019.rw_extract_extraction_metas_cbios-2019_job manual__2025-09-11T22:24:10.729111+00:00 [queued]>
+[2025-09-11T22:25:22.515+0000] {taskinstance.py:2865} INFO - Resuming after deferral
+[2025-09-11T22:25:22.523+0000] {taskinstance.py:2890} INFO - Executing <Task(CloudRunExecuteJobOperator): etl_metas_cbios-2019.rw_extract_extraction_metas_cbios-2019_job> on 2025-09-11 22:24:10.729111+00:00
+[2025-09-11T22:25:22.534+0000] {standard_task_runner.py:104} INFO - Running: ['***', 'tasks', 'run', 'metas_cbios_2019_pipeline', 'etl_metas_cbios-2019.rw_extract_extraction_metas_cbios-2019_job', 'manual__2025-09-11T22:24:10.729111+00:00', '--job-id', '109', '--raw', '--subdir', 'DAGS_FOLDER/metas-individuais-cbios-2019.py', '--cfg-path', '/tmp/tmpf4y6v4in']
+[2025-09-11T22:25:22.535+0000] {standard_task_runner.py:105} INFO - Job 109: Subtask etl_metas_cbios-2019.rw_extract_extraction_metas_cbios-2019_job
+[2025-09-11T22:25:22.536+0000] {logging_mixin.py:190} WARNING - /home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:70 DeprecationWarning: This process (pid=2275) is multi-threaded, use of fork() may lead to deadlocks in the child.
+[2025-09-11T22:25:22.536+0000] {standard_task_runner.py:72} INFO - Started process 2277 to run task
+[2025-09-11T22:25:22.565+0000] {task_command.py:467} INFO - Running <TaskInstance: metas_cbios_2019_pipeline.etl_metas_cbios-2019.rw_extract_extraction_metas_cbios-2019_job manual__2025-09-11T22:24:10.729111+00:00 [running]> on host 35f429d0e7ee
+[2025-09-11T22:25:22.610+0000] {taskinstance.py:732} INFO - ::endgroup::
+[2025-09-11T22:25:22.615+0000] {connection.py:277} WARNING - Connection schemes (type: google_cloud_platform) shall not contain '_' according to RFC3986.
+[2025-09-11T22:25:22.616+0000] {base.py:84} INFO - Retrieving connection 'google_cloud_default'
+[2025-09-11T22:25:22.616+0000] {credentials_provider.py:402} INFO - Getting connection using `google.auth.default()` since no explicit credentials are provided.
+[2025-09-11T22:25:23.629+0000] {taskinstance.py:341} INFO - ::group::Post task execution logs
+[2025-09-11T22:25:23.630+0000] {taskinstance.py:353} INFO - Marking task as SUCCESS. dag_id=metas_cbios_2019_pipeline, task_id=etl_metas_cbios-2019.rw_extract_extraction_metas_cbios-2019_job, run_id=manual__2025-09-11T22:24:10.729111+00:00, execution_date=20250911T222410, start_date=20250911T222412, end_date=20250911T222523
+[2025-09-11T22:25:23.673+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 0
+[2025-09-11T22:25:23.693+0000] {taskinstance.py:3901} INFO - 1 downstream tasks scheduled from follow-on schedule check
+[2025-09-11T22:25:23.695+0000] {local_task_job_runner.py:245} INFO - ::endgroup::
