@@ -1,5 +1,4 @@
-SHELL := /bin/bash
-include .env
+'SHELL := /bin/bash
 
 init_venv:
 	python3 -m venv .venv
@@ -8,7 +7,7 @@ init_venv:
 install_deps:
 	pip install -r requirements.txt
 
-test-docker-image:
+test-docker-image:'
 	cp ~/gcp.secrets.json src/$(FOLDER)
 	docker build --no-cache -t extracao src/$(FOLDER)
 	rm src/$(FOLDER)/gcp.secrets.json
