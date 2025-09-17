@@ -62,8 +62,7 @@ output "codigos_instalacao_jobs" {
 output "pmqc_jobs" {
   description = "Lista de jobs do Cloud Run para PMQC"
   value = {
-    manual_simp        = module.pmqc.pmqc_job_name
-    codigos_instalacao = module.pmqc.pmqc_job_name
+    pmqc        = module.pmqc.pmqc_job_name
   }
 }
 
