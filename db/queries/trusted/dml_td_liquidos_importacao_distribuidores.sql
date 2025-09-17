@@ -30,7 +30,6 @@ AND target.regiao_origem       = source.regiao_origem
 AND target.uf_origem           = source.uf_origem
 WHEN MATCHED AND (
     target.quantidade_produto_mil_m3 IS DISTINCT FROM source.quantidade_produto_mil_m3
-    OR target.data_criacao IS DISTINCT FROM source.data_criacao
 ) THEN
     UPDATE SET
         quantidade_produto_mil_m3 = source.quantidade_produto_mil_m3,

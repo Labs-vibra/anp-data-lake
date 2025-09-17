@@ -1,4 +1,5 @@
 CREATE TABLE IF NOT EXISTS td_ext_anp.aposentadoria_cbios (
+    id INT64 OPTIONS(description="Identificador único da linha gerado a partir do hash de data, data_criacao e data_ingestao_td"),
 	`data` DATE OPTIONS(description="Data de referência da aposentadoria"),
     quantidade_parte_obrigada NUMERIC OPTIONS(description="Quantidade de CBIOs da parte obrigatória"),
     quantidade_parte_nao_obrigada NUMERIC OPTIONS(description="Quantidade de CBIOs da parte não obrigatória"),

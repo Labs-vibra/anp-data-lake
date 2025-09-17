@@ -1,161 +1,161 @@
-name: Terraform Apply
+# name: Terraform Apply
 
-on:
-  push:
-    branches: [ main ]
-    paths:
-      - 'terraform/**'
-  workflow_dispatch:
-    inputs:
-      confirm_apply:
-        description: 'Confirma aplicação do Terraform (digite "apply" para confirmar)'
-        required: true
-        default: ''
+# on:
+#   push:
+#     branches: [ main ]
+#     paths:
+#       - 'terraform/**'
+#   workflow_dispatch:
+#     inputs:
+#       confirm_apply:
+#         description: 'Confirma aplicação do Terraform (digite "apply" para confirmar)'
+#         required: true
+#         default: ''
 
-env:
-  TF_VERSION: "1.6.0"
-  GOOGLE_CREDENTIALS: ${{ secrets.GCP_SA_KEY }}
+# env:
+#   TF_VERSION: "1.6.0"
+#   GOOGLE_CREDENTIALS: ${{ secrets.GCP_SA_KEY }}
 
-jobs:
-  terraform-apply:
-    name: 'Terraform Apply'
-    runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ./terraform
+# jobs:
+#   terraform-apply:
+#     name: 'Terraform Apply'
+#     runs-on: ubuntu-latest
+#     defaults:
+#       run:
+#         working-directory: ./terraform
 
-    permissions:
-      contents: read
-      id-token: write
+#     permissions:
+#       contents: read
+#       id-token: write
 
-    steps:
-    - name: Checkout
-      uses: actions/checkout@v4
+#     steps:
+#     - name: Checkout
+#       uses: actions/checkout@v4
 
-    - name: Validate manual confirmation
-      if: github.event_name == 'workflow_dispatch'
-      run: |
-        if [ "${{ github.event.inputs.confirm_apply }}" != "apply" ]; then
-          echo "❌ Aplicação cancelada. Digite 'apply' para confirmar."
-          exit 1
-        fi
-        echo "✅ Confirmação recebida. Prosseguindo com apply..."
+#     - name: Validate manual confirmation
+#       if: github.event_name == 'workflow_dispatch'
+#       run: |
+#         if [ "${{ github.event.inputs.confirm_apply }}" != "apply" ]; then
+#           echo "❌ Aplicação cancelada. Digite 'apply' para confirmar."
+#           exit 1
+#         fi
+#         echo "✅ Confirmação recebida. Prosseguindo com apply..."
 
-    - name: Setup Terraform
-      uses: hashicorp/setup-terraform@v3
-      with:
-        terraform_version: ${{ env.TF_VERSION }}
+#     - name: Setup Terraform
+#       uses: hashicorp/setup-terraform@v3
+#       with:
+#         terraform_version: ${{ env.TF_VERSION }}
 
-    - name: Authenticate to Google Cloud
-      uses: google-github-actions/auth@v2
-      with:
-        credentials_json: ${{ secrets.GCP_SA_KEY }}
+#     - name: Authenticate to Google Cloud
+#       uses: google-github-actions/auth@v2
+#       with:
+#         credentials_json: ${{ secrets.GCP_SA_KEY }}
 
-    - name: Setup Google Cloud SDK
-      uses: google-github-actions/setup-gcloud@v2
+#     - name: Setup Google Cloud SDK
+#       uses: google-github-actions/setup-gcloud@v2
 
-    - name: Terraform Init
-      run: terraform init
+#     - name: Terraform Init
+#       run: terraform init
 
-    - name: Terraform Plan
-      id: plan
-      run: |
-        terraform plan -out=tfplan -detailed-exitcode
-      continue-on-error: true
+#     - name: Terraform Plan
+#       id: plan
+#       run: |
+#         terraform plan -out=tfplan -detailed-exitcode
+#       continue-on-error: true
 
-    - name: Check Plan Status
-      run: |
-        if [ ${{ steps.plan.outputs.exitcode }} -eq 1 ]; then
-          echo "❌ Terraform Plan falhou"
-          exit 1
-        elif [ ${{ steps.plan.outputs.exitcode }} -eq 0 ]; then
-          echo "ℹ️ Nenhuma mudança detectada"
-          echo "NO_CHANGES=true" >> $GITHUB_ENV
-        elif [ ${{ steps.plan.outputs.exitcode }} -eq 2 ]; then
-          echo "✅ Mudanças detectadas, prosseguindo com apply"
-          echo "NO_CHANGES=false" >> $GITHUB_ENV
-        fi
+#     - name: Check Plan Status
+#       run: |
+#         if [ ${{ steps.plan.outputs.exitcode }} -eq 1 ]; then
+#           echo "❌ Terraform Plan falhou"
+#           exit 1
+#         elif [ ${{ steps.plan.outputs.exitcode }} -eq 0 ]; then
+#           echo "ℹ️ Nenhuma mudança detectada"
+#           echo "NO_CHANGES=true" >> $GITHUB_ENV
+#         elif [ ${{ steps.plan.outputs.exitcode }} -eq 2 ]; then
+#           echo "✅ Mudanças detectadas, prosseguindo com apply"
+#           echo "NO_CHANGES=false" >> $GITHUB_ENV
+#         fi
 
-    - name: Terraform Apply
-      if: env.NO_CHANGES == 'false'
-      run: |
-        echo "🚀 Aplicando mudanças do Terraform..."
-        terraform apply -auto-approve tfplan
+#     - name: Terraform Apply
+#       if: env.NO_CHANGES == 'false'
+#       run: |
+#         echo "🚀 Aplicando mudanças do Terraform..."
+#         terraform apply -auto-approve tfplan
 
-    - name: Get Apply Output
-      if: env.NO_CHANGES == 'false'
-      id: apply_output
-      run: |
-        echo "📊 Aplicação concluída com sucesso!"
-        terraform output -json > terraform_outputs.json
+#     - name: Get Apply Output
+#       if: env.NO_CHANGES == 'false'
+#       id: apply_output
+#       run: |
+#         echo "📊 Aplicação concluída com sucesso!"
+#         terraform output -json > terraform_outputs.json
 
-    - name: No Changes Message
-      if: env.NO_CHANGES == 'true'
-      run: |
-        echo "ℹ️ Nenhuma mudança foi detectada. Infraestrutura já está atualizada."
+#     - name: No Changes Message
+#       if: env.NO_CHANGES == 'true'
+#       run: |
+#         echo "ℹ️ Nenhuma mudança foi detectada. Infraestrutura já está atualizada."
 
-    - name: Upload Apply Results
-      uses: actions/upload-artifact@v4
-      if: always()
-      with:
-        name: terraform-apply-results-${{ github.run_number }}
-        path: |
-          terraform/tfplan
-          terraform/terraform_outputs.json
-        retention-days: 30
+#     - name: Upload Apply Results
+#       uses: actions/upload-artifact@v4
+#       if: always()
+#       with:
+#         name: terraform-apply-results-${{ github.run_number }}
+#         path: |
+#           terraform/tfplan
+#           terraform/terraform_outputs.json
+#         retention-days: 30
 
-    - name: Comment on Commit (if changes applied)
-      if: env.NO_CHANGES == 'false' && github.event_name == 'push'
-      uses: actions/github-script@v7
-      with:
-        github-token: ${{ secrets.GITHUB_TOKEN }}
-        script: |
-          const fs = require('fs');
-          let outputsContent = '';
+#     - name: Comment on Commit (if changes applied)
+#       if: env.NO_CHANGES == 'false' && github.event_name == 'push'
+#       uses: actions/github-script@v7
+#       with:
+#         github-token: ${{ secrets.GITHUB_TOKEN }}
+#         script: |
+#           const fs = require('fs');
+#           let outputsContent = '';
 
-          try {
-            outputsContent = fs.readFileSync('terraform/terraform_outputs.json', 'utf8');
-            const outputs = JSON.parse(outputsContent);
+#           try {
+#             outputsContent = fs.readFileSync('terraform/terraform_outputs.json', 'utf8');
+#             const outputs = JSON.parse(outputsContent);
 
-            const formattedOutputs = Object.entries(outputs)
-              .map(([key, value]) => `**${key}**: ${JSON.stringify(value.value, null, 2)}`)
-              .join('\n');
+#             const formattedOutputs = Object.entries(outputs)
+#               .map(([key, value]) => `**${key}**: ${JSON.stringify(value.value, null, 2)}`)
+#               .join('\n');
 
-            outputsContent = `\n\n## 📊 Terraform Outputs\n\n${formattedOutputs}`;
-          } catch (error) {
-            outputsContent = '\n\n❌ Erro ao ler outputs do Terraform';
-          }
+#             outputsContent = `\n\n## 📊 Terraform Outputs\n\n${formattedOutputs}`;
+#           } catch (error) {
+#             outputsContent = '\n\n❌ Erro ao ler outputs do Terraform';
+#           }
 
-          const commentBody = `## 🚀 Terraform Apply Executado com Sucesso!
+#           const commentBody = `## 🚀 Terraform Apply Executado com Sucesso!
 
-          **Commit**: ${context.sha.substring(0, 7)}
-          **Workflow**: [${context.runNumber}](${context.payload.repository.html_url}/actions/runs/${context.runId})
-          **Timestamp**: ${new Date().toISOString()}
+#           **Commit**: ${context.sha.substring(0, 7)}
+#           **Workflow**: [${context.runNumber}](${context.payload.repository.html_url}/actions/runs/${context.runId})
+#           **Timestamp**: ${new Date().toISOString()}
 
-          ### ✅ Recursos aplicados na infraestrutura GCP
+#           ### ✅ Recursos aplicados na infraestrutura GCP
 
-          A infraestrutura foi atualizada conforme as mudanças no diretório \`terraform/\`.${outputsContent}
+#           A infraestrutura foi atualizada conforme as mudanças no diretório \`terraform/\`.${outputsContent}
 
-          ---
-          *Aplicação automática via GitHub Actions*`;
+#           ---
+#           *Aplicação automática via GitHub Actions*`;
 
-          github.rest.repos.createCommitComment({
-            owner: context.repo.owner,
-            repo: context.repo.repo,
-            commit_sha: context.sha,
-            body: commentBody
-          });
+#           github.rest.repos.createCommitComment({
+#             owner: context.repo.owner,
+#             repo: context.repo.repo,
+#             commit_sha: context.sha,
+#             body: commentBody
+#           });
 
-    - name: Notify Success
-      if: success()
-      run: |
-        echo "🎉 Pipeline executada com sucesso!"
-        echo "📍 Infraestrutura GCP atualizada"
-        echo "🔗 Logs disponíveis em: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+#     - name: Notify Success
+#       if: success()
+#       run: |
+#         echo "🎉 Pipeline executada com sucesso!"
+#         echo "📍 Infraestrutura GCP atualizada"
+#         echo "🔗 Logs disponíveis em: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
 
-    - name: Notify Failure
-      if: failure()
-      run: |
-        echo "❌ Pipeline falhou!"
-        echo "🔍 Verifique os logs em: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
-        exit 1
+#     - name: Notify Failure
+#       if: failure()
+#       run: |
+#         echo "❌ Pipeline falhou!"
+#         echo "🔍 Verifique os logs em: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+#         exit 1
