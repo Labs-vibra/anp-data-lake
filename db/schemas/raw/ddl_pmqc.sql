@@ -1,0 +1,25 @@
+CREATE TABLE IF NOT EXISTS rw_ext_anp.pmqc (
+    data_coleta STRING OPTIONS(description="Data no formato ISSO 8601 (AAAA-MM-DD) que a coleta de combustível foi
+realizada."),
+    id_numeric STRING OPTIONS(description="Identificador único das amostras."),
+    grupo_produto STRING OPTIONS(description="Identifica a família de combustível (Gasolina, Diesel ou Etanol)."),
+    produto STRING OPTIONS(description="Identifica o produto específico de uma dada família de combustível. Por exemplo, para Gasolina há os produtos: Gasolina C Comum, Gasolina C
+Aditivada e Gasolina C Premium."),
+    razao_social_posto STRING OPTIONS(description="Razão Social do Posto Revendedor de Combustível."),
+    cnpj_posto STRING OPTIONS(description="CNPJ do Posto Revendedor de Combustível."),
+    distribuidora STRING OPTIONS(description="CNPJ do Posto Revendedor de Combustível."),
+    endereco STRING OPTIONS(description="Endereço do posto de revenda de combustíveis."),
+    complemento STRING OPTIONS("Complemento do endereço."),
+    bairro STRING OPTIONS("Bairro."),
+    municipo STRING OPTIONS("Município."),
+    latitude STRING OPTIONS("Latitude do Posto Revendedor de Combustível."),
+    longitude STRING OPTIONS("Longitude do Posto Revendedor de Combustível."),
+    uf STRING OPTIONS("Unidade da Federação."),
+    regiao_politica STRING OPTIONS("Regiões políticas do Brasil."),
+    ensaio STRING OPTIONS("Nome do ensaio físico-químico realizado no combustível."),
+    resultado STRING OPTIONS("Resultado do ensaio físico-químico."),
+    unidade_ensaio STRING OPTIONS("Unidade do ensaio físico-químico."),
+    conforme STRING OPTIONS("Avaliação de Conformidade do ensaio físico-químico.
+1. Não: Ensaio Não Conforme 2. Sim: Ensaio Conforme."),
+    data_criacao TIMESTAMP DEFAULT CURRENT_TIMESTAMP() OPTIONS(description="Data de criação do registro na camada raw")
+) PARTITION BY DATE(data_criacao);
