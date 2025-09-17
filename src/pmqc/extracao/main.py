@@ -1,93 +1,102 @@
-import os
-import requests
-from io import BytesIO
+import re
+import pandas as pd
+from datetime import date
+from google.cloud import bigquery
+from utils import fetch_html, find_all_csv_links, download_file, normalize_column
+from constants import URL_BASE, PROJECT_ID, BQ_DATASET, TABLE_NAME, COLUMNS
 import logging
-from concurrent.futures import ThreadPoolExecutor, as_completed
-
-from constants import URL_BASE, BUCKET_PATH
-from utils import download_file, fetch_html, find_all_csv_links, normalize_filename, upload_bytes_to_bucket
 
 logging.basicConfig(
     level=logging.INFO,
-    format='%(asctime)s - %(levelname)s - %(message)s'
+    format="%(asctime)s - %(levelname)s - %(message)s"
 )
 logger = logging.getLogger(__name__)
 
-def upload_csv_to_gcp(link: str):
+def insert_data_into_bigquery(df: pd.DataFrame) -> None:
+    """Insere dados no BigQuery com particionamento por data."""
+    bq_client = bigquery.Client()
+    table_id = f"{PROJECT_ID}.{BQ_DATASET}.{TABLE_NAME}"
+
+    job_config = bigquery.LoadJobConfig(
+         write_disposition=bigquery.WriteDisposition.WRITE_APPEND,
+    )
+    partition_key = date.today().strftime('%Y%m%d')
+    partitioned_table_id = f"{table_id}${partition_key}"
+
+    job = bq_client.load_table_from_dataframe(
+         df, partitioned_table_id, job_config=job_config
+    )
+    job.result()
+    logger.info(f"{len(df)} registros inseridos no BigQuery.")
+
+def build_pmqc_raw(start_year: int, end_year: int):
     """
-    Faz download de um CSV da ANP e envia para o GCP usando upload_bytes_to_bucket,
-    normalizando o nome do arquivo para pmqc_YYYY_MM.csv.
+    Baixa CSVs de PMQC do site da ANP, normaliza colunas e envia para BigQuery.
+
+    Parâmetros:
+        start_year (int): ano inicial do intervalo (inclusive)
+        end_year (int): ano final do intervalo (inclusive)
     """
-    try:
-        original_filename = link.split("/")[-1]
+    logger.info("Buscando HTML da página de PMQC...")
+    soup = fetch_html(URL_BASE)
+    csv_links = find_all_csv_links(soup)
 
-        # Determina o ano
-        if original_filename[:4].isdigit():
-            year = original_filename[:4]
-        elif link.split("/")[-2].isdigit():
-            year = link.split("/")[-2]
-        else:
-            year = "unknown"
+    if not csv_links:
+        logger.error("Nenhum link CSV encontrado na página.")
+        return
 
-        filename = normalize_filename(original_filename, year)
-        bucket_file_path = f"{BUCKET_PATH}{filename}"
+    filtered_links = []
+    for link in csv_links:
+        match = re.search(r"(\d{4})", link)
+        if match:
+            year = int(match.group(1))
+            if start_year and year < start_year:
+                continue
+            if end_year and year > end_year:
+                continue
+        filtered_links.append(link)
 
-        logger.info(f"Baixando arquivo: {link}")
-        response = requests.get(link, timeout=600, stream=True, verify=False)
-        response.raise_for_status()
+    if not filtered_links:
+        logger.warning("Nenhum CSV dentro do intervalo de ano especificado.")
+        return
 
-        file_bytes = BytesIO(response.content)
-        upload_bytes_to_bucket(file_bytes, bucket_file_path)
-        logger.info(f"Arquivo enviado para GCP: {bucket_file_path}")
+    logger.info(f"{len(filtered_links)} arquivos CSV serão processados.")
 
-    except Exception as e:
-        logger.error(f"Erro ao processar {link}: {e}")
+    all_dfs = []
+    for link in filtered_links:
+        try:
+            file_bytes = download_file(link)
+            df = pd.read_csv(file_bytes, sep=";", encoding="latin1", dtype=str)
+            df.columns = [normalize_column(c) for c in df.columns]
 
-def download_pmqc_data(parallel: bool = True, max_workers: int = 5):
-    """
-    Busca todos os CSVs de PMQC na página da ANP, baixa e envia para o GCP.
-    Se parallel=True, os uploads são feitos em threads paralelas.
-    """
-    try:
-        logger.info("Buscando HTML da página de PMQC...")
-        soup = fetch_html(URL_BASE)
+            for col in COLUMNS:
+                if col not in df.columns:
+                    df[col] = pd.NA
 
-        csv_links = find_all_csv_links(soup)
-        if not csv_links:
-            logger.error("Nenhum link CSV encontrado na página.")
-            return False
+            df = df[COLUMNS]
 
-        logger.info(f"{len(csv_links)} arquivos CSV encontrados.")
+            all_dfs.append(df)
+            logger.info(f"Arquivo {link} processado com {len(df)} registros.")
+        except Exception as e:
+            logger.warning(f"Erro ao processar {link}: {e}")
 
-        if parallel:
-            # Executa uploads em paralelo
-            with ThreadPoolExecutor(max_workers=max_workers) as executor:
-                futures = {executor.submit(upload_csv_to_gcp, link): link for link in csv_links}
-                for future in as_completed(futures):
-                    # Apenas para capturar exceções que não foram logadas
-                    try:
-                        future.result()
-                    except Exception as e:
-                        logger.error(f"Erro em thread para {futures[future]}: {e}")
-        else:
-            # Executa sequencialmente
-            for link in csv_links:
-                upload_csv_to_gcp(link)
+    if not all_dfs:
+        logger.error("Nenhum CSV processado com sucesso.")
+        return
 
-        logger.info("Todos os CSVs processados e enviados para o GCP com sucesso!")
-        return True
+    df_all = pd.concat(all_dfs, ignore_index=True)
+    logger.info(f"Total de registros após concatenação: {len(df_all)}")
 
-    except Exception as e:
-        logger.error(f"Erro ao baixar ou enviar os arquivos: {e}")
-        return False
+    insert_data_into_bigquery(df_all)
+    logger.info("Raw PMQC carregada com sucesso no BigQuery.")
 
 def main():
     """
-    Função principal que executa a extração dos dados de market share.
+    Função principal que executa a extração dos dados de PMQC e construção da raw no BQ.
     """
-    logger.info("=== Iniciando extração de dados de Market Share da ANP ===")
+    logger.info("=== Iniciando raw de PMQC ===")
 
-    success = download_pmqc_data(parallel=True, max_workers=10)  # aumenta a velocidade com 10 threads
+    success = build_pmqc_raw(2016, 2025)
 
     if success:
         logger.info("=== Processo finalizado com sucesso! ===")
@@ -95,6 +104,7 @@ def main():
     else:
         logger.error("=== Processo finalizado com erro! ===")
         exit(1)
+    logger.info("=== Processo finalizado ===")
 
 if __name__ == "__main__":
     main()
