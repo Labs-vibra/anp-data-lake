@@ -59,6 +59,14 @@ output "codigos_instalacao_jobs" {
   }
 }
 
+# Distribuidores Combustíveis Líquidos Jobs
+output "distribuidores_comb_liq_jobs" {
+  description = "Lista de jobs do Cloud Run para Distribuidores de Combustíveis Líquidos"
+  value = {
+    extraction = module.distribuidores_comb_liq.distribuidores_comb_liq_job_name
+  }
+}
+
 # Project Information
 output "project_id" {
   description = "ID do projeto GCP"
