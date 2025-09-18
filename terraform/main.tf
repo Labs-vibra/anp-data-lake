@@ -60,3 +60,10 @@ module "codigos_instalacao" {
   jobs_image_base_url = local.jobs_image_base_url
   image_version       = var.image_version
 }
+
+module "contratos_cessao" {
+  source              = "./modules/contratos_cessao"
+  region              = var.region
+  jobs_image_base_url = local.jobs_image_base_url
+  image_version       = var.image_version
+}
