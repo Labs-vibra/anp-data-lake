@@ -20,4 +20,4 @@ CREATE TABLE IF NOT EXISTS td_ext_anp.pmqc (
     conforme STRING OPTIONS("Avaliação de Conformidade do ensaio físico-químico. 1. Não: Ensaio Não Conforme 2. Sim: Ensaio Conforme."),
     data_criacao TIMESTAMP OPTIONS(description="Data de criação do registro na camada raw"),
     data_ingestao_td TIMESTAMP DEFAULT CURRENT_TIMESTAMP() OPTIONS(description="Data de ingestão do registro na camada trusted")
-) PARTITION BY DATE(data_criacao);
+) PARTITION BY DATE(data_ingestao_td);

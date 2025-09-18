@@ -1,7 +1,7 @@
 MERGE td_ext_anp.pmqc AS target
 USING (
     SELECT
-        FARM_FINGERPRINT(id_numeric) AS id,
+        FARM_FINGERPRINT(CONCAT(id_numeric, '-', data_coleta, '-', cnpj_posto, '-', distribuidora, '-', grupo_produto, '-', produto)) AS id,
         PARSE_DATE('%Y-%m-%d', data_coleta) AS data_coleta,
         id_numeric,
         REGEXP_REPLACE(LOWER(TRIM(NORMALIZE(grupo_produto, NFD))), '[^a-zA-Z0-9_\\s-.\']', '') AS grupo_produto,
@@ -52,7 +52,7 @@ WHEN MATCHED THEN
         resultado = source.resultado,
         unidade_ensaio = source.unidade_ensaio,
         conforme = source.conforme,
-        data_ingestao_td = source.data_ingestao_td
+        data_criacao = source.data_criacao
 WHEN NOT MATCHED THEN
     INSERT (
         id,
