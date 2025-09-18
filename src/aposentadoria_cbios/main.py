@@ -83,8 +83,7 @@ def scrape_cbio_data(year = "2023"):
         print('Finished')
 
 def cbios_retirement_extract(date_start=None, date_end=None):
-    if year_to_extract is None:
-        year_to_extract = os.getenv("YEAR_TO_EXTRACT", "2023")
+    year_to_extract = os.getenv("YEAR_TO_EXTRACT", "2023")
     downloaded_file = scrape_cbio_data(year_to_extract)
     if downloaded_file:
         print(f"File downloaded to: {downloaded_file}")
