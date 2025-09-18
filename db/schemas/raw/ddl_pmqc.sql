@@ -18,7 +18,7 @@ Aditivada e Gasolina C Premium."),
     regiao_politica STRING OPTIONS(description="Regiões políticas do Brasil."),
     ensaio STRING OPTIONS(description="Nome do ensaio físico-químico realizado no combustível."),
     resultado STRING OPTIONS(description="Resultado do ensaio físico-químico."),
-    unidade_ensaio STRING OPTIONS(description="Unidade do ensaio físico-químico."),
+    unidade_ensaio STRING OPTIONS(description="Unidade de medida do ensaio físico-químico."),
     conforme STRING OPTIONS(description="Avaliação de Conformidade do ensaio físico-químico.
 1. Não: Ensaio Não Conforme 2. Sim: Ensaio Conforme."),
     data_criacao TIMESTAMP DEFAULT CURRENT_TIMESTAMP() OPTIONS(description="Data de criação do registro na camada raw")
