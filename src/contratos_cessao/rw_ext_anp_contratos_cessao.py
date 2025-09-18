@@ -37,31 +37,29 @@ def rw_ext_anp_contratos_cessao():
 	df = df[1:]
 
 	df.rename(columns=MAPPING_COLUMNS, inplace=True)
-	print(df.columns)
-	print(df.head())
 
-	# client = bigquery.Client()
-	# project_id = os.getenv("GOOGLE_CLOUD_PROJECT", "ext-ecole-biomassa")
+	client = bigquery.Client()
+	project_id = os.getenv("GOOGLE_CLOUD_PROJECT", "ext-ecole-biomassa")
 
-	# table_id = f"{project_id}.{TABLE_ID}"
+	table_id = f"{project_id}.{TABLE_ID}"
 
-	# job_config = bigquery.LoadJobConfig(
-	# 	write_disposition=bigquery.WriteDisposition.WRITE_APPEND,
-	# )
+	job_config = bigquery.LoadJobConfig(
+		write_disposition=bigquery.WriteDisposition.WRITE_APPEND,
+	)
 
-	# partition_key = date.today().strftime('%Y%m%d')
+	partition_key = date.today().strftime('%Y%m%d')
 
-	# partitioned_table_id = f"{table_id}${partition_key}"
-	# logging.info(f"Inserting data for partition: {partition_key}")
-	# logging.info(f"Total rows to insert: {len(df)}")
+	partitioned_table_id = f"{table_id}${partition_key}"
+	logging.info(f"Inserting data for partition: {partition_key}")
+	logging.info(f"Total rows to insert: {len(df)}")
 
-	# job = client.load_table_from_dataframe(
-	# 	df, partitioned_table_id, job_config=job_config
-	# )
-	# job.result()
-	# logging.info(f"Data for {partition_key} inserted successfully.")
+	job = client.load_table_from_dataframe(
+		df, partitioned_table_id, job_config=job_config
+	)
+	job.result()
+	logging.info(f"Data for {partition_key} inserted successfully.")
 
-	# logging.info("Data insertion completed!")
+	logging.info("Data insertion completed!")
 
 if __name__ == "__main__":
 	rw_ext_anp_contratos_cessao()
