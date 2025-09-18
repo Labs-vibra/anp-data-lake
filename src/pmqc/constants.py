@@ -23,7 +23,7 @@ COLUMNS = [
     "endereco",
     "complemento",
     "bairro",
-    "municipo",
+    "municipio",
     "latitude",
     "longitude",
     "uf",
