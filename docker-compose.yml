@@ -1,0 +1,74 @@
+services:
+  postgres:
+    image: postgres:13
+    container_name: airflow-postgres
+    environment:
+      - POSTGRES_USER=airflow
+      - POSTGRES_PASSWORD=airflow
+      - POSTGRES_DB=airflow
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "airflow"]
+      interval: 5s
+      retries: 5
+    restart: always
+
+  myairflow:
+    image: myairflow:latest
+    container_name: airflow-standalone
+    user: "1001:0"
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+    environment:
+      - AIRFLOW__DATABASE__SQL_ALCHEMY_CONN=postgresql+psycopg2://airflow:airflow@postgres:5432/airflow
+      - GOOGLE_APPLICATION_CREDENTIALS=/gcp.secrets.json
+      - AIRFLOW__CORE__EXECUTOR=LocalExecutor
+      - BUCKET_NAME=ext-ecole-biomassa
+      - GOOGLE_CLOUD_PROJECT=ext-ecole-biomassa-468317
+      - ENVIRONMENT=dev
+    volumes:
+      - ./airflow/dags:/opt/airflow/dags
+      - ./airflow/logs:/opt/airflow/logs
+      - ./airflow/plugins:/opt/airflow/plugins
+      - ./airflow/config:/opt/airflow/config
+      - /var/run/docker.sock:/var/run/docker.sock
+    env_file:
+      - ./.env
+    ports:
+      - "8080:8080"
+
+    working_dir: /opt/airflow
+
+    command: >
+      bash -c "
+        airflow db migrate &&
+        airflow standalone
+      "
+
+      depends_on:
+        - postgres
+  bigquery-emulator:
+      image: ghcr.io/goccy/bigquery-emulator:latest
+      container_name: bigquery-emulator
+
+      command: --project=ext-ecole-biomassa-468317 --host=0.0.0.0 --port=9050
+
+      ports:
+        - "9050:9050"
+
+      environment:
+        - BIGQUERY_EMULATOR_HOST=0.0.0.0:9050
+
+      volumes:
+        - bigquery-data:/opt/bigquery-emulator
+        - ./bigquery/init:/docker-entrypoint-initdb.d
+
+volumes:
+  postgres-data:
+  bigquery-data:
+
