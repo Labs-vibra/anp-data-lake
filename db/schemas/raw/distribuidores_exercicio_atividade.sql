@@ -14,6 +14,6 @@ CREATE TABLE IF NOT EXISTS distribuidores_exercicio_atividade (
     data_publicacao STRING OPTIONS(description="Data de publicação da empresa"),
     tipo_de_ato STRING OPTIONS(description="Tipo de ato da empresa"),
     tipo_de_autorizacao STRING OPTIONS(description="Tipo de autorização da empresa"),
-    numero_do_ato INT64 OPTIONS(description="Número do ato da empresa"),
-    data_insercao STRING OPTIONS(description="Data de inserção do registro")
-) PARTITION BY DATE(data_insercao)
+    numero_do_ato STRING OPTIONS(description="Número do ato da empresa"),
+    data_criacao TIMESTAMP DEFAULT CURRENT_TIMESTAMP() OPTIONS(description="Data de criação do registro"),
+) PARTITION BY DATE(data_criacao);
