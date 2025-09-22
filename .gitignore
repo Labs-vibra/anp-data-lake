@@ -32,3 +32,4 @@ override.tf.json
 
 # Sensitive files
 terraform.tfvars.terraform/
+airflow/logs/*
