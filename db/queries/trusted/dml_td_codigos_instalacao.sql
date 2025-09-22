@@ -1,21 +1,22 @@
 MERGE td_ext_anp.codigos_instalacao AS target
 USING (
 SELECT
+    FARM_FINGERPRINT(CONCAT(cod_instalacao, num_cnpj, nom_razao_social)) AS id,
     cod_instalacao,
     num_cnpj,
-    nom_razao_social,
+    LOWER(REGEXP_REPLACE(NORMALIZE(nom_razao_social, NFD), r'\pM', '')) AS nom_razao_social,
     num_cep,
-    txt_endereco,
-    SAFE_CAST(num_numero AS NUMERIC) AS num_numero,
-    txt_complemento,
-    nom_bairro,
-    nom_municipio,
-    nom_estado,
+    LOWER(REGEXP_REPLACE(NORMALIZE(txt_endereco, NFD), r'\pM', '')) AS txt_endereco,
+    SAFE_CAST(NULLIF(num_numero, 'S/N') AS NUMERIC) AS num_numero,
+    LOWER(REGEXP_REPLACE(NORMALIZE(txt_complemento, NFD), r'\pM', '')) AS txt_complemento,
+    LOWER(REGEXP_REPLACE(NORMALIZE(nom_bairro, NFD), r'\pM', '')) AS nom_bairro,
+    LOWER(REGEXP_REPLACE(NORMALIZE(nom_municipio, NFD), r'\pM', '')) AS nom_municipio,
+    LOWER(REGEXP_REPLACE(NORMALIZE(nom_estado, NFD), r'\pM', '')) AS nom_estado,
     num_autorizacao,
     SAFE.PARSE_DATE('%d/%m/%Y', SPLIT(dat_publicacao, ',')[OFFSET(0)]) AS dat_publicacao,
-    txt_status,
-    txt_tipo_instalacao,
-    nom_reduzido,
+    LOWER(REGEXP_REPLACE(NORMALIZE(txt_status, NFD), r'\pM', '')) AS txt_status,
+    LOWER(REGEXP_REPLACE(NORMALIZE(txt_tipo_instalacao, NFD), r'\pM', '')) AS txt_tipo_instalacao,
+    LOWER(REGEXP_REPLACE(NORMALIZE(nom_reduzido, NFD), r'\pM', '')) AS nom_reduzido,
     num_cnpj_administrador_base,
     SAFE.PARSE_DATE('%Y%m', dat_mesano_vigencia_inicial || '01') AS dat_mesano_vigencia_inicial,
     SAFE.PARSE_DATE('%Y%m', dat_mesano_vigencia_final || '01') AS dat_mesano_vigencia_final,
@@ -50,6 +51,7 @@ UPDATE SET
     target.data_criacao = source.data_criacao
 WHEN NOT MATCHED THEN
 INSERT (
+    id,
     cod_instalacao,
     num_cnpj,
     nom_razao_social,
@@ -71,6 +73,7 @@ INSERT (
     data_versao,
     data_criacao
 ) VALUES (
+    source.id,
     source.cod_instalacao,
     source.num_cnpj,
     source.nom_razao_social,
