@@ -13,7 +13,7 @@ with DAG(
     dag_id='pmqc_pipeline',
     default_args=default_args,
     description='PQMC',
-    schedule_interval=None,
+    schedule_interval='@monthly'
     catchup=False,
     max_active_tasks=2,
 ) as dag:
