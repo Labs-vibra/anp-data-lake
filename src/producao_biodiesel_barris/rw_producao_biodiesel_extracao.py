@@ -4,14 +4,14 @@ import pandas as pd
 from datetime import date
 from google.cloud import storage, bigquery
 import requests
-#from constants import (
+from constants import (
 #    BUCKET_NAME,
 #    MARKET_SHARE_FOLDER,
 #    PROJECT_ID,
 #    BQ_DATASET,
 #    TABLE_NAME,
-#    MAPPING_COLUMNS
-#)
+    MAPPING_COLUMNS
+)
 import logging
 
 logging.basicConfig(
@@ -54,30 +54,21 @@ def rw_ext_anp_producao_biodiesel_barris():
     #logging.info(f"Baixando arquivo {latest_blob.name} do bucket {BUCKET_NAME}...")
     #data_bytes = latest_blob.download_as_bytes()
 
-    #url_xls = "https://www.gov.br/anp/pt-br/centrais-de-conteudo/dados-estatisticos/de/pb/producao-biodiesel-b.xls"
     url_csv = "https://www.gov.br/anp/pt-br/centrais-de-conteudo/dados-abertos/arquivos/arquivos-producao-de-biocombustiveis/producao-biodiesel-m3-2005-2022.csv"
-
-    # --- XLS ---
-#    response_xls = requests.get(url_xls)
-#    response_xls.raise_for_status()
-
-#    df_xls = pd.read_excel(BytesIO(response_xls.content))
-#    df_xls.to_csv("producao_biodiesel_barris.csv", index=False, sep=";", encoding="utf-8")
 
     # --- CSV ---
     response_csv = requests.get(url_csv)
     response_csv.raise_for_status()
 
-    df_csv = pd.read_csv(BytesIO(response_csv.content), sep=";", encoding="latin1")
-    df_csv.to_csv("producao_biodiesel_m3.csv", index=False, sep=";", encoding="utf-8")
+    df = pd.read_csv(BytesIO(response_csv.content), sep=";", encoding="latin1")
+    df.to_csv("producao_biodiesel_m3.csv", index=False, sep=";", encoding="utf-8")
 
     print("Arquivos salvos com sucesso!")
-    #df.rename(columns=MAPPING_COLUMNS, inplace=True)
-    return df_xls
+    df.rename(columns=MAPPING_COLUMNS, inplace=True)
+
     #insert_data_into_bigquery(df)
     #logging.info("Inserção de dados concluída.")
 
 
 if __name__ == "__main__":
-    df = rw_ext_anp_producao_biodiesel_barris()
-    print(df)
+    rw_ext_anp_producao_biodiesel_barris()
