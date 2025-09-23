@@ -25,12 +25,12 @@ variable "bucket_name" {
 variable "service_account" {
   description = "Service account email"
   type        = string
-  default     = "gcp-agent@ext-ecole-biomassa-468317.iam.gserviceaccount.com"
+  default     = "reginafaria@vibraenergia.com.br"
 }
 
 variable "jobs_image_base_url" {
   type        = string
-  default     = ""
+  default     = "us-central1-docker.pkg.dev/ext-ecole-biomassa/ar-juridico-process-anp-datalake"
   description = "Base URL for the Docker image"
 }
 
@@ -43,9 +43,8 @@ variable "image_version" {
 locals {
   is_prod = var.is_prod
 
-  # Computed values based on environment
-  project_id          = var.is_prod ? "ext-ecole-biomassa" : "ext-ecole-biomassa-468317"
-  bucket_name         = var.is_prod ? "vibra-dtan-jur-anp-input" : "ext-ecole-biomassa"
-  service_account     = var.is_prod ? "PROD@ext-ecole-biomassa-468317.iam.gserviceaccount.com" : "gcp-agent@ext-ecole-biomassa-468317.iam.gserviceaccount.com"
-  jobs_image_base_url = var.jobs_image_base_url != "" ? var.jobs_image_base_url : "us-central1-docker.pkg.dev/${local.project_id}/ar-juridico-process-anp-datalake"
+  project_id          = "ext-ecole-biomassa"
+  bucket_name         = "vibra-dtan-jur-anp-input"
+  service_account     = "reginafaria@vibraenergia.com.br"
+  jobs_image_base_url = "us-central1-docker.pkg.dev/${local.project_id}/ar-juridico-process-anp-datalake"
 }

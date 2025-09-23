@@ -57,6 +57,7 @@ output "codigos_instalacao_jobs" {
     manual_simp        = module.codigos_instalacao.manual_simp_job_name
     codigos_instalacao = module.codigos_instalacao.codigos_instalacao_job_name
   }
+}
 
 # PMQC Jobs
 output "pmqc_jobs" {

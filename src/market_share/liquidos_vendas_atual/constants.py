@@ -3,7 +3,7 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-BUCKET_NAME= os.getenv("BUCKET_NAME", "ext-ecole-biomassa")
+BUCKET_NAME= os.getenv("BUCKET_NAME", "vibra-dtan-jur-anp-input")
 
 #RAW Liquidos de vendas atual
 MARKET_SHARE_FOLDER = "anp/market_share/extracao/"
