@@ -1,4 +1,4 @@
-CREATE TABLE IF NOT EXISTS distribuidores_exercicio_atividade (
+CREATE TABLE IF NOT EXISTS rw_ext_anp.distribuidores_exercicio_atividade (
     codigo_agente STRING OPTIONS(description="Código do agente"),
     codigo_agente_i_simp STRING OPTIONS(description="Código do agente no sistema i-SIMP"),
     cnpj STRING OPTIONS(description="CNPJ da empresa distribuidora"),
