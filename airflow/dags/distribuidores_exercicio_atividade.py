@@ -11,7 +11,7 @@ default_args = {
 }
 
 with DAG(
-    dag_id='distribuidores_combustiveis_liquidos_pipeline',
+    dag_id='distribuidores_combustiveis_liquidos_atividade_pipeline',
     default_args=default_args,
     description='Pipeline de extração de dados dos distribuidores de combustíveis líquidos da ANP',
     schedule_interval='@monthly',
@@ -30,7 +30,7 @@ with DAG(
         )
 
         run_td_distribuidores_comb_liq = populate_table(
-            table="rw_anp.distribuidores_combustiveis_liquidos",
+            table="td_ext_anp.distribuidores_exercicio_atividade",
             sql_name="/sql/trusted/dml_distribuidores_exercicio_atividade.sql"
         )
 
