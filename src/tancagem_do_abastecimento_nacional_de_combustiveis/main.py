@@ -29,7 +29,7 @@ def insert_data_into_bigquery(df: pd.DataFrame) -> None:
     job.result()
     logger.info(f"{len(df)} registros inseridos no BigQuery.")
 
-def build_raw(start_year: int, end_year: int):
+def build_raw(start_year: int, end_year: int) -> bool:
     """
     Baixa CSVs de Tancagem do Abastecimento Nacional de Combustíveis do site da ANP,
     normaliza colunas e envia para BigQuery.
@@ -44,7 +44,7 @@ def build_raw(start_year: int, end_year: int):
 
     if not csv_links:
         logger.error("Nenhum link CSV encontrado na página.")
-        return
+        return False
 
     filtered_links = []
     for link in csv_links:
@@ -59,7 +59,7 @@ def build_raw(start_year: int, end_year: int):
 
     if not filtered_links:
         logger.warning("Nenhum CSV dentro do intervalo de ano especificado.")
-        return
+        return False
 
     logger.info(f"{len(filtered_links)} arquivos CSV serão processados.")
 
@@ -83,13 +83,13 @@ def build_raw(start_year: int, end_year: int):
 
     if not all_dfs:
         logger.error("Nenhum CSV processado com sucesso.")
-        return
+        return False
 
     df_all = pd.concat(all_dfs, ignore_index=True)
     logger.info(f"Total de registros após concatenação: {len(df_all)}")
 
     insert_data_into_bigquery(df_all)
-    logger.info("Raw PMQC carregada com sucesso no BigQuery.")
+    logger.info("Raw Tancagem do Abastecimento Nacional de Combustíveis carregada com sucesso no BigQuery.")
 
 def main():
     """
