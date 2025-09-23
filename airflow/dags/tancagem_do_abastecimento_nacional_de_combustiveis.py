@@ -13,7 +13,7 @@ with DAG(
     dag_id='tancagem_do_abastecimento_nacional_de_combustiveis_pipeline',
     default_args=default_args,
     description='Tancagem do Abastecimento Nacional de Combustíveis',
-    schedule_interval=None,
+    schedule_interval='@monthly',
     catchup=False,
     max_active_tasks=2,
 ) as dag:
