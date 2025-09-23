@@ -10,3 +10,6 @@ upload-files:
 
 upload-db:
 	python3 ./scripts/upload_db.py
+
+upload-market-share:
+	gsutil cp -r airflow/dags/market_share.py gs://$(COMPOSE_BUCKET_NAME)/dags/
