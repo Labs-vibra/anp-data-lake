@@ -29,4 +29,9 @@ with DAG(
             job_name="cr-juridico-distribuidores-comb-liq-job-dev"
         )
 
-        run_rw_distribuidores_comb_liq
+        run_td_distribuidores_comb_liq = populate_table(
+            table="rw_anp.distribuidores_combustiveis_liquidos",
+            sql_name="/sql/trusted/dml_distribuidores_exercicio_atividade.sql"
+        )
+
+        run_rw_distribuidores_comb_liq >> run_td_distribuidores_comb_liq
