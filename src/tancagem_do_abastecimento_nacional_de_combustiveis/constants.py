@@ -1,7 +1,7 @@
 import os
 
 BUCKET_NAME = os.getenv("BUCKET_NAME", "vibra-dtan-jur-anp-input")
-BUCKET_PATH = "anp/pmqc/extracao/"
+BUCKET_PATH = "anp/tancagem_do_abastecimento_nacional_de_combustiveis/extracao/"
 
 URL_BASE = (
     "https://www.gov.br/anp/pt-br/centrais-de-conteudo/dados-abertos/tancagem-do-abastecimento"
