@@ -1,4 +1,5 @@
 CREATE TABLE IF NOT EXISTS td_ext_anp.contratos_cessao_espaco_carregamento (
+    id INT64 OPTIONS(description="Identificador único do registro"),
     tipo_contrato STRING OPTIONS(description="Tipo do contrato"),
     razao_social_cedente STRING OPTIONS(description="Razão social do cedente"),
     cnpj_cedente STRING OPTIONS(description="CNPJ do cedente"),
@@ -10,7 +11,7 @@ CREATE TABLE IF NOT EXISTS td_ext_anp.contratos_cessao_espaco_carregamento (
     numero_da_aea_cessionaria STRING OPTIONS(description="Número da autorização para o exercício da atividade da cessionária"),
     inicio_contrato_ato_homologacao STRING OPTIONS(description="Data do ofício que homologou o início do contrato"),
     processo STRING OPTIONS(description="Número do processo administrativo"),
-    termino_contrato STRING OPTIONS(description="Data de término do contrato"),
+    termino_contrato DATE OPTIONS(description="Data de término do contrato"),
     volume_m3 NUMERIC OPTIONS(description="Volume total autorizado no contrato em metros cúbicos"),
     gasolina_a NUMERIC OPTIONS(description="Quantidade destinada a Gasolina A"),
     gasolina_a_premium NUMERIC OPTIONS(description="Quantidade destinada a Gasolina A - Premium"),

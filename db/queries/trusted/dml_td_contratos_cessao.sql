@@ -1,78 +1,143 @@
-MERGE td_ext_anp.aposentadoria_cbios AS target
+MERGE td_ext_anp.contratos_cessao_espaco_carregamento AS target
 USING (
-    tipo_contrato,
-    razao_social_cedente,
-    cnpj_cedente,
-    numero_ao_da_cedente,
-    municipio_cedente,
-    uf_cedente,
-    razao_social_cessionaria,
-    cnpj_cessionaria,
-    numero_da_aea_cessionaria,
-    inicio_contrato_ato_homologacao,
-    processo,
-    termino_contrato,
-    IFNULL(SAFE_CAST(NULLIF(REPLACE(volume_m3, ',', '.'), '') AS NUMERIC), 0) AS volume_m3,
-    IFNULL(SAFE_CAST(NULLIF(REPLACE(gasolina_a, ',', '.'), '') AS NUMERIC), 0) AS gasolina_a,
-    IFNULL(SAFE_CAST(NULLIF(REPLACE(gasolina_a_premium, ',', '.'), '') AS NUMERIC), 0) AS gasolina_a_premium,
-    IFNULL(SAFE_CAST(NULLIF(REPLACE(gasolina_c, ',', '.'), '') AS NUMERIC), 0) AS gasolina_c,
-    IFNULL(SAFE_CAST(NULLIF(REPLACE(b100, ',', '.'), '') AS NUMERIC), 0) AS b100,
-    IFNULL(SAFE_CAST(NULLIF(REPLACE(eac, ',', '.'), '') AS NUMERIC), 0) AS eac,
-    IFNULL(SAFE_CAST(NULLIF(REPLACE(ehc, ',', '.'), '') AS NUMERIC), 0) AS ehc,
-    IFNULL(SAFE_CAST(NULLIF(REPLACE(oleo_diesel_a_s500, ',', '.'), '') AS NUMERIC), 0) AS oleo_diesel_a_s500,
-    IFNULL(SAFE_CAST(NULLIF(REPLACE(oleo_diesel_a_s10, ',', '.'), '') AS NUMERIC), 0) AS oleo_diesel_a_s10,
-    IFNULL(SAFE_CAST(NULLIF(REPLACE(oleo_diesel_b_s500, ',', '.'), '') AS NUMERIC), 0) AS oleo_diesel_b_s500,
-    IFNULL(SAFE_CAST(NULLIF(REPLACE(oleo_diesel_b_s10, ',', '.'), '') AS NUMERIC), 0) AS oleo_diesel_b_s10,
-    IFNULL(SAFE_CAST(NULLIF(REPLACE(diesel_c_s10, ',', '.'), '') AS NUMERIC), 0) AS diesel_c_s10,
-    IFNULL(SAFE_CAST(NULLIF(REPLACE(oleo_diesel_mar, ',', '.'), '') AS NUMERIC), 0) AS oleo_diesel_mar,
-    IFNULL(SAFE_CAST(NULLIF(REPLACE(oleo_combustivel_1a, ',', '.'), '') AS NUMERIC), 0) AS oleo_combustivel_1a,
-    IFNULL(SAFE_CAST(NULLIF(REPLACE(oleo_combustivel_1b, ',', '.'), '') AS NUMERIC), 0) AS oleo_combustivel_1b,
-    IFNULL(SAFE_CAST(NULLIF(REPLACE(qav, ',', '.'), '') AS NUMERIC), 0) AS qav,
-    IFNULL(SAFE_CAST(NULLIF(REPLACE(querosene_iluminante, ',', '.'), '') AS NUMERIC), 0) AS querosene_iluminante,
-    IFNULL(SAFE_CAST(NULLIF(REPLACE(gav, ',', '.'), '') AS NUMERIC), 0) AS gav,
-        FARM_FINGERPRINT(CONCAT(
-        data, '-',
-        CAST(data_criacao AS STRING), '-',
-        CAST(CURRENT_TIMESTAMP AS STRING))) AS id,
-        PARSE_DATE('%d/%m/%Y', data) AS data,
-        IFNULL(SAFE_CAST(NULLIF(REPLACE(quantidade_parte_obrigada, ',', '.'), '') AS NUMERIC), 0) AS quantidade_parte_obrigada,
-        IFNULL(SAFE_CAST(NULLIF(REPLACE(quantidade_parte_nao_obrigada, ',', '.'), '') AS NUMERIC), 0) AS quantidade_parte_nao_obrigada,
-        IFNULL(SAFE_CAST(NULLIF(REPLACE(totalizacao, ',', '.'), '') AS NUMERIC), 0) AS totalizacao,
-        data_criacao,
-        CURRENT_TIMESTAMP() AS data_ingestao_td
-    FROM rw_ext_anp.aposentadoria_cbios
+    SELECT
+        FARM_FINGERPRINT(CONCAT(tipo_contrato, '-', razao_social_cedente, '-', cnpj_cedente, '-', numero_ao_da_cedente, '-', municipio_cedente, '-', uf_cedente, '-', razao_social_cessionaria, '-', cnpj_cessionaria, '-', numero_da_aea_cessionaria, '-', inicio_contrato_ato_homologacao, '-', processo, '-', termino_contrato)) AS id,
+        REGEXP_REPLACE(LOWER(TRIM(NORMALIZE(tipo_contrato, NFD))), '[^a-zA-Z0-9_\\s-.\']', '') AS tipo_contrato,
+        REGEXP_REPLACE(LOWER(TRIM(NORMALIZE(razao_social_cedente, NFD))), '[^a-zA-Z0-9_\\s-.\']', '') AS razao_social_cedente,
+        cnpj_cedente,
+        numero_ao_da_cedente,
+        REGEXP_REPLACE(LOWER(TRIM(NORMALIZE(municipio_cedente, NFD))), '[^a-zA-Z0-9_\\s-.\']', '') AS municipio_cedente,
+        REGEXP_REPLACE(LOWER(TRIM(NORMALIZE(uf_cedente, NFD))), '[^a-zA-Z0-9_\\s-.\']', '') AS uf_cedente,
+        REGEXP_REPLACE(LOWER(TRIM(NORMALIZE(razao_social_cessionaria, NFD))), '[^a-zA-Z0-9_\\s-.\']', '') AS razao_social_cessionaria,
+        cnpj_cessionaria,
+        numero_da_aea_cessionaria,
+        inicio_contrato_ato_homologacao,
+        processo,
+        PARSE_DATE('%Y-%m-%d', termino_contrato) AS termino_contrato,
+        IFNULL(SAFE_CAST(NULLIF(REPLACE(volume_m3, ',', '.'), '') AS NUMERIC), 0) AS volume_m3,
+        IFNULL(SAFE_CAST(NULLIF(REPLACE(gasolina_a, ',', '.'), '') AS NUMERIC), 0) AS gasolina_a,
+        IFNULL(SAFE_CAST(NULLIF(REPLACE(gasolina_a_premium, ',', '.'), '') AS NUMERIC), 0) AS gasolina_a_premium,
+        IFNULL(SAFE_CAST(NULLIF(REPLACE(gasolina_c, ',', '.'), '') AS NUMERIC), 0) AS gasolina_c,
+        IFNULL(SAFE_CAST(NULLIF(REPLACE(b100, ',', '.'), '') AS NUMERIC), 0) AS b100,
+        IFNULL(SAFE_CAST(NULLIF(REPLACE(eac, ',', '.'), '') AS NUMERIC), 0) AS eac,
+        IFNULL(SAFE_CAST(NULLIF(REPLACE(ehc, ',', '.'), '') AS NUMERIC), 0) AS ehc,
+        IFNULL(SAFE_CAST(NULLIF(REPLACE(oleo_diesel_a_s500, ',', '.'), '') AS NUMERIC), 0) AS oleo_diesel_a_s500,
+        IFNULL(SAFE_CAST(NULLIF(REPLACE(oleo_diesel_a_s10, ',', '.'), '') AS NUMERIC), 0) AS oleo_diesel_a_s10,
+        IFNULL(SAFE_CAST(NULLIF(REPLACE(oleo_diesel_b_s500, ',', '.'), '') AS NUMERIC), 0) AS oleo_diesel_b_s500,
+        IFNULL(SAFE_CAST(NULLIF(REPLACE(oleo_diesel_b_s10, ',', '.'), '') AS NUMERIC), 0) AS oleo_diesel_b_s10,
+        IFNULL(SAFE_CAST(NULLIF(REPLACE(diesel_c_s10, ',', '.'), '') AS NUMERIC), 0) AS diesel_c_s10,
+        IFNULL(SAFE_CAST(NULLIF(REPLACE(oleo_diesel_mar, ',', '.'), '') AS NUMERIC), 0) AS oleo_diesel_mar,
+        IFNULL(SAFE_CAST(NULLIF(REPLACE(oleo_combustivel_1a, ',', '.'), '') AS NUMERIC), 0) AS oleo_combustivel_1a,
+        IFNULL(SAFE_CAST(NULLIF(REPLACE(oleo_combustivel_1b, ',', '.'), '') AS NUMERIC), 0) AS oleo_combustivel_1b,
+        IFNULL(SAFE_CAST(NULLIF(REPLACE(qav, ',', '.'), '') AS NUMERIC), 0) AS qav,
+        IFNULL(SAFE_CAST(NULLIF(REPLACE(querosene_iluminante, ',', '.'), '') AS NUMERIC), 0) AS querosene_iluminante,
+        IFNULL(SAFE_CAST(NULLIF(REPLACE(gav, ',', '.'), '') AS NUMERIC), 0) AS gav,
+        data_criacao
+    FROM td_ext_anp.contratos_cessao_espaco_carregamento
     WHERE data_criacao = (
         SELECT MAX(data_criacao)
-        FROM rw_ext_anp.aposentadoria_cbios
+        FROM td_ext_anp.contratos_cessao_espaco_carregamento
     )
 ) AS source
-ON source.data = target.data
-WHEN MATCHED AND (
-    source.quantidade_parte_obrigada IS DISTINCT FROM target.quantidade_parte_obrigada
-    OR source.quantidade_parte_nao_obrigada IS DISTINCT FROM target.quantidade_parte_nao_obrigada
-    OR source.totalizacao IS DISTINCT FROM target.totalizacao
-) THEN
+ON target.tipo_contrato = source.tipo_contrato
+AND target.razao_social_cedente = source.razao_social_cedente
+AND target.cnpj_cedente = source.cnpj_cedente
+AND target.numero_ao_da_cedente = source.numero_ao_da_cedente
+AND target.municipio_cedente = source.municipio_cedente
+AND target.uf_cedente = source.uf_cedente
+AND target.razao_social_cessionaria = source.razao_social_cessionaria
+AND target.cnpj_cessionaria = source.cnpj_cessionaria
+AND target.numero_da_aea_cessionaria = source.numero_da_aea_cessionaria
+AND target.inicio_contrato_ato_homologacao = source.inicio_contrato_ato_homologacao
+AND target.processo = source.processo
+AND target.termino_contrato = source.termino_contrato
+WHEN MATCHED THEN
     UPDATE SET
-        id = source.id,
-        quantidade_parte_obrigada = source.quantidade_parte_obrigada,
-        quantidade_parte_nao_obrigada = source.quantidade_parte_nao_obrigada,
-        totalizacao = source.totalizacao,
+        volume_m3 = source.volume_m3,
+        gasolina_a_premium = source.gasolina_a_premium,
+        gasolina_c = source.gasolina_c,
+        b100 = source.b100,
+        eac = source.eac,
+        ehc = source.ehc,
+        oleo_diesel_a_s500 = source.oleo_diesel_a_s500,
+        oleo_diesel_a_s10 = source.oleo_diesel_a_s10,
+        oleo_diesel_b_s500 = source.oleo_diesel_b_s500,
+        oleo_diesel_b_s10 = source.oleo_diesel_b_s10,
+        diesel_c_s10 = source.diesel_c_s10,
+        oleo_diesel_mar = source.oleo_diesel_mar,
+        oleo_combustivel_1a = source.oleo_combustivel_1a,
+        oleo_combustivel_1b = source.oleo_combustivel_1b,
+        qav = source.qav,
+        querosene_iluminante = source.querosene_iluminante,
+        gav = source.gav,
         data_criacao = source.data_criacao
 WHEN NOT MATCHED THEN
     INSERT (
         id,
-        data,
-        quantidade_parte_obrigada,
-        quantidade_parte_nao_obrigada,
-        totalizacao,
+        tipo_contrato,
+        razao_social_cedente,
+        cnpj_cedente,
+        numero_ao_da_cedente,
+        municipio_cedente,
+        uf_cedente,
+        razao_social_cessionaria,
+        cnpj_cessionaria,
+        numero_da_aea_cessionaria,
+        inicio_contrato_ato_homologacao,
+        processo,
+        termino_contrato,
+        volume_m3,
+        gasolina_a,
+        gasolina_a_premium,
+        gasolina_c,
+        b100,
+        eac,
+        ehc,
+        oleo_diesel_a_s500,
+        oleo_diesel_a_s10,
+        oleo_diesel_b_s500,
+        oleo_diesel_b_s10,
+        diesel_c_s10,
+        oleo_diesel_mar,
+        oleo_combustivel_1a,
+        oleo_combustivel_1b,
+        qav,
+        querosene_iluminante,
+        gav,
         data_criacao
     )
     VALUES (
         source.id,
-        source.data,
-        source.quantidade_parte_obrigada,
-        source.quantidade_parte_nao_obrigada,
-        source.totalizacao,
+        source.tipo_contrato,
+        source.razao_social_cedente,
+        source.cnpj_cedente,
+        source.numero_ao_da_cedente,
+        source.municipio_cedente,
+        source.uf_cedente,
+        source.razao_social_cessionaria,
+        source.cnpj_cessionaria,
+        source.numero_da_aea_cessionaria,
+        source.inicio_contrato_ato_homologacao,
+        source.processo,
+        source.termino_contrato,
+        source.volume_m3,
+        source.gasolina_a,
+        source.gasolina_a_premium,
+        source.gasolina_c,
+        source.b100,
+        source.eac,
+        source.ehc,
+        source.oleo_diesel_a_s500,
+        source.oleo_diesel_a_s10,
+        source.oleo_diesel_b_s500,
+        source.oleo_diesel_b_s10,
+        source.diesel_c_s10,
+        source.oleo_diesel_mar,
+        source.oleo_combustivel_1a,
+        source.oleo_combustivel_1b,
+        source.qav,
+        source.querosene_iluminante,
+        source.gav,
         source.data_criacao
     );
 
