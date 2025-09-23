@@ -1,10 +1,12 @@
 from airflow.providers.google.cloud.operators.bigquery import BigQueryInsertJobOperator
 from airflow.providers.google.cloud.operators.cloud_run import CloudRunExecuteJobOperator
+from airflow.providers.docker.operators.docker import DockerOperator
 from airflow.providers.google.cloud.hooks.gcs import GCSHook
 import os
 
 bucket = os.getenv("BUCKET_NAME", "vibra-dtan-jur-anp-input")
 project_id = os.getenv("GOOGLE_CLOUD_PROJECT", "ext-ecole-biomassa")
+is_prod = os.getenv("ENVIRONMENT", "dev") == "prod"
 
 def get_sql_content(sql_path):
     gcs_hook = GCSHook()
@@ -33,3 +35,26 @@ def exec_cloud_run_job(task_id, job_name):
         deferrable=True,
         pool="cloud_run_pool",
     )
+
+def exec_docker_image(task_id, image, env_vars):
+    return DockerOperator(
+        task_id=task_id,
+        image=image,
+        environment={
+            **env_vars,
+            'GOOGLE_APP_CREDENTIALS': '/app/gcp.secrets.json'
+        }
+    )
+
+def exec_job(task_id, job_name, image='extracao:latest'):
+    if is_prod:
+        return exec_cloud_run_job(task_id, job_name)
+    else:
+        return exec_docker_image(
+            task_id=task_id,
+            image=image,
+            env_vars={
+                'BUCKET_NAME': bucket,
+                'GOOGLE_CLOUD_PROJECT': project_id
+            }
+        )

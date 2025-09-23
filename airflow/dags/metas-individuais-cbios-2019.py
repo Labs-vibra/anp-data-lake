@@ -1,5 +1,5 @@
 from airflow import DAG
-from utils.operators import exec_cloud_run_job, populate_table
+from utils.operators import exec_job, populate_table
 from airflow.utils.dates import days_ago
 from airflow.utils.task_group import TaskGroup
 
@@ -19,7 +19,7 @@ with DAG(
 ) as dag:
 
     with TaskGroup("etl_metas_cbios-2019", tooltip="ETL Metas CBIOS 2019") as etl_metas_cbios_2019:
-        run_rw_metas_cbios_2019 = exec_cloud_run_job(
+        run_rw_metas_cbios_2019 = exec_job(
             task_id="extraction_metas_cbios-2019",
             job_name="cr-juridico-extracao-metas-cbios-2019-job-dev"
         )

@@ -68,3 +68,10 @@ module "distribuidores_comb_liq" {
   image_version       = var.image_version
   project_id          = local.project_id
 }
+
+module "pmqc" {
+  source              = "./modules/pmqc"
+  region              = var.region
+  jobs_image_base_url = local.jobs_image_base_url
+  image_version       = var.image_version
+}
