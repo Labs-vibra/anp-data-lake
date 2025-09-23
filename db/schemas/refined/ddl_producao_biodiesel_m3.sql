@@ -1,4 +1,4 @@
-CREATE TABLE IF NOT EXISTS td_ext_anp.producao_biodiesel_m3 (
+CREATE TABLE IF NOT EXISTS rf_ext_anp.producao_biodiesel_m3 (
     id INT64 OPTIONS(description="identificador único do registro")
     data STRING OPTIONS(description="Data da producao"),
     grande_regiao STRING OPTIONS(description="Região do Brasil"),
@@ -8,4 +8,4 @@ CREATE TABLE IF NOT EXISTS td_ext_anp.producao_biodiesel_m3 (
     producao STRING OPTIONS(description="Quantidade do produto em m³"),
     data_criacao TIMESTAMP OPTIONS(description="data da criação da camada raw"),
     data_ingestao_td TIMESTAMP DEFAULT CURRENT_TIMESTAMP() OPTIONS(description="Data de criação do registro na trusted")
-) PARTITION BY DATE(data_ingestao_td);
+) PARTITION BY DATE(data_ingestao_rf);

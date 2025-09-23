@@ -57,6 +57,7 @@ output "codigos_instalacao_jobs" {
     manual_simp        = module.codigos_instalacao.manual_simp_job_name
     codigos_instalacao = module.codigos_instalacao.codigos_instalacao_job_name
   }
+}
 
 # PMQC Jobs
 output "pmqc_jobs" {
@@ -79,6 +80,14 @@ output "contratos_cessao_jobs" {
   description = "Lista de jobs do Cloud Run para Contratos cessão"
   value = {
     extraction = module.contratos_cessao.contratos_cessao_job_name
+  }
+}
+
+# Produção de biodiesel m3 Jobs
+output "producao_biodiesel_m3_jobs" {
+  description = "Lista de jobs do Cloud Run para Produção de biodiesel m3"
+  value = {
+    extraction = module.producao_biodiesel_m3.producao_biodiesel_m3_job_name
   }
 }
 
