@@ -74,6 +74,14 @@ output "distribuidores_comb_liq_jobs" {
   }
 }
 
+# Contratos cessão Jobs
+output "contratos_cessao_jobs" {
+  description = "Lista de jobs do Cloud Run para Contratos cessão"
+  value = {
+    extraction = module.contratos_cessao.contratos_cessao_job_name
+  }
+}
+
 # Project Information
 output "project_id" {
   description = "ID do projeto GCP"
