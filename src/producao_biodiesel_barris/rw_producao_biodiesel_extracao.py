@@ -54,15 +54,15 @@ def rw_ext_anp_producao_biodiesel_barris():
     #logging.info(f"Baixando arquivo {latest_blob.name} do bucket {BUCKET_NAME}...")
     #data_bytes = latest_blob.download_as_bytes()
 
-    url_xls = "https://www.gov.br/anp/pt-br/centrais-de-conteudo/dados-estatisticos/de/pb/producao-biodiesel-b.xls"
+    #url_xls = "https://www.gov.br/anp/pt-br/centrais-de-conteudo/dados-estatisticos/de/pb/producao-biodiesel-b.xls"
     url_csv = "https://www.gov.br/anp/pt-br/centrais-de-conteudo/dados-abertos/arquivos/arquivos-producao-de-biocombustiveis/producao-biodiesel-m3-2005-2022.csv"
 
     # --- XLS ---
-    response_xls = requests.get(url_xls)
-    response_xls.raise_for_status()
+#    response_xls = requests.get(url_xls)
+#    response_xls.raise_for_status()
 
-    df_xls = pd.read_excel(BytesIO(response_xls.content))
-    df_xls.to_csv("producao_biodiesel_barris.csv", index=False, sep=";", encoding="utf-8")
+#    df_xls = pd.read_excel(BytesIO(response_xls.content))
+#    df_xls.to_csv("producao_biodiesel_barris.csv", index=False, sep=";", encoding="utf-8")
 
     # --- CSV ---
     response_csv = requests.get(url_csv)
