@@ -1,6 +1,6 @@
 CREATE TABLE IF NOT EXISTS rw_ext_anp.tancagem_do_abastecimento_nacional_de_combustiveis (
     data STRING OPTIONS(description="Data de referência da tancagem"),
-    nome_empresarial STRING OPTIONS(description="Nome empresarial da empresa"),
+    nome_empresarial STRING OPTIONS(description="Nome da empresa"),
     uf STRING OPTIONS(description="Unidade Federativa"),
     municipio STRING OPTIONS(description="Município"),
     cnpj STRING OPTIONS(description="CNPJ da empresa"),
