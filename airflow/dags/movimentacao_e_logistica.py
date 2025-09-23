@@ -1,7 +1,7 @@
 from airflow import DAG
 from airflow.utils.dates import days_ago
 from airflow.utils.task_group import TaskGroup
-from utils.operators import exec_cloud_run_job, populate_table
+from utils.operators import exec_job, populate_table
 import datetime as dt
 
 default_args = {
@@ -19,13 +19,13 @@ with DAG(
     max_active_tasks=2,
 ) as dag:
 
-    run_extract_logistics = exec_cloud_run_job(
+    run_extract_logistics = exec_job(
         task_id="extract_logistics_files",
         job_name="cr-juridico-extracao-logistica-job-dev"
     )
 
     with TaskGroup("etl_logistics_01", tooltip="ETL Logística 01") as etl_logistics_01:
-        run_rw_logistics_01 = exec_cloud_run_job(
+        run_rw_logistics_01 = exec_job(
             task_id="logistics_01",
             job_name="cr-juridico-extracao-logistica-01-job-dev"
         )
@@ -36,7 +36,7 @@ with DAG(
         run_rw_logistics_01 >> pop_td_logistics_01
 
     with TaskGroup("etl_logistics_02", tooltip="ETL Logística 02") as etl_logistics_02:
-        run_rw_logistics_02 = exec_cloud_run_job(
+        run_rw_logistics_02 = exec_job(
             task_id="logistics_02",
             job_name="cr-juridico-extracao-logistica-02-job-dev"
         )
@@ -47,7 +47,7 @@ with DAG(
         run_rw_logistics_02 >> pop_td_logistics_02
 
     with TaskGroup("etl_logistics_03", tooltip="ETL Logística 03") as etl_logistics_03:
-        run_rw_logistics_03 = exec_cloud_run_job(
+        run_rw_logistics_03 = exec_job(
             task_id="logistics_03",
             job_name="cr-juridico-extracao-logistica-03-job-dev"
         )

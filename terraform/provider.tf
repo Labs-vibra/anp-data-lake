@@ -7,7 +7,7 @@ terraform {
   }
 
   backend "gcs" {
-    bucket = "ext-ecole-biomassa" #  var.is_prod ? "vibra-dtan-jur-anp-input" : "ext-ecole-biomassa"
+    bucket = "vibra-dtan-jur-anp-input" #  var.is_prod ? "vibra-dtan-jur-anp-input" : "ext-ecole-biomassa"
     prefix = "terraform/state"
   }
 }

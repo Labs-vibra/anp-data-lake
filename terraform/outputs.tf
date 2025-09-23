@@ -57,6 +57,21 @@ output "codigos_instalacao_jobs" {
     manual_simp        = module.codigos_instalacao.manual_simp_job_name
     codigos_instalacao = module.codigos_instalacao.codigos_instalacao_job_name
   }
+
+# PMQC Jobs
+output "pmqc_jobs" {
+  description = "Lista de jobs do Cloud Run para PMQC"
+  value = {
+    pmqc        = module.pmqc.pmqc_job_name
+  }
+}
+
+# Distribuidores Combustíveis Líquidos Jobs
+output "distribuidores_comb_liq_jobs" {
+  description = "Lista de jobs do Cloud Run para Distribuidores de Combustíveis Líquidos"
+  value = {
+    extraction = module.distribuidores_comb_liq.distribuidores_comb_liq_job_name
+  }
 }
 
 # Project Information

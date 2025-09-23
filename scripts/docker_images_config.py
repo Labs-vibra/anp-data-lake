@@ -47,12 +47,17 @@ INSTALLATION_CODES_IMAGES = [
     {"label": "Extração Manual SIMP", "name": "run-extracao-manual-simp", "path": "./src/manual_simp/extracao"},
 ]
 
+DISTRIBUIDORES_COMB_LIQ_IMAGES = [
+    {"label": "Extração Distribuidores Combustíveis Líquidos", "name": "run-distribuidores-comb-liq-auto-exercicio-ativ", "path": "./src/distribuidores_comb_liq_auto_exercicio_ativ"},
+]
+
 DOCKER_IMAGES = [
     *LOGISTICA_IMAGES,
     *CBIOS_METAS_IMAGES,
     *CBIOS_RETIREMENT_IMAGES,
     *MARKET_SHARE_IMAGES,
     *INSTALLATION_CODES_IMAGES,
+    *DISTRIBUIDORES_COMB_LIQ_IMAGES
 ]
 
 def get_image_by_name(image_name):

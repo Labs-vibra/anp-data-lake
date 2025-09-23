@@ -7,7 +7,7 @@ variable "is_prod" {
 variable "project_id" {
   description = "GCP project ID"
   type        = string
-  default     = "ext-ecole-biomassa-468317"
+  default     = "ext-ecole-biomassa"
 }
 
 variable "region" {
@@ -19,18 +19,19 @@ variable "region" {
 variable "bucket_name" {
   description = "Name of the GCS bucket"
   type        = string
-  default     = "ext-ecole-biomassa"
+  default     = "vibra-dtan-jur-anp-input"
 }
 
 variable "service_account" {
   description = "Service account email"
   type        = string
-  default     = "gcp-agent@ext-ecole-biomassa-468317.iam.gserviceaccount.com"
+  default     = "reginafaria@vibraenergia.com.br"
+  # default     = "gcp-agent@ext-ecole-biomassa-468317.iam.gserviceaccount.com"
 }
 
 variable "jobs_image_base_url" {
   type        = string
-  default     = ""
+  default     = "us-central1-docker.pkg.dev/ext-ecole-biomassa/ar-juridico-process-anp-datalake"
   description = "Base URL for the Docker image"
 }
 
@@ -46,6 +47,6 @@ locals {
   # Computed values based on environment
   project_id          = var.is_prod ? "ext-ecole-biomassa" : "ext-ecole-biomassa-468317"
   bucket_name         = var.is_prod ? "vibra-dtan-jur-anp-input" : "ext-ecole-biomassa"
-  service_account     = var.is_prod ? "PROD@ext-ecole-biomassa-468317.iam.gserviceaccount.com" : "gcp-agent@ext-ecole-biomassa-468317.iam.gserviceaccount.com"
-  jobs_image_base_url = var.jobs_image_base_url != "" ? var.jobs_image_base_url : "us-central1-docker.pkg.dev/${local.project_id}/ar-juridico-process-anp-datalake"
+  service_account     = var.is_prod ? "reginafaria@vibraenergia.com.br" : "gcp-agent@ext-ecole-biomassa-468317.iam.gserviceaccount.com"
+  jobs_image_base_url = "us-central1-docker.pkg.dev/${local.project_id}/ar-juridico-process-anp-datalake"
 }
