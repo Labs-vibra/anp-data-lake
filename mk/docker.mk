@@ -15,6 +15,7 @@ deploy-sprint-3-images:
 	make upload-one-docker-image IMAGE=run-raw-entregas-fornecedor-atual
 	make upload-one-docker-image IMAGE=run-raw-liquidos-historico-vendas
 	make upload-one-docker-image IMAGE=run-extracao-aposentadoria-cbios-job
+	make upload-one-docker-image IMAGE=run-extracao-contratos-cessao-job
 
 build-airflow-image:
 	docker build --no-cache -t composer-airflow-image ./airflow/image
