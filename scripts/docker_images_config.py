@@ -51,8 +51,16 @@ DISTRIBUIDORES_COMB_LIQ_IMAGES = [
     {"label": "Extração Distribuidores Combustíveis Líquidos", "name": "run-distribuidores-comb-liq-auto-exercicio-ativ", "path": "./src/distribuidores_comb_liq_auto_exercicio_ativ"},
 ]
 
+PMQC_IMAGES = [
+    {"label": "Extração Programa de Monitoramento da Qualidade dos Combustíveis (PMQC)", "name": "run-raw-pmqc-job", "path": "./src/pmqc"},
+]
+
+TANCAGEM_DO_ABASTECIMENTO_NACIONAL_DE_COMBUSTIVEIS_IMAGES = [
+    {"label": "Extração Tancagem do Abastecimento Nacional de Combustíveis", "name": "run-raw-tancagem-do-abastecimento-nacional-de-combustiveis-job", "path": "./src/tancagem_do_abastecimento_nacional_de_combustiveis" },
+]
+
 PRODUCAO_BIODIESEL_M3 = [
-    {"label": "Extração Produção de biodiesel m3", "name": "run-producao-biodiesel-m3", "path": "./src/producao_biodiesel_m3"},
+    {"label": "Extração Produção de biodiesel m3", "name": "run-raw-producao-biodiesel-m3-job", "path": "./src/producao_biodiesel_m3"},    
 ]
 
 DOCKER_IMAGES = [
@@ -62,7 +70,10 @@ DOCKER_IMAGES = [
     *MARKET_SHARE_IMAGES,
     *INSTALLATION_CODES_IMAGES,
     *DISTRIBUIDORES_COMB_LIQ_IMAGES,
-    CBIOS_METAS_IMAGES[1]
+    CBIOS_METAS_IMAGES[1],
+    *PMQC_IMAGES,
+    *TANCAGEM_DO_ABASTECIMENTO_NACIONAL_DE_COMBUSTIVEIS_IMAGES,
+    *PRODUCAO_BIODIESEL_M3
 ]
 
 def get_image_by_name(image_name):
