@@ -20,3 +20,10 @@ MAPPING_COLUMNS = {
     "PRODUTO": "produto",
     "PRODUÇÃO": "producao",
 }
+
+MAPPING_COLUMNS_REGIAO = {
+    "ANO": "ano",
+    "MÊS": "mes",
+    "GRANDE REGIÃO": "grande_regiao",
+    "PRODUÇÃO": "producao",
+}

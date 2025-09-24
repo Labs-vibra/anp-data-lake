@@ -4,13 +4,16 @@ import pandas as pd
 from datetime import date
 from google.cloud import storage, bigquery
 import requests
+from bs4 import BeautifulSoup
+from utils import get_latest_links(), normalize_column()
 from constants import (
 #    BUCKET_NAME,
 #    MARKET_SHARE_FOLDER,
 #    PROJECT_ID,
 #    BQ_DATASET,
 #    TABLE_NAME,
-    MAPPING_COLUMNS
+    MAPPING_COLUMNS,
+    MAPPING_COLUMNS_REGIAO
 )
 import logging
 
@@ -36,7 +39,7 @@ def insert_data_into_bigquery(df: pd.DataFrame) -> None:
     )
     job.result()
 
-def rw_ext_anp_producao_biodiesel_barris():
+def extracao():
     """
     Faz download do arquivo Liquidos_Vendas_Atuais.csv mais recente do bucket no GCP,
     lê o arquivo, formata colunas e sobe a camada raw para o BigQuery.
@@ -53,22 +56,43 @@ def rw_ext_anp_producao_biodiesel_barris():
 
     #logging.info(f"Baixando arquivo {latest_blob.name} do bucket {BUCKET_NAME}...")
     #data_bytes = latest_blob.download_as_bytes()
+    links = get_latest_links()
+    if not links:
+        raise FileNotFoundError("Nenhum CSV encontrado no site da ANP.")
 
-    url_csv = "https://www.gov.br/anp/pt-br/centrais-de-conteudo/dados-abertos/arquivos/arquivos-producao-de-biocombustiveis/producao-biodiesel-m3-2005-2022.csv"
+    # Exemplo: separar pelo nome (um geral e outro por região)
+    link_geral = [l for l in links if "2005" in l][-1]
+    link_regiao = [l for l in links if not "2005" in l][-1]
+
+    print(f"Baixando geral: {link_geral}")
+    print(f"Baixando região: {link_regiao}")
 
     # --- CSV ---
-    response_csv = requests.get(url_csv)
+    response_csv = requests.get(link_geral)
     response_csv.raise_for_status()
 
     df = pd.read_csv(BytesIO(response_csv.content), sep=";", encoding="latin1")
-    df.to_csv("producao_biodiesel_m3.csv", index=False, sep=";", encoding="utf-8")
+    #df.to_csv("producao_biodiesel_m3.csv", index=False, sep=";", encoding="utf-8")
 
     print("Arquivos salvos com sucesso!")
     df.rename(columns=MAPPING_COLUMNS, inplace=True)
 
+    # --- CSV região ---
+    response_csv_regiao = requests.get(link_regiao)
+    response_csv_regiao.raise_for_status()
+
+    dfr = pd.read_csv(BytesIO(response_csv_regiao.content), sep=";", encoding="latin1")
+    #dfr.to_csv("producao_biodiesel_m3_regiao.csv", index=False, sep=";", encoding="utf-8")
+
+    print("Arquivos salvos com sucesso!")
+    dfr.rename(columns=MAPPING_COLUMNS_REGIAO, inplace=True)    
+
+    return df, dfr
     #insert_data_into_bigquery(df)
     #logging.info("Inserção de dados concluída.")
 
 
 if __name__ == "__main__":
-    rw_ext_anp_producao_biodiesel_barris()
+    df, dfr = extracao()
+    print(df.head())
+    print(dfr.head())
