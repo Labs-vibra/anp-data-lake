@@ -33,7 +33,7 @@ AND target.detalhe_instalacao     = source.detalhe_instalacao
 AND target.tag                    = source.tag
 AND target.tipo_da_unidade        = source.tipo_da_unidade
 AND target.grupo_de_produtos      = source.grupo_de_produtos
-AND target.data_criacao.          = source.data_criacao
+AND target.data_criacao           = source.data_criacao
 WHEN MATCHED AND (
     target.tancagem_m3 IS DISTINCT FROM source.tancagem_m3
 ) THEN
