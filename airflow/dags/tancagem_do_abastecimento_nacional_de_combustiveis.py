@@ -24,10 +24,10 @@ with DAG(
             task_id="tancagem_do_abastecimento_nacional_de_combustiveis_raw",
             job_name="cr-juridico-rw-tancagem-abastecimento-nacional-de-combustiveis-job-dev"
         )
-        # pop_td_tancagem_do_abastecimento_nacional_de_combustiveis = populate_table(
-        #     table="td_ext_anp.tancagem_do_abastecimento_nacional_de_combustiveis",
-        #     sql_name="/sql/trusted/dml_td_tancagem_do_abastecimento_nacional_de_combustiveis.sql"
-        # )
-        run_rw_tancagem_do_abastecimento_nacional_de_combustiveis #>> pop_td_tancagem_do_abastecimento_nacional_de_combustiveis
+        pop_td_tancagem_do_abastecimento_nacional_de_combustiveis = populate_table(
+            table="td_ext_anp.tancagem_do_abastecimento_nacional_de_combustiveis",
+            sql_name="/sql/trusted/dml_td_tancagem_do_abastecimento_nacional_de_combustiveis.sql"
+        )
+        run_rw_tancagem_do_abastecimento_nacional_de_combustiveis >> pop_td_tancagem_do_abastecimento_nacional_de_combustiveis
 
     etl_tancagem_do_abastecimento
