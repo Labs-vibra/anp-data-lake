@@ -13,7 +13,7 @@ with DAG(
     dag_id='producao_biodiesel_m3_pipeline',
     default_args=default_args,
     description='Produção de biodiesel m3',
-    schedule_interval=None,
+    schedule_interval='@monthly',
     catchup=False,
     max_active_tasks=2,
 ) as dag:

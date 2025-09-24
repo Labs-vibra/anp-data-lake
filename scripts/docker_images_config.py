@@ -51,6 +51,10 @@ DISTRIBUIDORES_COMB_LIQ_IMAGES = [
     {"label": "Extração Distribuidores Combustíveis Líquidos", "name": "run-distribuidores-comb-liq-auto-exercicio-ativ", "path": "./src/distribuidores_comb_liq_auto_exercicio_ativ"},
 ]
 
+PRODUCAO_BIODIESEL_M3 = [
+    {"label": "Extração Produção de biodiesel m3", "name": "run-producao-biodiesel-m3", "path": "./src/producao_biodiesel_m3"},
+]
+
 DOCKER_IMAGES = [
     # *LOGISTICA_IMAGES,
     # *CBIOS_METAS_IMAGES,
