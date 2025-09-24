@@ -10,7 +10,7 @@ USING (
         IFNULL(SAFE_CAST(NULLIF(cod_instalacao, '')) AS NUMERIC, 0) AS cod_instalacao,
         REGEXP_REPLACE(LOWER(TRIM(NORMALIZE(segmento, NFD))), '[^a-zA-Z0-9_\\s-.\']', '') AS segmento,
         REGEXP_REPLACE(LOWER(TRIM(NORMALIZE(detalhe_instalacao, NFD))), '[^a-zA-Z0-9_\\s-.\']', '') AS detalhe_instalacao,
-        REGEXP_REPLACE(TRIM(NORMALIZE(tag, NFD))), '[^a-zA-Z0-9_\\s-.\']', '') AS tag,
+        REGEXP_REPLACE(TRIM(NORMALIZE(tag, NFD)), '[^a-zA-Z0-9_\\s-.\']', '') AS tag,
         REGEXP_REPLACE(LOWER(TRIM(NORMALIZE(tipo_da_unidade, NFD))), '[^a-zA-Z0-9_\\s-.\']', '') AS tipo_da_unidade,
         REGEXP_REPLACE(LOWER(TRIM(NORMALIZE(grupo_de_produtos, NFD))), '[^a-zA-Z0-9_\\s-.\']', '') AS grupo_de_produtos,
         IFNULL(SAFE_CAST(NULLIF(REPLACE(tancagem_m3, ',', '.'), '') AS NUMERIC), 0) AS tancagem_m3,
