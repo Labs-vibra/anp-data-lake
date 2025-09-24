@@ -11,7 +11,7 @@ CREATE TABLE IF NOT EXISTS td_ext_anp.tancagem_do_abastecimento_nacional_de_comb
     tag STRING OPTIONS(description="Código ou tag interna atribuída à instalação, usada para classificação e controle pela ANP."),
     tipo_da_unidade STRING OPTIONS(description="Categoria da unidade de armazenamento (ex.: terminal, base de distribuição, refinaria, etc.)."),
     grupo_de_produtos STRING OPTIONS(description="Categoria de produtos armazenados (ex.: gasolina, diesel, etanol, QAV)."),
-    tancagem_m3 STRING OPTIONS(description="Capacidade total de armazenamento (tancagem) em metros cúbicos da instalação."),
+    tancagem_m3 NUMERIC OPTIONS(description="Capacidade total de armazenamento (tancagem) em metros cúbicos da instalação."),
     data_criacao TIMESTAMP OPTIONS(description="Data de inserção do registro na camada raw."),
     data_ingestao_td TIMESTAMP DEFAULT CURRENT_TIMESTAMP() OPTIONS(description="Data de ingestão do registro na camada trusted.")
 ) PARTITION BY DATE(data_ingestao_td);
