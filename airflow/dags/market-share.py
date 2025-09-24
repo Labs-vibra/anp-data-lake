@@ -27,11 +27,11 @@ with DAG(
     with TaskGroup("etl_historico_vendas", tooltip="ETL Histórico de Vendas") as etl_historico_vendas:
         run_raw_historico_vendas = exec_job(
             task_id="raw_historico_vendas",
-            job_name="cr-juridico-raw-vendas-atual-job-dev"
+            job_name="cr-juridico-raw-liquidos-entrega-historico-job-dev"
         )
         pop_td_historico_vendas = populate_table(
             table="td_ext_anp.liquidos_vendas_atual",
-            sql_name="/sql/trusted/dml_td_liquidos_vendas_atual.sql"
+            sql_name="/sql/trusted/dml_td_liquidos_historico_vendas.sql"
         )
         run_raw_historico_vendas >> pop_td_historico_vendas
 
