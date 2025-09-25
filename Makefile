@@ -4,5 +4,6 @@
 -include mk/docker.mk
 -include mk/uploads.mk
 -include mk/terraform.mk
+-include mk/deploy.mk
 
 .DEFAULT_GOAL := all
