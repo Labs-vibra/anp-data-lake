@@ -51,6 +51,10 @@ DISTRIBUIDORES_COMB_LIQ_IMAGES = [
     {"label": "Extração Distribuidores Combustíveis Líquidos", "name": "run-distribuidores-comb-liq-auto-exercicio-ativ", "path": "./src/distribuidores_comb_liq_auto_exercicio_ativ"},
 ]
 
+POSTOS_REVENDEDORES_IMAGES = [
+    {"label": "Extração Postos Revendedores", "name": "run-postos-revendedores-job", "path": "./src/postos_revendedores"},
+]
+
 DOCKER_IMAGES = [
     # *LOGISTICA_IMAGES,
     # *CBIOS_METAS_IMAGES,
