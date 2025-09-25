@@ -1,25 +1,28 @@
 WITH regex_acentos AS (
-  SELECT r'[ÁÀÂÃÄÉÈÊËÍÌÎÏÓÒÔÕÖÚÙÛÜÇáàâãäéèêëíìîïóòôõöúùûüç]' AS rx
+  SELECT r'[\u0300-\u036f]' AS rx -- regex para remover diacríticos após normalização NFD
 )
 MERGE td_ext_anp.distribuidores_exercicio_atividade t
 USING (
     SELECT
-        FARM_FINGERPRINT(CONCAT(LOWER(REGEXP_REPLACE(cnpj, rx, '')), '-', SAFE_CAST(codigo_agente AS STRING))) AS id,
+        FARM_FINGERPRINT(CONCAT(
+            LOWER(REGEXP_REPLACE(NORMALIZE(cnpj, NFD), rx, '')),
+            '-', SAFE_CAST(codigo_agente AS STRING)
+        )) AS id,
         SAFE_CAST(codigo_agente AS NUMERIC) AS codigo_agente,
         SAFE_CAST(codigo_agente_i_simp AS NUMERIC) AS codigo_agente_i_simp,
-        TRIM(LOWER(REGEXP_REPLACE(cnpj, rx, ''))) AS cnpj,
-        TRIM(LOWER(REGEXP_REPLACE(nome_reduzido, rx, ''))) AS nome_reduzido,
-        TRIM(LOWER(REGEXP_REPLACE(razao_social, rx, ''))) AS razao_social,
-        TRIM(LOWER(REGEXP_REPLACE(endereco_da_matriz, rx, ''))) AS endereco_da_matriz,
-        TRIM(LOWER(REGEXP_REPLACE(bairro, rx, ''))) AS bairro,
-        TRIM(LOWER(REGEXP_REPLACE(municipio, rx, ''))) AS municipio,
-        TRIM(LOWER(REGEXP_REPLACE(uf, rx, ''))) AS uf,
-        TRIM(LOWER(REGEXP_REPLACE(cep, rx, ''))) AS cep,
-        TRIM(LOWER(REGEXP_REPLACE(situacao, rx, ''))) AS situacao,
+        TRIM(LOWER(REGEXP_REPLACE(NORMALIZE(cnpj, NFD), rx, ''))) AS cnpj,
+        TRIM(LOWER(REGEXP_REPLACE(NORMALIZE(nome_reduzido, NFD), rx, ''))) AS nome_reduzido,
+        TRIM(LOWER(REGEXP_REPLACE(NORMALIZE(razao_social, NFD), rx, ''))) AS razao_social,
+        TRIM(LOWER(REGEXP_REPLACE(NORMALIZE(endereco_da_matriz, NFD), rx, ''))) AS endereco_da_matriz,
+        TRIM(LOWER(REGEXP_REPLACE(NORMALIZE(bairro, NFD), rx, ''))) AS bairro,
+        TRIM(LOWER(REGEXP_REPLACE(NORMALIZE(municipio, NFD), rx, ''))) AS municipio,
+        TRIM(LOWER(REGEXP_REPLACE(NORMALIZE(uf, NFD), rx, ''))) AS uf,
+        TRIM(LOWER(REGEXP_REPLACE(NORMALIZE(cep, NFD), rx, ''))) AS cep,
+        TRIM(LOWER(REGEXP_REPLACE(NORMALIZE(situacao, NFD), rx, ''))) AS situacao,
         SAFE_CAST(inicio_da_situacao AS DATE) AS inicio_da_situacao,
         SAFE_CAST(data_publicacao AS DATE) AS data_publicacao,
-        TRIM(LOWER(REGEXP_REPLACE(tipo_de_ato, rx, ''))) AS tipo_de_ato,
-        TRIM(LOWER(REGEXP_REPLACE(tipo_de_autorizacao, rx, ''))) AS tipo_de_autorizacao,
+        TRIM(LOWER(REGEXP_REPLACE(NORMALIZE(tipo_de_ato, NFD), rx, ''))) AS tipo_de_ato,
+        TRIM(LOWER(REGEXP_REPLACE(NORMALIZE(tipo_de_autorizacao, NFD), rx, ''))) AS tipo_de_autorizacao,
         SAFE_CAST(numero_do_ato AS NUMERIC) AS numero_do_ato,
         data_criacao
     FROM rw_ext_anp.distribuidores_exercicio_atividade, regex_acentos
