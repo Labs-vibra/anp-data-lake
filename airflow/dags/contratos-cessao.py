@@ -23,4 +23,8 @@ with DAG(
             task_id="extraction_contratos_cessao",
             job_name="cr-juridico-extracao-contratos-cessao-job-dev"
         )
-        run_rw_contratos_cessao
+        pop_td_contratos_cessao = populate_table(
+            table="td_ext_anp.contratos_cessao_espaco_carregamento",
+            sql_name="/sql/trusted/dml_td_contratos_cessao.sql"
+        )
+        run_rw_contratos_cessao >> pop_td_contratos_cessao
