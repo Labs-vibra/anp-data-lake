@@ -19,7 +19,7 @@ def insert_data_into_bigquery(df: pd.DataFrame) -> None:
     table_id = f"{PROJECT_ID}.{BQ_DATASET}.{TABLE_NAME}"
 
     job_config = bigquery.LoadJobConfig(
-         write_disposition=bigquery.WriteDisposition.WRITE_APPEND,
+        write_disposition=bigquery.WriteDisposition.WRITE_APPEND,
     )
     partition_key = date.today().strftime('%Y%m%d')
     partitioned_table_id = f"{table_id}${partition_key}"
