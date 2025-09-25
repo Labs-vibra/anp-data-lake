@@ -4,6 +4,9 @@ import requests
 from io import BytesIO
 from bs4 import BeautifulSoup
 from google.cloud import storage
+from constants import {
+    BASE_URL
+}
 import logging
 
 logging.basicConfig(
@@ -52,8 +55,6 @@ def upload_bytes_to_bucket(arquivo_bytes, nome_no_bucket, bucket_name: str):
     blob.upload_from_file(arquivo_bytes)
     logger.info(f"Arquivo enviado para bucket: {nome_no_bucket}")
     return True
-
-BASE_URL = "https://www.gov.br/anp/pt-br/centrais-de-conteudo/dados-abertos/producao-de-biocombustiveis"
 
 def get_latest_links():
     """

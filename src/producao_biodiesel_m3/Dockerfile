@@ -7,4 +7,4 @@ COPY . .
 RUN pip install --upgrade pip && \
     pip install --no-cache-dir -r requirements.txt
 
-CMD ["python3", "extracao.py"]
+CMD ["python3", "rw_produca_biodiesel_geral.py", "rw_produca_biodiesel_regiao"]

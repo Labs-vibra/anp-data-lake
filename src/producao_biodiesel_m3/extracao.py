@@ -6,27 +6,23 @@ from google.cloud import storage, bigquery
 import requests
 from bs4 import BeautifulSoup
 from utils import get_latest_links(), normalize_column()
-from constants import (
-#    BUCKET_NAME,
-#    MARKET_SHARE_FOLDER,
-#    PROJECT_ID,
-#    BQ_DATASET,
-#    TABLE_NAME,
-    MAPPING_COLUMNS,
-    MAPPING_COLUMNS_REGIAO
-)
 import logging
+from constants import{
+    BQ_DATASET,
+    PROJECT_ID,
+    BUCKET_NAME
+}
 
 logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s - %(levelname)s - %(message)s"
 )
 
-def insert_data_into_bigquery(df: pd.DataFrame) -> None:
+def insert_data_into_bigquery(df: pd.DataFrame , name) -> None:
     """ Insere dados no BigQuery com particionamento por data. """
 
     bq_client = bigquery.Client()
-    table_id = f"{PROJECT_ID}.{BQ_DATASET}.{TABLE_NAME}"
+    table_id = f"{PROJECT_ID}.{BQ_DATASET}.{name}"
 
     job_config = bigquery.LoadJobConfig(
          write_disposition=bigquery.WriteDisposition.WRITE_APPEND,
@@ -40,22 +36,7 @@ def insert_data_into_bigquery(df: pd.DataFrame) -> None:
     job.result()
 
 def extracao():
-    """
-    Faz download do arquivo Liquidos_Vendas_Atuais.csv mais recente do bucket no GCP,
-    lê o arquivo, formata colunas e sobe a camada raw para o BigQuery.
-    """
-    #storage_client = storage.Client()
 
-    #bucket = storage_client.bucket(BUCKET_NAME)
-    
-    #blobs = list(bucket.list_blobs(prefix=MARKET_SHARE_FOLDER))
-    #lobs_filtrados = [b for b in blobs if "producao_biodiesel_barris" in b.name]
-    #if not blobs_filtrados:
-    #    raise FileNotFoundError("Nenhum arquivo encontrado com 'producao_biodiesel_barris' no nome.")
-    #latest_blob = max(blobs_filtrados, key=lambda b: b.updated)
-
-    #logging.info(f"Baixando arquivo {latest_blob.name} do bucket {BUCKET_NAME}...")
-    #data_bytes = latest_blob.download_as_bytes()
     links = get_latest_links()
     if not links:
         raise FileNotFoundError("Nenhum CSV encontrado no site da ANP.")
@@ -68,29 +49,22 @@ def extracao():
     print(f"Baixando região: {link_regiao}")
 
     # --- CSV ---
-    response_csv = requests.get(link_geral)
-    response_csv.raise_for_status()
+    response_csv_geral = requests.get(link_geral)
+    response_csv_geral.raise_for_status()
 
-    df = pd.read_csv(BytesIO(response_csv.content), sep=";", encoding="latin1")
-    #df.to_csv("producao_biodiesel_m3.csv", index=False, sep=";", encoding="utf-8")
-
-    print("Arquivos salvos com sucesso!")
-    df.rename(columns=MAPPING_COLUMNS, inplace=True)
+    df = pd.read_csv(BytesIO(response_csv_geral.content), sep=";", encoding="latin1")
+    df.to_csv("producao_biodiesel_m3_geral.csv", index=False, sep=";", encoding="utf-8")
+    print("Arquivo salvo com sucesso!")
 
     # --- CSV região ---
     response_csv_regiao = requests.get(link_regiao)
     response_csv_regiao.raise_for_status()
 
     dfr = pd.read_csv(BytesIO(response_csv_regiao.content), sep=";", encoding="latin1")
-    #dfr.to_csv("producao_biodiesel_m3_regiao.csv", index=False, sep=";", encoding="utf-8")
-
-    print("Arquivos salvos com sucesso!")
-    dfr.rename(columns=MAPPING_COLUMNS_REGIAO, inplace=True)    
+    dfr.to_csv("producao_biodiesel_m3_regiao.csv", index=False, sep=";", encoding="utf-8")
+    print("Arquivo salvo com sucesso!")
 
     return df, dfr
-    #insert_data_into_bigquery(df)
-    #logging.info("Inserção de dados concluída.")
-
 
 if __name__ == "__main__":
     df, dfr = extracao()
