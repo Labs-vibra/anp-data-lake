@@ -4,9 +4,9 @@ import requests
 from io import BytesIO
 from bs4 import BeautifulSoup
 from google.cloud import storage
-from constants import {
+from constants import (
     BASE_URL
-}
+)
 import logging
 
 logging.basicConfig(

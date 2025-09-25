@@ -59,10 +59,6 @@ TANCAGEM_DO_ABASTECIMENTO_NACIONAL_DE_COMBUSTIVEIS_IMAGES = [
     {"label": "Extração Tancagem do Abastecimento Nacional de Combustíveis", "name": "run-raw-tancagem-do-abastecimento-nacional-de-combustiveis-job", "path": "./src/tancagem_do_abastecimento_nacional_de_combustiveis" },
 ]
 
-PRODUCAO_BIODIESEL_M3 = [
-    {"label": "Extração Produção de biodiesel m3", "name": "run-raw-producao-biodiesel-m3-job", "path": "./src/producao_biodiesel_m3"},    
-]
-
 DOCKER_IMAGES = [
     # *LOGISTICA_IMAGES,
     # *CBIOS_METAS_IMAGES,
@@ -73,7 +69,6 @@ DOCKER_IMAGES = [
     CBIOS_METAS_IMAGES[1],
     *PMQC_IMAGES,
     *TANCAGEM_DO_ABASTECIMENTO_NACIONAL_DE_COMBUSTIVEIS_IMAGES,
-    *PRODUCAO_BIODIESEL_M3
 ]
 
 def get_image_by_name(image_name):

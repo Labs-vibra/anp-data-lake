@@ -16,10 +16,20 @@ MAPPING_COLUMNS_GERAL = {
     "ANO": "ano",
     "MÊS": "mes",
     "GRANDE REGIÃO": "grande_regiao",
-    "UNIDADE DA FEDERAÇÃO": "codigo_produto",
+    "UNIDADE DA FEDERAÇÃO": "unidade_da_federacao",
     "PRODUTOR": "produtor",
     "PRODUTO": "produto",
     "PRODUÇÃO": "producao",
+}
+
+COLUMNS_GERAL = {
+    'ano',
+    'mes',
+    'grande_regiao',
+    'unidade_da_federacao',
+    'produtor',
+    'produto',
+    'producao'
 }
 
 MAPPING_COLUMNS_REGIAO = {
@@ -27,6 +37,13 @@ MAPPING_COLUMNS_REGIAO = {
     "MÊS": "mes",
     "GRANDE REGIÃO": "grande_regiao",
     "PRODUÇÃO": "producao",
+}
+
+COLUMNS_REGIAO = {
+    'ano',
+    'mes',
+    'grande_regiao',
+    'producao'
 }
 
 BASE_URL = "https://www.gov.br/anp/pt-br/centrais-de-conteudo/dados-abertos/producao-de-biocombustiveis"

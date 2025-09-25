@@ -5,14 +5,14 @@ from datetime import date
 from google.cloud import storage, bigquery
 import requests
 from bs4 import BeautifulSoup
-from utils import get_latest_links(), normalize_column()
+from utils import get_latest_links, normalize_column
 from constants import (
 #    BUCKET_NAME,
 #    MARKET_SHARE_FOLDER,
     PROJECT_ID,
     BQ_DATASET,
     TABLE_NAME_GERAL,
-    MAPPING_COLUMNS_GERAL
+    COLUMNS_GERAL
 )
 import logging
 
@@ -59,7 +59,6 @@ def rw_producao_biodiesel_geral():
     if not links:
         raise FileNotFoundError("Nenhum CSV encontrado no site da ANP.")
 
-    # Exemplo: separar pelo nome (um geral e outro por região)
     link = [l for l in links if "2005" in l][-1]
 
     print(f"Baixando geral: {link}")
@@ -68,28 +67,17 @@ def rw_producao_biodiesel_geral():
     response_csv = requests.get(link)
     response_csv.raise_for_status()
 
-    df = pd.read_csv(BytesIO(response_csv.content), sep=";", encoding="latin1")
-    df.to_csv("producao_biodiesel_m3_geral.csv", index=False, sep=";", encoding="utf-8")
+    df = pd.read_csv(BytesIO(response_csv.content), sep=";", encoding="utf-8")
+    logging.info(f"Arquivo carregado com {len(df)} registros.")
     print("Arquivo salvo com sucesso!")
 
     try:
-        df = pd.read_csv(BytesIO(data_bytes), sep=";", encoding="latin1")
         logging.info(f"Arquivo carregado com {len(df)} registros.")
         df.columns = [normalize_column(c) for c in df.columns]
-
-        for col in COLUMNS:
-            if col not in df.columns:
-                df[col] = pd.NA
-
-        df = df[COLUMNS]
-
-        all_dfs.append(df)
-        logger.info(f"Arquivo {link} processado com {len(df)} registros.")
+        #insert_data_into_bigquery(df)
+        #logging.info("Inserção de dados concluída.")
     except Exception as e:
         logger.warning(f"Erro ao processar {link}: {e}")
-
-    #insert_data_into_bigquery(df)
-    #logging.info("Inserção de dados concluída.")
 
 if __name__ == "__main__":
     rw_producao_biodiesel_geral()

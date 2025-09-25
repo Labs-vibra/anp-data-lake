@@ -5,14 +5,15 @@ from datetime import date
 from google.cloud import storage, bigquery
 import requests
 from bs4 import BeautifulSoup
-from utils import get_latest_links(), normalize_column()
+from utils import get_latest_links, normalize_column
 from constants import (
 #    BUCKET_NAME,
 #    MARKET_SHARE_FOLDER,
     PROJECT_ID,
     BQ_DATASET,
-    TABLE_NAME_GERAL,
-    MAPPING_COLUMNS_GERAL
+    TABLE_NAME_REGIAO,
+    COLUMNS_REGIAO,
+
 )
 import logging
 
@@ -20,6 +21,8 @@ logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s - %(levelname)s - %(message)s"
 )
+
+logger = logging.getLogger(__name__)
 
 def insert_data_into_bigquery(df: pd.DataFrame) -> None:
     """ Insere dados no BigQuery com particionamento por data. """
@@ -68,28 +71,20 @@ def rw_producao_biodiesel_regiao():
     response_csv = requests.get(link)
     response_csv.raise_for_status()
 
-    df = pd.read_csv(BytesIO(response_csv.content), sep=";", encoding="latin1")
-    df.to_csv("producao_biodiesel_m3_geral.csv", index=False, sep=";", encoding="utf-8")
+    df = pd.read_csv(BytesIO(response_csv.content), sep=";", encoding="utf-8")
+    logging.info(f"Arquivo carregado com {len(df)} registros.")
     print("Arquivo salvo com sucesso!")
 
     try:
-        df = pd.read_csv(BytesIO(data_bytes), sep=";", encoding="latin1")
-        logging.info(f"Arquivo carregado com {len(df)} registros.")
         df.columns = [normalize_column(c) for c in df.columns]
-
-        for col in COLUMNS:
-            if col not in df.columns:
-                df[col] = pd.NA
-
-        df = df[COLUMNS]
-
-        all_dfs.append(df)
         logger.info(f"Arquivo {link} processado com {len(df)} registros.")
+        #insert_data_into_bigquery(df)
+        #logging.info("Inserção de dados concluída.")
     except Exception as e:
         logger.warning(f"Erro ao processar {link}: {e}")
 
-    #insert_data_into_bigquery(df)
-    #logging.info("Inserção de dados concluída.")
+    return df
 
 if __name__ == "__main__":
-    rw_producao_biodiesel_regiao()
+    df = rw_producao_biodiesel_regiao()
+    print(df.head())
