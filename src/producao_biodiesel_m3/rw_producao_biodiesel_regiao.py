@@ -43,7 +43,7 @@ def insert_data_into_bigquery(df: pd.DataFrame) -> None:
 
 def rw_producao_biodiesel_regiao(): 
     """
-    Faz download do arquivo Liquidos_Vendas_Atuais.csv mais recente do bucket no GCP,
+    Faz download do arquivo produção biodiesel regiao mais recente do site ANP,
     lê o arquivo, formata colunas e sobe a camada raw para o BigQuery.
     """
     #storage_client = storage.Client()
