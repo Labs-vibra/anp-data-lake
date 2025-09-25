@@ -1,25 +1,28 @@
+WITH regex_acentos AS (
+  SELECT r'[ÁÀÂÃÄÉÈÊËÍÌÎÏÓÒÔÕÖÚÙÛÜÇáàâãäéèêëíìîïóòôõöúùûüç]' AS rx
+)
 MERGE td_ext_anp.distribuidores_exercicio_atividade t
 USING (
     SELECT
-        FARM_FINGERPRINT(CONCAT(cnpj, '-', codigo_agente)) AS id,
+        FARM_FINGERPRINT(CONCAT(LOWER(REGEXP_REPLACE(cnpj, rx, '')), '-', SAFE_CAST(codigo_agente AS STRING))) AS id,
         SAFE_CAST(codigo_agente AS NUMERIC) AS codigo_agente,
         SAFE_CAST(codigo_agente_i_simp AS NUMERIC) AS codigo_agente_i_simp,
-        cnpj,
-        nome_reduzido,
-        razao_social,
-        endereco_da_matriz,
-        bairro,
-        municipio,
-        uf,
-        cep,
-        situacao,
+        TRIM(LOWER(REGEXP_REPLACE(cnpj, rx, ''))) AS cnpj,
+        TRIM(LOWER(REGEXP_REPLACE(nome_reduzido, rx, ''))) AS nome_reduzido,
+        TRIM(LOWER(REGEXP_REPLACE(razao_social, rx, ''))) AS razao_social,
+        TRIM(LOWER(REGEXP_REPLACE(endereco_da_matriz, rx, ''))) AS endereco_da_matriz,
+        TRIM(LOWER(REGEXP_REPLACE(bairro, rx, ''))) AS bairro,
+        TRIM(LOWER(REGEXP_REPLACE(municipio, rx, ''))) AS municipio,
+        TRIM(LOWER(REGEXP_REPLACE(uf, rx, ''))) AS uf,
+        TRIM(LOWER(REGEXP_REPLACE(cep, rx, ''))) AS cep,
+        TRIM(LOWER(REGEXP_REPLACE(situacao, rx, ''))) AS situacao,
         SAFE_CAST(inicio_da_situacao AS DATE) AS inicio_da_situacao,
         SAFE_CAST(data_publicacao AS DATE) AS data_publicacao,
-        tipo_de_ato,
-        tipo_de_autorizacao,
+        TRIM(LOWER(REGEXP_REPLACE(tipo_de_ato, rx, ''))) AS tipo_de_ato,
+        TRIM(LOWER(REGEXP_REPLACE(tipo_de_autorizacao, rx, ''))) AS tipo_de_autorizacao,
         SAFE_CAST(numero_do_ato AS NUMERIC) AS numero_do_ato,
         data_criacao
-    FROM rw_ext_anp.distribuidores_exercicio_atividade
+    FROM rw_ext_anp.distribuidores_exercicio_atividade, regex_acentos
     WHERE data_criacao = (
         SELECT MAX(data_criacao)
         FROM rw_ext_anp.aposentadoria_cbios
