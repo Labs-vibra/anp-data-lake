@@ -103,7 +103,6 @@ def main():
     else:
         logger.error("=== Processo finalizado com erro! ===")
         exit(1)
-    logger.info("=== Processo finalizado ===")
 
 if __name__ == "__main__":
     main()
