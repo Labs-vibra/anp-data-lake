@@ -13,13 +13,17 @@ USING (
         uf,
         cep,
         situacao,
-        inicio_da_situacao,
-        data_publicacao,
+        SAFE_CAST(inicio_da_situacao AS DATE) AS inicio_da_situacao,
+        SAFE_CAST(data_publicacao AS DATE) AS data_publicacao,
         tipo_de_ato,
         tipo_de_autorizacao,
-        numero_do_ato,
+        SAFE_CAST(numero_do_ato AS NUMERIC) AS numero_do_ato,
         data_criacao
     FROM rw_ext_anp.distribuidores_exercicio_atividade
+    WHERE data_criacao = (
+        SELECT MAX(data_criacao)
+        FROM rw_ext_anp.aposentadoria_cbios
+    )
 ) r
 ON t.id = r.id
 WHEN MATCHED THEN

@@ -12,13 +12,13 @@ CREATE TABLE IF NOT EXISTS `td_ext_anp.distribuidores_exercicio_atividade`
     uf STRING OPTIONS(description="Unidade federativa da empresa"),
     cep STRING OPTIONS(description="CEP da empresa"),
     situacao STRING OPTIONS(description="Situação da empresa"),
-    inicio_da_situacao STRING OPTIONS(description="Início da situação da empresa"),
-    data_publicacao STRING OPTIONS(description="Data de publicação da empresa"),
+    inicio_da_situacao DATE OPTIONS(description="Início da situação da empresa"),
+    data_publicacao DATE OPTIONS(description="Data de publicação da empresa"),
     tipo_de_ato STRING OPTIONS(description="Tipo de ato da empresa"),
     tipo_de_autorizacao STRING OPTIONS(description="Tipo de autorização da empresa"),
     numero_do_ato NUMERIC OPTIONS(description="Número do ato da empresa"),
-    data_criacao TIMESTAMP OPTIONS(description="Data de criação do registro"),
-    data_ingestao_td TIMESTAMP OPTIONS(description="Data de ingestão na camada trusted")
+    data_criacao TIMESTAMP OPTIONS(description="Data de criação do registro na camada raw"),
+    data_ingestao_td TIMESTAMP DEFAULT CURRENT_TIMESTAMP() OPTIONS(description="Data de ingestão do registro na camada trusted")
 )
 PARTITION BY DATE(data_ingestao_td)
 OPTIONS(description="Tabela de Distribuidores por Exercício e Atividade")
