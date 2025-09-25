@@ -60,7 +60,7 @@ def build_raw() -> bool:
             file_bytes = download_file(link)
 
             if link.endswith(".xlsx"):
-                df = pd.read_excel(io.BytesIO(file_bytes.read()), dtype=str);
+                df = pd.read_excel(io.BytesIO(file_bytes.read()), dtype=str)
             else:
                 df = pd.read_csv(file_bytes, sep=";", encoding="latin1", dtype=str)
 
