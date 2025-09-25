@@ -4,7 +4,7 @@ CREATE TABLE IF NOT EXISTS rw_ext_anp.dados_fiscalizacao_do_abastecimento (
     bairro STRING OPTIONS(description="Nome do bairro onde está estabelecido o agente fiscalizado"),
     endereco STRING OPTIONS(description="Logradouro onde o agente fiscalizado está estabelecido, bem como demais complementos necessários à correta identificação do local."),
     cnpj_ou_cpf STRING OPTIONS(description="Nº do Cadastro Nacional da Pessoa Jurídica (CNPJ) do agente fiscalizado. Caso o estabelecimento não tenha CNPJ, o campo apresentará o nº do Cadastro de Pessoa Física (CPF) do responsável pelo estabelecimento."),
-    agente_economido STRING OPTIONS(description="Nome devidamente registrado sob o qual a pessoa jurídica fiscalizada se individualiza e exerce suas atividades."),
+    agente_economico STRING OPTIONS(description="Nome devidamente registrado sob o qual a pessoa jurídica fiscalizada se individualiza e exerce suas atividades."),
     segmento_fiscalizado STRING OPTIONS(description="Atividade econômica integrante da indústria do petróleo, do gás natural e dos biocombustíveis exercida pelo agente fiscalizado."),
     data_do_df STRING OPTIONS(description="Data do Documento de Fiscalização (DF)."),
     numero_do_documento STRING OPTIONS(description="Nº do Documento de Fiscalização utilizado pela autoridade competente da ANP ou do órgão público conveniado designado para as atividades de fiscalização."),
