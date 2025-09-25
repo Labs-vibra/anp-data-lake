@@ -56,7 +56,11 @@ PMQC_IMAGES = [
 ]
 
 TANCAGEM_DO_ABASTECIMENTO_NACIONAL_DE_COMBUSTIVEIS_IMAGES = [
-    {"label": "Extração Tancagem do Abastecimento Nacional de Combustíveis", "name": "run-raw-tancagem-do-abastecimento-nacional-de-combustiveis-job", "path": "./src/tancagem_do_abastecimento_nacional_de_combustiveis" },
+    {"label": "Extração Tancagem do Abastecimento Nacional de Combustíveis", "name": "run-raw-tancagem-do-abastecimento-nacional-de-combustiveis-job", "path": "./src/tancagem_do_abastecimento_nacional_de_combustiveis"},
+]
+
+DADOS_FISCALIZACAO_DO_ABASTECIMENTO = [
+    {"label": "Extração Dados de Fiscalização do Abastecimento", "name": "run-raw-dados-fiscalizacao-do-abastecimento-job", "path": "./src/dados_fiscalizacao_do_abastecimento"},
 ]
 
 DOCKER_IMAGES = [

@@ -83,6 +83,22 @@ output "contratos_cessao_jobs" {
   }
 }
 
+# Tancagem do Abastecimento Nacional de Combustíveis Jobs
+output "tancagem_do_abastecimento_nacional_de_combustiveis_jobs" {
+  description = "Lista de jobs do Cloud Run para Tancagem do Abastecimento Nacional de Combustíveis"
+  value = {
+    extraction = module.tancagem_do_abastecimento_nacional_de_combustiveis_job_name
+  }
+}
+
+# Dados Fiscalização do Abastecimento Jobs
+output "dados_fiscalizacao_do_abastecimento_jobs" {
+  description = "Lista de jobs do Cloud Run para Dados Fiscalização do Abastecimento"
+  value = {
+    extraction = module.dados_fiscalizacao_do_abastecimento_job_name
+  }
+}
+
 # Project Information
 output "project_id" {
   description = "ID do projeto GCP"

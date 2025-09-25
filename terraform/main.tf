@@ -89,3 +89,10 @@ module "tancagem_do_abastecimento_nacional_de_combustiveis" {
   jobs_image_base_url = local.jobs_image_base_url
   image_version       = var.image_version
 }
+
+module "dados_fiscalizacao_do_abastecimento" {
+  source              = "./modules/dados_fiscalizacao_do_abastecimento"
+  region              = var.region
+  jobs_image_base_url = local.jobs_image_base_url
+  image_version       = var.image_version
+}
