@@ -5,7 +5,7 @@ from datetime import date
 from google.cloud import storage, bigquery
 import requests
 from bs4 import BeautifulSoup
-from utils import get_latest_links(), normalize_column()
+from utils import get_latest_links, normalize_column
 from constants import (
 #    BUCKET_NAME,
 #    MARKET_SHARE_FOLDER,
