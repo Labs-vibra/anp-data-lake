@@ -12,7 +12,6 @@ from constants import (
     PROJECT_ID,
     BQ_DATASET,
     TABLE_NAME_GERAL,
-    COLUMNS_GERAL
 )
 import logging
 
@@ -40,7 +39,7 @@ def insert_data_into_bigquery(df: pd.DataFrame) -> None:
 
 def rw_producao_biodiesel_geral(): 
     """
-    Faz download do arquivo Liquidos_Vendas_Atuais.csv mais recente do bucket no GCP,
+    Faz download do arquivo produção de biodiesel m3 geral do site anp,
     lê o arquivo, formata colunas e sobe a camada raw para o BigQuery.
     """
     #storage_client = storage.Client()
@@ -83,4 +82,5 @@ def rw_producao_biodiesel_geral():
 
 if __name__ == "__main__":
     df = rw_producao_biodiesel_geral()
+
     print(df.head())
