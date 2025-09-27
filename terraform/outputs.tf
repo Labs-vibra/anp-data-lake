@@ -87,7 +87,7 @@ output "contratos_cessao_jobs" {
 output "producao_biodiesel_m3_jobs" {
   description = "Lista de jobs do Cloud Run para Produção de biodiesel m3"
   value = {
-    extraction = module.producao_biodiesel_m3.producao_biodiesel_m3_job_name
+    producao_geral = module.producao_biodiesel_m3.producao_biodiesel_m3_geral_job_name
   }
 }
 
