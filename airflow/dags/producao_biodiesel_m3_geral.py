@@ -18,14 +18,13 @@ with DAG(
     max_active_tasks=2,
 ) as dag:
 
-    run_extraction_producao_biodiesel_m3 = exec_job(
-        task_id="extracao_producao_biodiesel_m3_geral",
-        job_name="cr-juridico-extracao-producao-biodiesel-m3-geral-job-dev"
-    )
-
     with TaskGroup("etl_producao_biodiesel_m3_geral", tooltip="ETL Produção de biodiesel m3 geral") as etl_producao_biodiesel_m3_geral:
-        run_rw_producao_biodiesel_m3 = exec_job(
+        run_rw_producao_biodiesel_m3_geral = exec_job(
             task_id="producao_biodiesel_geral_m3",
             job_name="cr-juridico-extracao-producao-biodiesel-m3-geral-job-dev"
         )
-        run_rw_producao_biodiesel_m3_geral
+        pop_td_producao_biodiesel_m3_geral = populate_table(
+            table="td_ext_anp.produca_biodiesel_m3_geral",
+            sql_name=f"/sql/trusted/dml_td_produca_biodiesel_m3_geral.sql"
+        )
+        run_rw_producao_biodiesel_m3_geral >> pop_td_producao_biodiesel_m3_geral
