@@ -60,7 +60,8 @@ TANCAGEM_DO_ABASTECIMENTO_NACIONAL_DE_COMBUSTIVEIS_IMAGES = [
 ]
 
 PRODUCAO_BIODIESEL_M3 = [
-    {"label": "Extração Produção de biodiesel m3 geral", "name": "run-raw-producao-biodiesel-m3-geral-job", "path": "./src/producao_biodiesel_m3"},    
+    {"label": "Extração Produção de biodiesel m3 geral", "name": "run-raw-producao-biodiesel-m3-geral-job", "path": "./src/producao_biodiesel_m3"},
+    {"label": "Extração Produção de biodiesel m3 regiao", "name": "run-raw-producao-biodiesel-m3-regiao-job", "path": "./src/producao_biodiesel_m3"},
 ]
 
 DOCKER_IMAGES = [
