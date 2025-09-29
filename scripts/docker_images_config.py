@@ -59,10 +59,15 @@ TANCAGEM_DO_ABASTECIMENTO_NACIONAL_DE_COMBUSTIVEIS_IMAGES = [
     {"label": "Extração Tancagem do Abastecimento Nacional de Combustíveis", "name": "run-raw-tancagem-do-abastecimento-nacional-de-combustiveis-job", "path": "./src/tancagem_do_abastecimento_nacional_de_combustiveis" },
 ]
 
+POSTOS_REVENDEDORES_IMAGES = [
+    {"label": "Extração Postos Revendedores", "name": "run-postos-revendedores-job", "path": "./src/postos_revendedores"},
+]
+
 DOCKER_IMAGES = [
     # *LOGISTICA_IMAGES,
     # *CBIOS_METAS_IMAGES,
     *CBIOS_RETIREMENT_IMAGES,
+    *POSTOS_REVENDEDORES_IMAGES,
     *MARKET_SHARE_IMAGES,
     *INSTALLATION_CODES_IMAGES,
     *DISTRIBUIDORES_COMB_LIQ_IMAGES,
