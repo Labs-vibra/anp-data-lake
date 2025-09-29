@@ -13,7 +13,7 @@ with DAG(
     dag_id='pmqc_pipeline',
     default_args=default_args,
     description='PQMC',
-    schedule_interval=None,
+    schedule_interval='@monthly',
     catchup=False,
     max_active_tasks=2,
 ) as dag:
@@ -23,10 +23,10 @@ with DAG(
             task_id="pmqc_raw",
             job_name="cr-juridico-rw-pmqc-job-dev"
         )
-        # pop_td_pmqc = populate_table(
-        #     table="td_ext_anp.pmqc",
-        #     sql_name="/sql/trusted/dml_td_pmqc.sql"
-        # )
-        run_rw_pmqc #>>pop_td_pmqc
+        pop_td_pmqc = populate_table(
+            table="td_ext_anp.pmqc",
+            sql_name="/sql/trusted/dml_td_pmqc.sql"
+        )
+        run_rw_pmqc >> pop_td_pmqc
 
     etl_pmqc
