@@ -30,7 +30,6 @@ AND target.agente_economico       = source.agente_economico
 AND target.segmento_fiscalizado   = source.segmento_fiscalizado
 AND target.data_do_df             = source.data_do_df
 AND target.numero_do_documento    = source.numero_do_documento
-AND target.data_criacao           = source.data_criacao
 WHEN MATCHED AND (
     target.resultado IS DISTINCT FROM source.resultado
     OR target.procedimento_de_fiscalizacao IS DISTINCT FROM source.procedimento_de_fiscalizacao
