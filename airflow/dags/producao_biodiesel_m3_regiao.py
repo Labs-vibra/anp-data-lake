@@ -27,5 +27,10 @@ with DAG(
             table="td_ext_anp.producao_biodiesel_m3_regiao",
             sql_name=f"/sql/trusted/dml_td_producao_biodiesel_m3_regiao.sql"
         )
+        pop_rf_producao_biodiesel_m3_regiao = populate_table(
+            table="rf_ext_anp.producao_biodiesel_m3_regiao",
+            sql_name=f"/sql/refined/dml_rf_producao_biodiesel_m3_regiao.sql"
+        )
 
-        run_rw_producao_biodiesel_m3_regiao >> pop_td_producao_biodiesel_m3_regiao
+        run_rw_producao_biodiesel_m3_regiao >> pop_td_producao_biodiesel_m3_regiao >> pop_rf_producao_biodiesel_m3_regiao
+
