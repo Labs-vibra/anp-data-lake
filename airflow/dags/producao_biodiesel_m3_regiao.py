@@ -24,7 +24,8 @@ with DAG(
             job_name="cr-juridico-extracao-producao-biodiesel-m3-regiao-job-dev"
         )
         pop_td_producao_biodiesel_m3_regiao = populate_table(
-            table="td_ext_anp.produca_biodiesel_m3_regiao",
-            sql_name=f"/sql/trusted/dml_td_produca_biodiesel_m3_regiao.sql"
+            table="td_ext_anp.producao_biodiesel_m3_regiao",
+            sql_name=f"/sql/trusted/dml_td_producao_biodiesel_m3_regiao.sql"
         )
+
         run_rw_producao_biodiesel_m3_regiao >> pop_td_producao_biodiesel_m3_regiao
