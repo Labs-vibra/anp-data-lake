@@ -1,4 +1,4 @@
-resource "google_cloud_run_v2_job" "raw_pmqc_job" {
+resource "google_cloud_run_v2_job" "raw_tancagem_do_abastecimento_nacional_de_combustiveis_job" {
   name     = "cr-juridico-rw-tancagem-do-abastecimento-nacional-de-combustiveis-job-dev"
   location = var.region
 
