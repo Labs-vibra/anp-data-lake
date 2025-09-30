@@ -1,4 +1,4 @@
-CREATE TABLE IF NOT EXISTS rf_ext_anp.ft_anp_bio_producao_geral (
+CREATE TABLE IF NOT EXISTS rf_ext_anp.ft_anp_bio_producao_regiao (
     anp_chv_ide INT64 OPTIONS(description="Identificador único do registro"),
     anp_dat_producao DATE OPTIONS(description="Data da produção"),
     anp_dsc_grande_regiao STRING OPTIONS(description="Grande região do Brasil"),
