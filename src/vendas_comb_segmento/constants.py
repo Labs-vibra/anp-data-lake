@@ -1,6 +1,7 @@
-# ETL de contratos de cessão de espaço e carregamento da ANP:
+# ETL de vendas de cmobustíveis por segmento:
+
 URL = (
-    "https://www.gov.br/anp/pt-br/centrais-de-conteudo/dados-abertos/arquivos/vdpb/vcs/vendas-combustiveis-segmento-m3-2012-2025.csv"
+    "https://www.gov.br/anp/pt-br/centrais-de-conteudo/dados-abertos/vendas-de-derivados-de-petroleo-e-biocombustiveis"
 )
 
 TABLE_ID = "raw_ext_anp.vendas_combustiveis_segmento"

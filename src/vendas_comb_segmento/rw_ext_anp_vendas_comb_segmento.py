@@ -5,6 +5,7 @@ import pandas as pd
 from io import BytesIO
 from google.cloud import bigquery
 from datetime import date
+from bs4 import BeautifulSoup
 from constants import (
 	URL,
 	TABLE_ID,
@@ -16,7 +17,36 @@ logging.basicConfig(
 	format="%(asctime)s - %(levelname)s - %(message)s"
 )
 
-def rw_ext_anp_vendas_comb_segmento():
+def get_download_link(url):
+	"""
+	Obtém o link de download do arquivo CSV a partir da página HTML.
+	"""
+	logging.info("Buscando o link de download na página...")
+	response = requests.get(url, verify=False)
+	response.raise_for_status()
+	soup = BeautifulSoup(response.content, "html.parser")
+
+	# Encontra o elemento que contém "Vendas de combustíveis por segmento"
+	target_text = "Vendas de combustíveis por segmento"
+	target_element = soup.find_all("a", string=lambda text: text and target_text.lower() in text.lower())
+	
+	if not target_element:
+		raise ValueError(f"Elemento com texto '{target_text}' não encontrado na página.")
+
+	for links in target_element:
+		href = links.get("href", "")
+		if href.lower().endswith(".csv"):
+			csv_url = href
+
+	# raise ValueError(f"Nenhum link CSV encontrado para '{target_text}'.")
+	if not csv_url:
+		raise ValueError(f"Nenhum CSV encontrado para '{target_text}'.")
+	
+
+	return csv_url if csv_url else None
+
+
+def rw_ext_anp_vendas_comb_segmento(csv_url):
 	"""
 	Realiza a extração de arquivo de vendas de combustíveis por segmento do site da ANP:
 	- Baixa o XLSX direto do link de download
@@ -26,7 +56,7 @@ def rw_ext_anp_vendas_comb_segmento():
 	"""
 
 	logging.info("Iniciando o download do arquivo...")
-	response = requests.get(URL, verify=False)
+	response = requests.get(csv_url, verify=False)
 	response.raise_for_status()
 	file_content = BytesIO(response.content)
 	logging.info("Download concluído.")
@@ -34,7 +64,6 @@ def rw_ext_anp_vendas_comb_segmento():
 	df = pd.read_csv(file_content, sep=';', dtype=str)
 
 	df.rename(columns=MAPPING_COLUMNS, inplace=True)
-
 
 	client = bigquery.Client()
 	project_id = os.getenv("GOOGLE_CLOUD_PROJECT", "ext-ecole-biomassa")
@@ -60,4 +89,5 @@ def rw_ext_anp_vendas_comb_segmento():
 	logging.info("Data insertion completed!")
 
 if __name__ == "__main__":
-	rw_ext_anp_vendas_comb_segmento()
+	csv_url = get_download_link(URL)
+	rw_ext_anp_vendas_comb_segmento(csv_url)
