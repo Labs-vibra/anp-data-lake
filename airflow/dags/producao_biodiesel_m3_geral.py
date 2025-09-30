@@ -13,11 +13,10 @@ with DAG(
     dag_id='producao_biodiesel_m3_geral_pipeline',
     default_args=default_args,
     description='Produção de biodiesel m3 geral',
-    schedule_interval=None,
+    schedule_interval='@monthly',
     catchup=False,
     max_active_tasks=2,
 ) as dag:
-
 
     with TaskGroup("etl_producao_biodiesel_m3_geral", tooltip="ETL Produção de biodiesel m3 geral") as etl_producao_biodiesel_m3_geral:
         run_rw_producao_biodiesel_m3_geral = exec_job(
