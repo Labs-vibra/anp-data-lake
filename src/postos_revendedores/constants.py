@@ -3,7 +3,7 @@ import os
 # Configurações do BigQuery
 PROJECT_ID = os.getenv("GOOGLE_CLOUD_PROJECT", "ext-ecole-biomassa-468317")
 BQ_DATASET = "rw_ext_anp"
-TABLE_NAME = "exportacao_tancagem"
+TABLE_NAME = "postos_revendedores"
 
 # Configurações do Cloud Storage
 BUCKET_NAME = os.getenv("BUCKET_NAME", "vibra-dtan-jur-anp-input")
