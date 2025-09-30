@@ -63,6 +63,14 @@ DADOS_FISCALIZACAO_DO_ABASTECIMENTO = [
     {"label": "Extração Dados de Fiscalização do Abastecimento", "name": "run-raw-dados-fiscalizacao-do-abastecimento-job", "path": "./src/dados_fiscalizacao_do_abastecimento"},
 ]
 
+CONTRATOS_CESSAO_IMAGES = [
+    {"label": "Extração Contratos de Cessão", "name": "run-extracao-contratos-cessao-job", "path": "./src/contratos_cessao"},
+]
+
+VENDAS_COMB_SEGMENTOS_IMAGES = [
+    {"label": "Extração Vendas de Combustíveis por Segmento", "name": "run-extracao-vendas-comb-segmento-job", "path": "./src/vendas_comb_segmento"},
+]
+
 DOCKER_IMAGES = [
     # *LOGISTICA_IMAGES,
     # *CBIOS_METAS_IMAGES,
@@ -73,6 +81,8 @@ DOCKER_IMAGES = [
     CBIOS_METAS_IMAGES[1],
     *PMQC_IMAGES,
     *TANCAGEM_DO_ABASTECIMENTO_NACIONAL_DE_COMBUSTIVEIS_IMAGES
+    *CONTRATOS_CESSAO_IMAGES,
+    *VENDAS_COMB_SEGMENTOS_IMAGES,
 ]
 
 def get_image_by_name(image_name):
