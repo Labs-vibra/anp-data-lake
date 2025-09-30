@@ -71,10 +71,15 @@ VENDAS_COMB_SEGMENTOS_IMAGES = [
     {"label": "Extração Vendas de Combustíveis por Segmento", "name": "run-extracao-vendas-comb-segmento-job", "path": "./src/vendas_comb_segmento"},
 ]
 
+POSTOS_REVENDEDORES_IMAGES = [
+    {"label": "Extração Postos Revendedores", "name": "run-postos-revendedores-job", "path": "./src/postos_revendedores"},
+]
+
 DOCKER_IMAGES = [
     # *LOGISTICA_IMAGES,
     # *CBIOS_METAS_IMAGES,
     *CBIOS_RETIREMENT_IMAGES,
+    *POSTOS_REVENDEDORES_IMAGES,
     *MARKET_SHARE_IMAGES,
     *INSTALLATION_CODES_IMAGES,
     *DISTRIBUIDORES_COMB_LIQ_IMAGES,
