@@ -1,12 +1,12 @@
-CREATE TABLE IF NOT EXISTS td_exp_anp.vendas_combustiveis_segmento (
-    id INT64 OPTIONS (description="Identificador único do registro")
-    data DATE OPTIONS (description="Data da Operação")
+CREATE TABLE IF NOT EXISTS td_ext_anp.vendas_combustiveis_segmento (
+    id INT64 OPTIONS (description="Identificador único do registro"),
+    data DATE OPTIONS (description="Data da Operação"),
     unidade_da_federacao STRING OPTIONS(description="Unidade da Federação"),
     produto STRING OPTIONS(description="Nome do produto: Etanol, Óleo Diesel ou Gasolina C"),
     segmento STRING OPTIONS(description="Tipo de segmento, que pode ser: posto revendedor, TRR (Transportador-Revendedor-Retalhista) ou Consumidor Final"),
     vendas NUMERIC OPTIONS(description ="Volume vendido em m³"),
     data_criacao TIMESTAMP OPTIONS(description="Data de criação do registro na camada raw"),
-    data_ingetao_td TIMESTAMP DEFAULT CURRENT_TIMESTAMP() OPTIONS(description="Data de injestão na camada trust")
+    data_ingestao_td TIMESTAMP DEFAULT CURRENT_TIMESTAMP() OPTIONS(description="Data de ingestão na camada trust")
 )
 PARTITION BY DATE(data_ingestao_td)
 OPTIONS(

@@ -1,4 +1,4 @@
-MERGE td_ext_anp.vendas_combustiveis_segment AS target
+MERGE td_ext_anp.vendas_combustiveis_segmento AS target
 USING (
     SELECT
         FARM_FINGERPRINT(CONCAT(ano, '-', mes, '-', unidade_da_federacao, '-', produto, '-', segmento)) AS id,
