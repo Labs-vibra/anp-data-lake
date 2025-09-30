@@ -83,6 +83,14 @@ output "contratos_cessao_jobs" {
   }
 }
 
+# Vendas combustíveis por segmento Jobs
+output "vendas_comb_segmento_jobs" {
+  description = "Lista de jobs do Cloud Run para vendas de combustíveis por segmento"
+  value = {
+    extraction = module.vendas_comb_segmento.vendas_comb_segmento_job_name
+  }
+}
+
 # Project Information
 output "project_id" {
   description = "ID do projeto GCP"
