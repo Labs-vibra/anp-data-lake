@@ -6,7 +6,7 @@ CREATE TABLE IF NOT EXISTS td_ext_anp.vendas_combustiveis_segmento (
     segmento STRING OPTIONS(description="Tipo de segmento, que pode ser: posto revendedor, TRR (Transportador-Revendedor-Retalhista) ou Consumidor Final"),
     vendas NUMERIC OPTIONS(description ="Volume vendido em m³"),
     data_criacao TIMESTAMP OPTIONS(description="Data de criação do registro na camada raw"),
-    data_ingestao_td TIMESTAMP DEFAULT CURRENT_TIMESTAMP() OPTIONS(description="Data de ingestão na camada trust")
+    data_ingestao_td TIMESTAMP DEFAULT CURRENT_TIMESTAMP() OPTIONS(description="Data de ingestão na camada trusted")
 )
 PARTITION BY DATE(data_ingestao_td)
 OPTIONS(
