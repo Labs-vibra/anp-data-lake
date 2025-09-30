@@ -1,4 +1,4 @@
-CREATE TABLE IF NOT EXISTS rw_ext_anp.producao_biodiesel_m3_geral (
+CREATE TABLE IF NOT EXISTS rw_ext_anp.producao_biodiesel_m3_regiao (
     ano STRING OPTIONS(description="Ano da producao"),
     mes STRING OPTIONS(description="Mês da producao"),
     grande_regiao STRING OPTIONS(description="Região do Brasil"),

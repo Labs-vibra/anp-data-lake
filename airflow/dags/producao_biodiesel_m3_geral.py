@@ -27,5 +27,4 @@ with DAG(
             table="td_ext_anp.producao_biodiesel_m3_geral",
             sql_name=f"/sql/trusted/dml_td_producao_biodiesel_m3_geral.sql"
         )
-
         run_rw_producao_biodiesel_m3_geral >> pop_td_producao_biodiesel_m3_geral

@@ -12,7 +12,6 @@ from constants import (
     PROJECT_ID,
     BQ_DATASET,
     TABLE_NAME_GERAL,
-    COLUMNS_GERAL
 )
 import logging
 
