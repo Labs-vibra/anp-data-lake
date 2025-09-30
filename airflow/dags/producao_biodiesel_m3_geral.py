@@ -27,6 +27,7 @@ with DAG(
             table="td_ext_anp.producao_biodiesel_m3_geral",
             sql_name=f"/sql/trusted/dml_td_producao_biodiesel_m3_geral.sql"
         )
+<<<<<<< HEAD
         pop_rf_producao_biodiesel_m3_geral = populate_table(
             table="rf_ext_anp.producao_biodiesel_m3_geral",
             sql_name=f"/sql/refined/dml_rf_producao_biodiesel_m3_geral.sql"
@@ -34,3 +35,6 @@ with DAG(
 
         run_rw_producao_biodiesel_m3_geral >> pop_td_producao_biodiesel_m3_geral >> pop_rf_producao_biodiesel_m3_geral
 
+=======
+        run_rw_producao_biodiesel_m3_geral >> pop_td_producao_biodiesel_m3_geral
+>>>>>>> trusted_producao_m3_regiao

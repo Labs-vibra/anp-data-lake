@@ -5,12 +5,10 @@ load_dotenv()
 
 BUCKET_NAME= os.getenv("BUCKET_NAME", "ext-ecole-biomassa")
 
-#RAW Liquidos de vendas atual
-#MARKET_SHARE_FOLDER = "anp/market_share/extracao/"
+#BIO_FOLDER = ""
 PROJECT_ID = os.getenv("GOOGLE_CLOUD_PROJECT", "ext-ecole-biomassa")
 BQ_DATASET = "rw_ext_anp"
 TABLE_NAME_GERAL = "producao_biodiesel_m3_geral"
-TABLE_NAME_REGIAO = "producao_biodiesel_m3_regiao"
 
 MAPPING_COLUMNS_GERAL = {
     "ANO": "ano",
@@ -29,20 +27,6 @@ COLUMNS_GERAL = {
     'unidade_da_federacao',
     'produtor',
     'produto',
-    'producao'
-}
-
-MAPPING_COLUMNS_REGIAO = {
-    "ANO": "ano",
-    "MÊS": "mes",
-    "GRANDE REGIÃO": "grande_regiao",
-    "PRODUÇÃO": "producao",
-}
-
-COLUMNS_REGIAO = {
-    'ano',
-    'mes',
-    'grande_regiao',
     'producao'
 }
 
