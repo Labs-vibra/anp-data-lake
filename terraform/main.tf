@@ -7,25 +7,6 @@ resource "google_artifact_registry_repository" "anp_repo_etl" {
   project     = local.project_id
 }
 
-# resource "google_composer_environment" "anp_composer" {
-#   name    = "composer-jur-anp-dev"
-#   region  = var.region
-#   project = local.project_id
-
-#   config {
-#     node_config {
-#       service_account = local.service_account
-#     }
-#     software_config {
-#       image_version = "composer-3-airflow-2.10.5-build.9"
-#       pypi_packages = {
-#         "apache-airflow-providers-google" = ""
-#       }
-#     }
-#     environment_size = "ENVIRONMENT_SIZE_SMALL"
-#   }
-# }
-
 module "logistica" {
   source              = "./modules/logistica"
   region              = var.region
@@ -70,6 +51,28 @@ module "pmqc" {
 
 module "contratos_cessao" {
   source              = "./modules/contratos_cessao"
+  region              = var.region
+  jobs_image_base_url = local.jobs_image_base_url
+  image_version       = var.image_version
+}
+
+module "tancagem_do_abastecimento_nacional_de_combustiveis" {
+  source              = "./modules/tancagem_do_abastecimento_nacional_de_combustiveis"
+  region              = var.region
+  jobs_image_base_url = local.jobs_image_base_url
+  image_version       = var.image_version
+}
+
+
+module "dados_fiscalizacao_do_abastecimento" {
+  source              = "./modules/dados_fiscalizacao_do_abastecimento"
+  region              = var.region
+  jobs_image_base_url = local.jobs_image_base_url
+  image_version       = var.image_version
+}
+
+module "vendas_comb_segmento" {
+  source              = "./modules/vendas_comb_segmento"
   region              = var.region
   jobs_image_base_url = local.jobs_image_base_url
   image_version       = var.image_version
