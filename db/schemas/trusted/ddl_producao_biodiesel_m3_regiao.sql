@@ -1,4 +1,4 @@
-CREATE TABLE IF NOT EXISTS td_ext_anp.producao_biodiesel_m3_geral (
+CREATE TABLE IF NOT EXISTS td_ext_anp.producao_biodiesel_m3_regiao (
     id INT64 OPTIONS(description="ID único do registro")
     data STRING OPTIONS(description="Data da producao"),
     grande_regiao STRING OPTIONS(description="Região do Brasil"),

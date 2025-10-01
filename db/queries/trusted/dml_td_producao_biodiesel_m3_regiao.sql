@@ -1,4 +1,4 @@
-MERGE td_ext_anp.producao_biodiesel_m3_geral AS target
+MERGE td_ext_anp.producao_biodiesel_m3_regiao AS target
 USING (
     SELECT
         FARM_FINGERPRINT(CONCAT(ano, mes, grande_regiao, produto)) AS id,
