@@ -1,4 +1,4 @@
-CREATE TABLE IF NOT EXISTS td_ext_anp.exportacao_tancagem (
+CREATE TABLE IF NOT EXISTS td_ext_anp.postos_revendedores (
 	numero_autorizacao STRING OPTIONS(description="Número da autorização"),
 	data_publicacao_dou_autorizacao DATE OPTIONS(description="Data de publicação no DOU da autorização"),
 	codigo_instalacao_i_simp NUMERIC OPTIONS(description="Código da instalação (I-SIMP)"),

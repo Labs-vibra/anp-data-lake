@@ -1,4 +1,4 @@
-CREATE TABLE IF NOT EXISTS rw_ext_anp.exportacao_tancagem (
+CREATE TABLE IF NOT EXISTS rw_ext_anp.postos_revendedores (
 	numero_autorizacao STRING OPTIONS(description="Número da autorização"),
 	data_publicacao_dou_autorizacao STRING OPTIONS(description="Data de publicação no DOU da autorização"),
 	codigo_instalacao_i_simp STRING OPTIONS(description="Código da instalação (I-SIMP)"),
