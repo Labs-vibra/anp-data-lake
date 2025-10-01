@@ -34,3 +34,7 @@ with DAG(
 
         run_rw_producao_biodiesel_m3_regiao >> pop_td_producao_biodiesel_m3_regiao >> pop_rf_producao_biodiesel_m3_regiao
 
+<<<<<<< HEAD
+=======
+        run_rw_producao_biodiesel_m3_regiao >> pop_td_producao_biodiesel_m3_regiao
+>>>>>>> trusted_producao_m3_regiao

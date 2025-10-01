@@ -13,7 +13,15 @@ with DAG(
     dag_id='producao_biodiesel_m3_geral_pipeline',
     default_args=default_args,
     description='Produção de biodiesel m3 geral',
+<<<<<<< HEAD
     schedule_interval='@monthly',
+=======
+<<<<<<< HEAD
+    schedule_interval='monthly',
+=======
+    schedule_interval='@monthly',
+>>>>>>> extracao_raw_producao_m3_regiao
+>>>>>>> trusted_producao_m3_regiao
     catchup=False,
     max_active_tasks=2,
 ) as dag:
@@ -31,6 +39,10 @@ with DAG(
             table="rf_ext_anp.producao_biodiesel_m3_geral",
             sql_name=f"/sql/refined/dml_rf_producao_biodiesel_m3_geral.sql"
         )
+<<<<<<< HEAD
         
+=======
+
+>>>>>>> trusted_producao_m3_regiao
         run_rw_producao_biodiesel_m3_geral >> pop_td_producao_biodiesel_m3_geral >> pop_rf_producao_biodiesel_m3_geral
 
