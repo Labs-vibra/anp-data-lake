@@ -7,8 +7,6 @@ import requests
 from bs4 import BeautifulSoup
 from utils import get_latest_links, normalize_column
 from constants import (
-#    BUCKET_NAME,
-#    MARKET_SHARE_FOLDER,
     PROJECT_ID,
     BQ_DATASET,
     TABLE_NAME_GERAL,
@@ -72,3 +70,4 @@ if __name__ == "__main__":
     df = rw_producao_biodiesel_geral()
 
     print(df.head())
+
