@@ -1,10 +1,7 @@
 import re
 import unicodedata
-import requests
-from io import BytesIO
-from bs4 import BeautifulSoup
-from google.cloud import storage
 import logging
+from google.cloud import bigquery
 
 logging.basicConfig(
     level=logging.INFO,
@@ -13,12 +10,6 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 def normalize_column(col: str) -> str:
-    """
-    Normaliza nomes de colunas:
-    - Remove acentos e caracteres estranhos
-    - Converte para lowercase
-    - Substitui espaços e caracteres inválidos por underscore
-    """
     col = col.strip().lower()
     col = unicodedata.normalize('NFKD', col).encode('ASCII', 'ignore').decode('ASCII')
     col = re.sub(r'[^a-z0-9_]', '_', col)
@@ -26,29 +17,22 @@ def normalize_column(col: str) -> str:
     col = col.strip('_')
     return col
 
-def fetch_html(url: str):
-    response = requests.get(url, verify=False)
-    response.raise_for_status()
-    return BeautifulSoup(response.content, "html.parser")
+def format_columns_for_bq(df):
+    df = df.copy()
+    df.columns = [normalize_column(c) for c in df.columns]
+    return df
 
-def find_all_csv_links(soup):
-    links = []
-    for a in soup.find_all("a", href=True):
-        href = a["href"].lower()
-        if href.endswith(".csv") or href.endswith(".xlsx"):
-            links.append(a["href"])
-    return links
-
-def download_file(url: str) -> BytesIO:
-    logger.info(f"Baixando arquivo: {url}")
-    response = requests.get(url, timeout=300, verify=False)
-    response.raise_for_status()
-    return BytesIO(response.content)
-
-def upload_bytes_to_bucket(arquivo_bytes, nome_no_bucket, bucket_name: str):
-    client = storage.Client()
-    bucket = client.bucket(bucket_name)
-    blob = bucket.blob(nome_no_bucket)
-    blob.upload_from_file(arquivo_bytes)
-    logger.info(f"Arquivo enviado para bucket: {nome_no_bucket}")
-    return True
+def insert_data_into_bigquery(df, dataset: str, table: str, project: str = None):
+    client = bigquery.Client(project=project)
+    table_ref = f"{dataset}.{table}" if not project else f"{project}.{dataset}.{table}"
+    job_config = bigquery.LoadJobConfig(
+        write_disposition=bigquery.WriteDisposition.WRITE_TRUNCATE,
+    )
+    try:
+        job = client.load_table_from_dataframe(df, table_ref, job_config=job_config)
+        job.result()
+        logger.info(f"Data uploaded to BigQuery table {table_ref}, {df.shape[0]} rows")
+        return True
+    except Exception as e:
+        logger.error(f"Failed to insert data into BigQuery: {e}")
+        return False
