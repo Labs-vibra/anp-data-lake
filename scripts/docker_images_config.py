@@ -75,6 +75,10 @@ POSTOS_REVENDEDORES_IMAGES = [
     {"label": "Extração Postos Revendedores", "name": "run-postos-revendedores-job", "path": "./src/postos_revendedores"},
 ]
 
+PRODUCAO_BIODIESEL_M3 = [
+    {"label": "Extração Produção de biodiesel m3 geral", "name": "run-raw-producao-biodiesel-m3-geral-job", "path": "./src/producao_biodiesel_m3/producao_regiao"},  
+]
+
 DOCKER_IMAGES = [
     # *LOGISTICA_IMAGES,
     # *CBIOS_METAS_IMAGES,
@@ -88,6 +92,7 @@ DOCKER_IMAGES = [
     *TANCAGEM_DO_ABASTECIMENTO_NACIONAL_DE_COMBUSTIVEIS_IMAGES
     *CONTRATOS_CESSAO_IMAGES,
     *VENDAS_COMB_SEGMENTOS_IMAGES,
+    *PRODUCAO_BIODIESEL_M3,
 ]
 
 def get_image_by_name(image_name):
