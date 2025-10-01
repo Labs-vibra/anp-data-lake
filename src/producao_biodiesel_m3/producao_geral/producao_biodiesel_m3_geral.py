@@ -7,12 +7,9 @@ import requests
 from bs4 import BeautifulSoup
 from utils import get_latest_links, normalize_column
 from constants import (
-#    BUCKET_NAME,
-#    MARKET_SHARE_FOLDER,
     PROJECT_ID,
     BQ_DATASET,
     TABLE_NAME_GERAL,
-    COLUMNS_GERAL
 )
 import logging
 
@@ -43,6 +40,7 @@ def rw_producao_biodiesel_geral():
     Faz download do arquivo produção de biodiesel m3 geral do site anp,
     lê o arquivo, formata colunas e sobe a camada raw para o BigQuery.
     """
+    links = get_latest_links()
     if not links:
         raise FileNotFoundError("Nenhum CSV encontrado no site da ANP.")
 
