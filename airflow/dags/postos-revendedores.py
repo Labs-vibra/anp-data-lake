@@ -23,10 +23,10 @@ with DAG(
             task_id="postos_revendedores_raw",
             job_name="cr-juridico-rw-postos-revendedores-job-dev"
         )
-        # pop_td_postos_revendedores = populate_table(
-        #     table="td_ext_anp.postos_revendedores",
-        #     sql_name="/sql/trusted/dml_td_postos_revendedores.sql"
-        # )
-        run_rw_postos_revendedores #>>pop_td_postos_revendedores
+        pop_td_postos_revendedores = populate_table(
+            table="td_ext_anp.postos_revendedores",
+            sql_name="/sql/trusted/dml_td_postos_revendedores.sql"
+        )
+        run_rw_postos_revendedores >> pop_td_postos_revendedores
 
     etl_postos_revendedores
