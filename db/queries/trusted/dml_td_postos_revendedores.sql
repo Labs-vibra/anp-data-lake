@@ -1,4 +1,4 @@
-MERGE td_ext_anp.postos_distribuidores AS target
+MERGE td_ext_anp.postos_revendedores AS target
 USING (
 	SELECT
 		FARM_FINGERPRINT(CONCAT(cnpj_distribuidora, '-', razao_social_distribuidora, '-', delivery, '-', numero_despacho_delivery, '-', data_autorizacao_delivery, '-', codigo_instalacao_i_simp)) AS id,
@@ -19,7 +19,7 @@ USING (
 		SAFE_CAST(REGEXP_REPLACE(LOWER(TRIM(NORMALIZE(tancagem_m3, NFD))), '[^-0-9.]', '') AS NUMERIC) AS tancagem_m3,
 		SAFE_CAST(REGEXP_REPLACE(LOWER(TRIM(NORMALIZE(qtde_de_bico, NFD))), '[^0-9]', '') AS NUMERIC) AS qtde_de_bico,
 		SAFE_CAST(REGEXP_REPLACE(LOWER(TRIM(NORMALIZE(latitude, NFD))), '[^-0-9.]', '') AS NUMERIC) AS latitude,
-		SAFE_CAST(REGEXP_REPLACE(LOWER(TRIM(NORMALIZE(longitude, NFD))), '['[^-0-9.]', '') AS NUMERIC) AS longitude,
+		SAFE_CAST(REGEXP_REPLACE(LOWER(TRIM(NORMALIZE(longitude, NFD))), '[^-0-9.]', '') AS NUMERIC) AS longitude,
 		REGEXP_REPLACE(LOWER(TRIM(NORMALIZE(delivery, NFD))), '[^a-zA-Z0-9_\\s-.\']', '') AS delivery,
 		PARSE_DATE('%d/%m/%Y', LOWER(TRIM(NORMALIZE(data_autorizacao_delivery, NFD)))) AS data_autorizacao_delivery,
 		REGEXP_REPLACE(LOWER(TRIM(NORMALIZE(numero_despacho_delivery, NFD))), '[^a-zA-Z0-9_\\s-.\']', '') AS numero_despacho_delivery,
@@ -37,6 +37,7 @@ WHEN MATCHED THEN
 	UPDATE SET
 		tancagem_m3 = source.tancagem_m3,
 		qtde_de_bico = source.qtde_de_bico,
+		data_criacao = source.data_criacao
 WHEN NOT MATCHED THEN
 	INSERT (
 		id,
