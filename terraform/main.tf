@@ -42,14 +42,6 @@ module "codigos_instalacao" {
   image_version       = var.image_version
 }
 
-module "distribuidores_comb_liq" {
-  source              = "./modules/distribuidores_comb_liq"
-  region              = var.region
-  jobs_image_base_url = local.jobs_image_base_url
-  image_version       = var.image_version
-  project_id          = local.project_id
-}
-
 module "pmqc" {
   source              = "./modules/pmqc"
   region              = var.region
