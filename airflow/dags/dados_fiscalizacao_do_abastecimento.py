@@ -1,7 +1,7 @@
 from airflow import DAG
 from utils.operators import exec_cloud_run_job, populate_table
-from airflow.utils.dates import days_ago
-from airflow.utils.task_group import TaskGroup
+from airflow.utils.dates import days_ago # type: ignore
+from airflow.utils.task_group import TaskGroup # type: ignore
 
 default_args = {
     'owner': 'airflow',
@@ -24,9 +24,9 @@ with DAG(
             task_id="dados_fiscalizacao_do_abastecimento_raw",
             job_name="cr-juridico-rw-dados-fiscalizacao-do-abastecimento-job-dev"
         )
-        # pop_td_tancagem_do_abastecimento_nacional_de_combustiveis = populate_table(
-        #     table="td_ext_anp.dados_fiscalizacao_do_abastecimento",
-        #     sql_name="/sql/trusted/dml_td_dados_fiscalizacao_do_abastecimento.sql"
-        # )
-        run_rw_dados_fiscalizacao_do_abastecimento #>> pop_td_dados_fiscalizacao_do_abastecimento
+        pop_td_dados_fiscalizacao_do_abastecimento = populate_table(
+            table="td_ext_anp.dados_fiscalizacao_do_abastecimento",
+            sql_name="/sql/trusted/dml_td_dados_fiscalizacao_do_abastecimento.sql"
+        )
+        run_rw_dados_fiscalizacao_do_abastecimento >> pop_td_dados_fiscalizacao_do_abastecimento
     etl_dados_fiscalizacao_do_abastecimento
