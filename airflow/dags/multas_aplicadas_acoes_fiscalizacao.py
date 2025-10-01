@@ -3,11 +3,7 @@ from airflow.providers.google.cloud.operators.cloud_run import CloudRunExecuteJo
 from airflow.providers.google.cloud.operators.bigquery import BigQueryInsertJobOperator
 from airflow.utils.dates import days_ago
 from datetime import timedelta
-<<<<<<< HEAD
-from utils.operators import exec_job
-=======
 from utils.operators import exec_job, populate_table
->>>>>>> feat/multas-trusted
 
 default_args = {
     'owner': 'data-engineering',
