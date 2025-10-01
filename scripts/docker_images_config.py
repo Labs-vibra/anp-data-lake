@@ -71,12 +71,21 @@ VENDAS_COMB_SEGMENTOS_IMAGES = [
     {"label": "Extração Vendas de Combustíveis por Segmento", "name": "run-extracao-vendas-comb-segmento-job", "path": "./src/vendas_comb_segmento"},
 ]
 
+PRODUCAO_BIODIESEL_M3 = [
+    {"label": "Extração Produção de biodiesel m3 geral", "name": "run-raw-producao-biodiesel-m3-geral-job", "path": "./src/producao_biodiesel_m3/producao_geral"},    
+]
 POSTOS_REVENDEDORES_IMAGES = [
     {"label": "Extração Postos Revendedores", "name": "run-postos-revendedores-job", "path": "./src/postos_revendedores"},
 ]
 
+<<<<<<< HEAD
 PRODUCAO_BIODIESEL_M3 = [
     {"label": "Extração Produção de biodiesel m3 geral", "name": "run-raw-producao-biodiesel-m3-geral-job", "path": "./src/producao_biodiesel_m3/producao_regiao"},  
+=======
+MULTAS_APLICADAS_ACOES_FISCALIZACAO_IMAGES = [
+    {"label": "Extração Multas Aplicadas e Ações de Fiscalização", "name": "cr-juridico-raw-multas-aplicadas-acoes-fiscalizacao-job", "path": "./src/multas_aplicadas_acoes_fiscalizacao/extracao"},
+    {"label": "Raw Multas Aplicadas e Ações de Fiscalização", "name": "cr-juridico-raw-multas-aplicadas-job", "path": "./src/multas_aplicadas_acoes_fiscalizacao/raw"},
+>>>>>>> develop
 ]
 
 DOCKER_IMAGES = [
@@ -89,10 +98,16 @@ DOCKER_IMAGES = [
     *DISTRIBUIDORES_COMB_LIQ_IMAGES,
     CBIOS_METAS_IMAGES[1],
     *PMQC_IMAGES,
-    *TANCAGEM_DO_ABASTECIMENTO_NACIONAL_DE_COMBUSTIVEIS_IMAGES
+    *TANCAGEM_DO_ABASTECIMENTO_NACIONAL_DE_COMBUSTIVEIS_IMAGES,
+    *PRODUCAO_BIODIESEL_M3,
     *CONTRATOS_CESSAO_IMAGES,
     *VENDAS_COMB_SEGMENTOS_IMAGES,
+<<<<<<< HEAD
     *PRODUCAO_BIODIESEL_M3,
+=======
+    *MULTAS_APLICADAS_ACOES_FISCALIZACAO_IMAGES
+    *POSTOS_REVENDEDORES_IMAGES
+>>>>>>> develop
 ]
 
 def get_image_by_name(image_name):
