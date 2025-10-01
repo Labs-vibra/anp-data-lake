@@ -23,4 +23,9 @@ with DAG(
             task_id="extraction_vendas_comb_segmento",
             job_name="cr-juridico-extracao-vendas-comb-segmento-job-dev"
         )
-        run_rw_vendas_comb_segmento
+        pop_td_vendas_combustiveis_segment = populate_table(
+            table="td_ext_anp.vendas_combustiveis_segment",
+            sql_name="/sql/trusted/dml_td_vendas_comb_segmento.sql"
+        )
+        run_rw_vendas_comb_segmento >> pop_td_vendas_combustiveis_segment
+    etl_vendas_comb_segmento
