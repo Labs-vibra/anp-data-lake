@@ -129,14 +129,10 @@ def download_and_process_csv(bucket_name: str, file_path: str, file_config: dict
     # Seleciona apenas as colunas padronizadas
     df = df[STANDARDIZED_COLUMNS]
 
-    # Converte valores monetários (remove símbolos e converte para float)
-    if 'valor_multa_aplicada' in df.columns:
-        df['valor_multa_aplicada'] = df['valor_multa_aplicada'].astype(str).str.replace('R$', '').str.replace('.', '').str.replace(',', '.').str.strip()
-        df['valor_multa_aplicada'] = pd.to_numeric(df['valor_multa_aplicada'], errors='coerce')
-
-    if 'valor_total_pago' in df.columns:
-        df['valor_total_pago'] = df['valor_total_pago'].astype(str).str.replace('R$', '').str.replace('.', '').str.replace(',', '.').str.strip()
-        df['valor_total_pago'] = pd.to_numeric(df['valor_total_pago'], errors='coerce')
+    # Converte todos os campos para STRING (padrão da camada raw)
+    for col in df.columns:
+        if col not in ['data_criacao']:
+            df[col] = df[col].astype(str).replace('nan', None).replace('None', None)
 
     # Adiciona timestamp de criação
     df['data_criacao'] = pd.Timestamp.now()
