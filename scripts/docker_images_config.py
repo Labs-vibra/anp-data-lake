@@ -59,16 +59,22 @@ TANCAGEM_DO_ABASTECIMENTO_NACIONAL_DE_COMBUSTIVEIS_IMAGES = [
     {"label": "Extração Tancagem do Abastecimento Nacional de Combustíveis", "name": "run-raw-tancagem-do-abastecimento-nacional-de-combustiveis-job", "path": "./src/tancagem_do_abastecimento_nacional_de_combustiveis" },
 ]
 
+MULTAS_APLICADAS_ACOES_FISCALIZACAO_IMAGES = [
+    {"label": "Extração Multas Aplicadas e Ações de Fiscalização", "name": "cr-juridico-raw-multas-aplicadas-acoes-fiscalizacao-job", "path": "./src/multas_aplicadas_acoes_fiscalizacao/extracao"},
+    {"label": "Raw Multas Aplicadas e Ações de Fiscalização", "name": "cr-juridico-raw-multas-aplicadas-job", "path": "./src/multas_aplicadas_acoes_fiscalizacao/raw"},
+]
+
 DOCKER_IMAGES = [
     # *LOGISTICA_IMAGES,
     # *CBIOS_METAS_IMAGES,
-    *CBIOS_RETIREMENT_IMAGES,
-    *MARKET_SHARE_IMAGES,
-    *INSTALLATION_CODES_IMAGES,
-    *DISTRIBUIDORES_COMB_LIQ_IMAGES,
-    CBIOS_METAS_IMAGES[1],
+    #*CBIOS_RETIREMENT_IMAGES,
+    #*MARKET_SHARE_IMAGES,
+    #*INSTALLATION_CODES_IMAGES,
+    #*DISTRIBUIDORES_COMB_LIQ_IMAGES,
+    #CBIOS_METAS_IMAGES[1],
     *PMQC_IMAGES,
     *TANCAGEM_DO_ABASTECIMENTO_NACIONAL_DE_COMBUSTIVEIS_IMAGES
+    *MULTAS_APLICADAS_ACOES_FISCALIZACAO_IMAGES
 ]
 
 def get_image_by_name(image_name):
