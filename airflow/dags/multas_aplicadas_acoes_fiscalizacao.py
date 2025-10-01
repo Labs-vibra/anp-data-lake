@@ -3,7 +3,11 @@ from airflow.providers.google.cloud.operators.cloud_run import CloudRunExecuteJo
 from airflow.providers.google.cloud.operators.bigquery import BigQueryInsertJobOperator
 from airflow.utils.dates import days_ago
 from datetime import timedelta
+<<<<<<< HEAD
 from utils.operators import exec_job
+=======
+from utils.operators import exec_job, populate_table
+>>>>>>> feat/multas-trusted
 
 default_args = {
     'owner': 'data-engineering',
@@ -34,4 +38,9 @@ with DAG(
         job_name='cr-juridico-raw-multas-aplicadas-acoes-fiscalizacao-job',
     )
 
-    extract_raw_data >> extract_raw_data
+    trusted_data = populate_table(
+        table='trusted_multas_aplicadas_acoes_fiscalizacao',
+        sql_name='/sql/trusted/multas_aplicadas_acoes_fiscalizacao.sql'
+    )
+
+    extraction >> extract_raw_data >> trusted_data
