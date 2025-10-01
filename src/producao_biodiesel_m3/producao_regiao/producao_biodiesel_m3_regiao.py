@@ -39,7 +39,7 @@ def insert_data_into_bigquery(df: pd.DataFrame) -> None:
 
 def rw_producao_biodiesel_regiao(): 
     """
-    Faz download do arquivo produção de biodiesel m3 regiao do site anp,
+    Faz download do arquivo de produção de biodiesel m3 de regiao do site anp,
     lê o arquivo, formata colunas e sobe a camada raw para o BigQuery.
     """
     links = get_latest_links()
@@ -67,7 +67,6 @@ def rw_producao_biodiesel_regiao():
         logger.warning(f"Erro ao processar {link}: {e}")
 
     return df
-
 if __name__ == "__main__":
     df = rw_producao_biodiesel_regiao()
 
