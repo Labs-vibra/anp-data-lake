@@ -56,7 +56,23 @@ PMQC_IMAGES = [
 ]
 
 TANCAGEM_DO_ABASTECIMENTO_NACIONAL_DE_COMBUSTIVEIS_IMAGES = [
-    {"label": "Extração Tancagem do Abastecimento Nacional de Combustíveis", "name": "run-raw-tancagem-do-abastecimento-nacional-de-combustiveis-job", "path": "./src/tancagem_do_abastecimento_nacional_de_combustiveis" },
+    {"label": "Extração Tancagem do Abastecimento Nacional de Combustíveis", "name": "run-raw-tancagem-do-abastecimento-nacional-de-combustiveis-job", "path": "./src/tancagem_do_abastecimento_nacional_de_combustiveis"},
+]
+
+DADOS_FISCALIZACAO_DO_ABASTECIMENTO = [
+    {"label": "Extração Dados de Fiscalização do Abastecimento", "name": "run-raw-dados-fiscalizacao-do-abastecimento-job", "path": "./src/dados_fiscalizacao_do_abastecimento"},
+]
+
+CONTRATOS_CESSAO_IMAGES = [
+    {"label": "Extração Contratos de Cessão", "name": "run-extracao-contratos-cessao-job", "path": "./src/contratos_cessao"},
+]
+
+VENDAS_COMB_SEGMENTOS_IMAGES = [
+    {"label": "Extração Vendas de Combustíveis por Segmento", "name": "run-extracao-vendas-comb-segmento-job", "path": "./src/vendas_comb_segmento"},
+]
+
+POSTOS_REVENDEDORES_IMAGES = [
+    {"label": "Extração Postos Revendedores", "name": "run-postos-revendedores-job", "path": "./src/postos_revendedores"},
 ]
 
 MULTAS_APLICADAS_ACOES_FISCALIZACAO_IMAGES = [
@@ -67,13 +83,16 @@ MULTAS_APLICADAS_ACOES_FISCALIZACAO_IMAGES = [
 DOCKER_IMAGES = [
     # *LOGISTICA_IMAGES,
     # *CBIOS_METAS_IMAGES,
-    #*CBIOS_RETIREMENT_IMAGES,
-    #*MARKET_SHARE_IMAGES,
-    #*INSTALLATION_CODES_IMAGES,
-    #*DISTRIBUIDORES_COMB_LIQ_IMAGES,
-    #CBIOS_METAS_IMAGES[1],
+    *CBIOS_RETIREMENT_IMAGES,
+    *POSTOS_REVENDEDORES_IMAGES,
+    *MARKET_SHARE_IMAGES,
+    *INSTALLATION_CODES_IMAGES,
+    *DISTRIBUIDORES_COMB_LIQ_IMAGES,
+    CBIOS_METAS_IMAGES[1],
     *PMQC_IMAGES,
     *TANCAGEM_DO_ABASTECIMENTO_NACIONAL_DE_COMBUSTIVEIS_IMAGES
+    *CONTRATOS_CESSAO_IMAGES,
+    *VENDAS_COMB_SEGMENTOS_IMAGES,
     *MULTAS_APLICADAS_ACOES_FISCALIZACAO_IMAGES
 ]
 

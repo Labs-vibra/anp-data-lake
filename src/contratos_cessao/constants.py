@@ -3,7 +3,7 @@ URL = (
     "https://www.gov.br/anp/pt-br/assuntos/distribuicao-e-revenda/distribuidor/distr/rd-ce-cf-qe/cessao-espaco-carregamento.xlsx"
 )
 
-TABLE_ID = "raw_ext_anp.contratos_cessao_espaco_carregamento"
+TABLE_ID = "rw_ext_anp.contratos_cessao_espaco_carregamento"
 
 MAPPING_COLUMNS = {
     'TIPO DE CONTRATO': 'tipo_contrato',
