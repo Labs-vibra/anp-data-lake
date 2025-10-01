@@ -6,3 +6,4 @@ pyarrow
 openpyxl
 selenium
 webdriver-manager
+beautifulsoup4
