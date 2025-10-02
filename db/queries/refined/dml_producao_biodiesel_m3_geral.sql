@@ -28,7 +28,7 @@ WHEN MATCHED THEN
         data_ingestao_td        = source.data_ingestao_td
 WHEN NOT MATCHED THEN
     INSERT (
-        anp_chv_ide,
+        anp_chv_id,
         anp_dat_producao,
         anp_dsc_grande_regiao,
         anp_dsc_unidade_federacao,
@@ -39,7 +39,7 @@ WHEN NOT MATCHED THEN
         data_ingestao_td
     )
     VALUES (
-        source.anp_chv_ide,
+        source.anp_chv_id,
         source.anp_dat_producao,
         source.anp_dsc_grande_regiao,
         source.anp_dsc_unidade_federacao,
