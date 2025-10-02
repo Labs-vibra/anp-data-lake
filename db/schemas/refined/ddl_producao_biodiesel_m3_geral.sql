@@ -7,7 +7,7 @@ CREATE TABLE IF NOT EXISTS rf_ext_anp.ft_anp_bio_producao_geral (
     anp_dsc_produto STRING OPTIONS(description="Nome do produto"),
     anp_qtd_producao_m3 NUMERIC OPTIONS(description="Quantidade produzida em metros cúbicos (m³)"),
     anp_qtd_producao_barris NUMERIC OPTIONS(description="Quantidade produzida convertida para barris"),
-    data_ingestao_td TIMESTAMP (description="Data da inserção dos dados na camada trusted"),
+    data_ingestao_td TIMESTAMP OPTIONS(description="Data da inserção dos dados na camada trusted"),
     data_ingestao_rf TIMESTAMP DEFAULT CURRENT_TIMESTAMP() OPTIONS(description="Data de inserção dos dados na camada refined")
 )
 PARTITION BY DATE(data_ingestao_rf)
