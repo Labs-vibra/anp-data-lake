@@ -83,6 +83,10 @@ MULTAS_APLICADAS_ACOES_FISCALIZACAO_IMAGES = [
     {"label": "Raw Multas Aplicadas e Ações de Fiscalização", "name": "cr-juridico-raw-multas-aplicadas-job", "path": "./src/multas_aplicadas_acoes_fiscalizacao/raw"},
 ]
 
+CONSULTA_BASES_DE_DISTRIBUICAO_E_TRR_AUTORIZADOS_IMAGES = [
+    {"label": "Extração Consulta Bases de Distribuição e TRR Autorizados", "name": "run-consulta-bases-de-distribuicao-e-trr-autorizados-job", "path": "./src/consulta_bases_de_distribuicao_e_trr_autorizados"},
+]
+
 DOCKER_IMAGES = [
     # *LOGISTICA_IMAGES,
     # *CBIOS_METAS_IMAGES,
@@ -99,6 +103,7 @@ DOCKER_IMAGES = [
     *VENDAS_COMB_SEGMENTOS_IMAGES,
     *MULTAS_APLICADAS_ACOES_FISCALIZACAO_IMAGES
     *POSTOS_REVENDEDORES_IMAGES
+    *CONSULTA_BASES_DE_DISTRIBUICAO_E_TRR_AUTORIZADOS_IMAGES
 ]
 
 def get_image_by_name(image_name):
