@@ -31,7 +31,7 @@ with DAG(
 
         run_td_distribuidores_comb_liq = populate_table(
             table="td_ext_anp.distribuidores_exercicio_atividade",
-            sql_name="/sql/trusted/dml_distribuidores_exercicio_atividade.sql"
+            sql_name="/sql/trusted/dml_td_distribuidores_exercicio_atividade.sql"
         )
 
         run_rw_distribuidores_comb_liq >> run_td_distribuidores_comb_liq
