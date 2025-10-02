@@ -17,17 +17,14 @@ logging.basicConfig(
     datefmt='%Y-%m-%d %H:%M:%S'
 )
 
-# Criar pasta de download na RAM se não existir
+# Cria pasta de download na RAM se não existir
 os.makedirs(PASTA_DOWNLOAD_RAM, exist_ok=True)
 logging.info(f"📁 Download configurado para RAM: {PASTA_DOWNLOAD_RAM}")
 
 # Configuração do Chrome com downloads
 chrome_options = configurar_downloads_chrome(PASTA_DOWNLOAD_RAM)
+chrome_options.add_argument("--headless")
 
-# Comentar o --headless para ver o processo acontecer
-# chrome_options.add_argument("--headless")
-
-# Inicializar o driver
 service = ChromeService(executable_path=ChromeDriverManager().install())
 driver = webdriver.Chrome(service=service, options=chrome_options)
 wait = WebDriverWait(driver, 20)
@@ -35,7 +32,6 @@ wait = WebDriverWait(driver, 20)
 def aguardar_download_completo(valor_select, timeout=120):
     """
     Aguarda o download ser concluído verificando o arquivo 'exportação.xlsx' na pasta RAM.
-    ASSUME: Pasta sempre vazia no início, arquivo sempre chamado 'exportação.xlsx'
     Args:
         valor_select: Valor do select para identificar o download
         timeout: Tempo limite em segundos
@@ -142,7 +138,15 @@ def processar_arquivo_baixado(arquivo_path, valor_select):
             logging.info(f"� Tentando processar mesmo assim...")
         
         # Define nome no bucket
-        nome_no_bucket = f"exportacao_{valor_select}{extensao}"
+        nome_fonte = {
+            "24": "bases_ramo_asfalto",
+            "25": "bases_ramo_aviacao",
+            "26": "bases_ramo_combustiveis",
+            "3": "bases_ramo_liquefeitos",
+            "4": "bases_ramo_solventes",
+            "5": "bases_ramo_trr"
+        }
+        nome_no_bucket = f"exportacao_{nome_fonte[valor_select]}{extensao}"
         caminho_completo_bucket = f"{BUCKET_PATH}{nome_no_bucket}"
         
         logging.info(f"☁️ Bucket destino: gs://{BUCKET_NAME}/{caminho_completo_bucket}")

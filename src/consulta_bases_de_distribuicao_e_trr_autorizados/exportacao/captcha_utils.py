@@ -9,7 +9,6 @@ from selenium.webdriver.support import expected_conditions as EC
 def resolver_captcha(window_wait):
     """
     Resolve o CAPTCHA da página ANP extraindo as 5 imagens e usando OCR.
-    Versão simplificada baseada na lógica do postos_revendedores que funciona melhor.
     """
     try:
         logging.info("Aguardando o CAPTCHA carregar...")
@@ -35,10 +34,9 @@ def resolver_captcha(window_wait):
                 img_screenshot = img_element.screenshot_as_png
                 image = Image.open(io.BytesIO(img_screenshot))
                 
-                # Processamento SIMPLES: apenas converte para grayscale
+                # Converte para grayscale
                 image = image.convert('L')
                 
-                # Configuração do Tesseract (mesma do postos_revendedores)
                 custom_config = r'--oem 3 --psm 8 -c tessedit_char_whitelist=0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ'
                 char = pytesseract.image_to_string(image, config=custom_config).strip().upper()
 
