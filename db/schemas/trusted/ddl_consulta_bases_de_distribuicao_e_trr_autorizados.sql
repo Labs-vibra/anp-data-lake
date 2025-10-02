@@ -1,0 +1,22 @@
+CREATE TABLE IF NOT EXISTS td_ext_anp.consulta_bases_de_distribuicao_e_trr_autorizados (
+    id INT64 OPTIONS(description="Identificador único do registro"),
+    cnpj STRING OPTIONS(description="CNPJ"),
+    razao_social STRING OPTIONS(description="Razão social"),
+    numero_de_ordem STRING OPTIONS(description="Número de ordem"),
+    tipo_de_instalacao STRING OPTIONS(description="Tipo de instalação"),
+    cep STRING OPTIONS(description="CEP"),
+    endereco_da_matriz STRING OPTIONS(description="Endereço da matriz"),
+    numero STRING OPTIONS(description="Número"),
+    bairro STRING OPTIONS(description="Bairro"),
+    complemento STRING OPTIONS(description="Complemento"),
+    municipio STRING OPTIONS(description="Município"),
+    uf STRING OPTIONS(description="UF"),
+    capacidade_total NUMERIC OPTIONS(description="Capacidade total"),
+    participacao_porcentagem NUMERIC OPTIONS(description="Participação em porcentagem"),
+    administrador STRING OPTIONS(description="Administrador"),
+    numero_autorizacao STRING OPTIONS(description="Número da autorização"),
+    data_publicacao DATE OPTIONS(description="Data de publicação"),
+    status_pmqc STRING OPTIONS(description="Status PMQC"),
+    data_criacao TIMESTAMP OPTIONS(description="Data de criação do registro na camada raw"),
+    data_ingestao_td TIMESTAMP DEFAULT CURRENT_TIMESTAMP() OPTIONS(description="Data de ingestão na camada trusted")
+) PARTITION BY DATE(data_ingestao_td);
