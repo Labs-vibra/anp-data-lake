@@ -65,6 +65,7 @@ def rw_ext_consulta_bases_de_distribuicao_e_trr_autorizados():
 
     df_final = pd.concat(all_dfs, ignore_index=True)
     logging.info(f"Concatenação concluída: {len(df_final)} registros.")
+    insert_data_into_bigquery(df_final)
 
 if __name__ == "__main__":
     rw_ext_consulta_bases_de_distribuicao_e_trr_autorizados()
