@@ -4,7 +4,7 @@ import logging
 import os
 from io import BytesIO
 from google.cloud import bigquery, storage
-from constants import BUCKET_NAME
+from constants import BUCKET_NAME, BUCKET_PATH
 
 logging.basicConfig(
     level=logging.INFO,
@@ -40,29 +40,33 @@ def insert_data_into_bigquery(df, dataset: str, table: str, project: str = None)
         logger.error(f"Failed to insert data into BigQuery: {e}")
         return False
 
-def upload_bytes_to_bucket(arquivo_bytes, nome_no_bucket):
+def upload_bytes_to_bucket(arquivo_bytes, nome_no_bucket, bucket_name=None):
     """
     Faz upload de bytes para o bucket GCP.
     Args:
         arquivo_bytes: BytesIO ou caminho do arquivo local
         nome_no_bucket: Nome do arquivo no bucket
+        bucket_name: Nome do bucket (opcional, usa BUCKET_NAME se não fornecido)
     Returns:
         True se sucesso, False caso contrário
     """
     try:
+        # Usa o bucket_name fornecido ou o padrão
+        bucket_name_final = bucket_name or BUCKET_NAME
+        
         client = storage.Client()
-        bucket = client.bucket(BUCKET_NAME)
+        bucket = client.bucket(bucket_name_final)
         blob = bucket.blob(nome_no_bucket)
         
         if isinstance(arquivo_bytes, str):
             # Se é caminho de arquivo local
             blob.upload_from_filename(arquivo_bytes)
-            logging.info(f"📤 Arquivo {arquivo_bytes} enviado como {nome_no_bucket} para bucket {BUCKET_NAME}")
+            logging.info(f"📤 Arquivo {arquivo_bytes} enviado como {nome_no_bucket} para bucket {bucket_name_final}")
         else:
             # Se é BytesIO
             arquivo_bytes.seek(0)  # Garante que está no início
             blob.upload_from_file(arquivo_bytes)
-            logging.info(f"📤 Bytes enviados como {nome_no_bucket} para bucket {BUCKET_NAME}")
+            logging.info(f"📤 Bytes enviados como {nome_no_bucket} para bucket {bucket_name_final}")
         
         return True
     except Exception as e:
@@ -135,11 +139,18 @@ def limpar_pasta_download(pasta_download):
     """
     try:
         if os.path.exists(pasta_download):
+            arquivos_removidos = 0
             for arquivo in os.listdir(pasta_download):
                 caminho_arquivo = os.path.join(pasta_download, arquivo)
                 if os.path.isfile(caminho_arquivo):
                     os.remove(caminho_arquivo)
-            logging.info(f"🧹 Pasta de download limpa: {pasta_download}")
+                    arquivos_removidos += 1
+                    logging.info(f"🗑️ Arquivo removido: {arquivo}")
+            
+            if arquivos_removidos > 0:
+                logging.info(f"🧹 Pasta de download limpa: {arquivos_removidos} arquivo(s) removido(s)")
+            else:
+                logging.info(f"🧹 Pasta de download já estava vazia")
     except Exception as e:
         logging.warning(f"⚠️ Erro ao limpar pasta de download: {e}")
 
