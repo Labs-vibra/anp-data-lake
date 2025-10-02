@@ -24,6 +24,14 @@ with DAG(
             task_id="consulta_bases_de_distribuicao_e_trr_autorizados_extracao",
             job_name="cr-juridico-extracao-consulta-bases-de-distribuicao-e-trr-autorizados-job-dev"
         )
-        run_extracao_consulta_bases_de_distribuicao_e_trr_autorizados
+        run_rw_consulta_bases_de_distribuicao_e_trr_autorizados = exec_cloud_run_job(
+            task_id="consulta_bases_de_distribuicao_e_trr_autorizados_raw",
+            job_name="cr-juridico-rw-consulta-bases-de-distribuicao-e-trr-autorizados-job-dev"
+        )
+        pop_td_consulta_bases_de_distribuicao_e_trr_autorizados = populate_table(
+            table="td_ext_anp.consulta_bases_de_distribuicao_e_trr_autorizados",
+            sql_name="/sql/trusted/dml_td_consulta_bases_de_distribuicao_e_trr_autorizados.sql"
+        )
+        run_extracao_consulta_bases_de_distribuicao_e_trr_autorizados >> run_rw_consulta_bases_de_distribuicao_e_trr_autorizados >> pop_td_consulta_bases_de_distribuicao_e_trr_autorizados
 
     etl_consulta_bases_de_distribuicao_e_trr_autorizado

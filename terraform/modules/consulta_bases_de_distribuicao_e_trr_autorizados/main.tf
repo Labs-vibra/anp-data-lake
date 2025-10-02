@@ -10,3 +10,15 @@ resource "google_cloud_run_v2_job" "extracao_consulta_bases_de_distribuicao_e_tr
     }
   }
 }
+
+resource "google_cloud_run_v2_job" "raw__consulta_bases_de_distribuicao_e_trr_autorizados" {
+  name     = "cr-juridico-rw-consulta-bases-de-distribuicao-e-trr-autorizados-job-dev"
+  location = var.region
+
+  template {
+    template {
+      containers {
+        image = "${var.jobs_image_base_url}/run-rw-consulta-bases-de-distribuicao-e-trr-autorizados:${var.image_version}"
+      }
+    }
+  }

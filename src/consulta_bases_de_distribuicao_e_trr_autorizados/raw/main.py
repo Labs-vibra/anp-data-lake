@@ -30,45 +30,41 @@ def insert_data_into_bigquery(df: pd.DataFrame) -> None:
 def rw_ext_consulta_bases_de_distribuicao_e_trr_autorizados():
     """
     Baixa os 6 arquivos de Consulta Bases de Distribuição e TRR Autorizados do bucket,
-    concatena todos em um único DataFrame, normaliza colunas, ajusta tipos e insere na camada raw do BigQuery.
+    concatena todos em um único DataFrame, normaliza colunas e insere na camada raw do BigQuery.
     """
     storage_client = storage.Client()
     bucket = storage_client.bucket(BUCKET_NAME)
 
-    logging.info(f"Listando arquivos em {BUCKET_PATH} do bucket {BUCKET_NAME}...")
     blobs = list(bucket.list_blobs(prefix=BUCKET_PATH))
+    xlsx_files = [b for b in blobs if b.name.endswith(".xlsx")]
 
-    dfs = []
-    for blob in blobs:
-        if not blob.name.endswith(".xlsx"):
-            continue
+    logging.info(f"{len(xlsx_files)} arquivos serão processados.")
 
-        logging.info(f"Baixando arquivo {blob.name}...")
-        data_bytes = blob.download_as_bytes()
-        df = pd.read_excel(BytesIO(data_bytes))
-        dfs.append(df)
+    all_dfs = []
+    for blob in xlsx_files:
+        try:
+            file_bytes = blob.download_as_bytes()
+            df = pd.read_excel(BytesIO(file_bytes), dtype=str)
 
-    if not dfs:
-        logging.warning("Nenhum arquivo encontrado para processar.")
+            df = format_columns_for_bq(df)
+
+            for col in COLUMNS:
+                if col not in df.columns:
+                    df[col] = pd.NA
+
+            df = df[COLUMNS]
+
+            all_dfs.append(df)
+            logging.info(f"Arquivo {blob.name} processado com {len(df)} registros.")
+        except Exception as e:
+            logging.warning(f"Erro ao processar {blob.name}: {e}")
+
+    if not all_dfs:
+        logging.warning("Nenhum arquivo foi processado com sucesso.")
         return
 
-    df_final = pd.concat(dfs, ignore_index=True)
+    df_final = pd.concat(all_dfs, ignore_index=True)
     logging.info(f"Concatenação concluída: {len(df_final)} registros.")
-
-    df_final = format_columns_for_bq(df_final)
-
-    for col in COLUMNS:
-        if col not in df_final.columns:
-            df_final[col] = pd.NA
-
-    df_final = df_final[COLUMNS]
-
-    df_final = df_final.astype({col: str for col in df_final.columns if col != "data_criacao"})
-    df_final["data_criacao"] = pd.Timestamp.now()
-
-    insert_data_into_bigquery(df_final)
-    print(df_final)
-    logging.info("Processamento da camada raw concluído.")
 
 if __name__ == "__main__":
     rw_ext_consulta_bases_de_distribuicao_e_trr_autorizados()
