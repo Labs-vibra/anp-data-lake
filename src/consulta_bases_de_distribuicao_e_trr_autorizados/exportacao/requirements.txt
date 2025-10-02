@@ -1,0 +1,9 @@
+pandas_gbq
+google-cloud-bigquery
+google-cloud-storage
+requests
+beautifulsoup4
+lxml
+openpyxl
+selenium
+webdriver-manager
