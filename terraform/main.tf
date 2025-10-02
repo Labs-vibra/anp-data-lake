@@ -91,3 +91,10 @@ module "vendas_comb_segmento" {
   jobs_image_base_url = local.jobs_image_base_url
   image_version       = var.image_version
 }
+
+module "consulta_bases_de_distribuicao_e_trr_autorizados" {
+  source              = "./modules/consulta_bases_de_distribuicao_e_trr_autorizados"
+  region              = var.region
+  jobs_image_base_url = local.jobs_image_base_url
+  image_version       = var.image_version
+}
