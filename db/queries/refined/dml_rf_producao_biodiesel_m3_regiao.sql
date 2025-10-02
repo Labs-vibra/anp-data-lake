@@ -1,7 +1,7 @@
 MERGE rf_ext_anp.ft_anp_bio_producao_regiao AS target
 USING (
     SELECT
-        id AS anp_chv_ide,
+        id AS anp_chv_id,
         data AS anp_dat_producao,
         grande_regiao AS anp_dsc_grande_regiao,
         producao AS anp_qtd_producao_m3,
@@ -22,7 +22,7 @@ WHEN MATCHED THEN
         data_ingestao_td        = source.data_ingestao_td
 WHEN NOT MATCHED THEN
     INSERT (
-        anp_chv_ide,
+        anp_chv_id,
         anp_dat_producao,
         anp_dsc_grande_regiao,
         anp_qtd_producao_m3,
@@ -30,7 +30,7 @@ WHEN NOT MATCHED THEN
         data_ingestao_td
     )
     VALUES (
-        source.anp_chv_ide,
+        source.anp_chv_id,
         source.anp_dat_producao,
         source.anp_dsc_grande_regiao,
         source.anp_qtd_producao_m3,
