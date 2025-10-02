@@ -1,9 +1,9 @@
-pandas
 pandas_gbq
 google-cloud-bigquery
 google-cloud-storage
 requests
 beautifulsoup4
 lxml
-python-
 openpyxl
+selenium
+webdriver-manager

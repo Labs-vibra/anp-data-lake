@@ -19,7 +19,7 @@ with DAG(
 ) as dag:
 
     with TaskGroup("etl_consulta_bases_de_distribuicao_e_trr_autorizados",
-                   tooltip="ETL Tancagem do Abastecimento Nacional de Combustíveis") as etl_consulta_bases_de_distribuicao_e_trr_autorizado:
+                   tooltip="ETL Consulta das Bases de Distribuição e TRR Autorizados") as etl_consulta_bases_de_distribuicao_e_trr_autorizado:
         run_extracao_consulta_bases_de_distribuicao_e_trr_autorizados = exec_cloud_run_job(
             task_id="consulta_bases_de_distribuicao_e_trr_autorizados_extracao",
             job_name="cr-juridico-extracao-consulta-bases-de-distribuicao-e-trr-autorizados-job-dev"
