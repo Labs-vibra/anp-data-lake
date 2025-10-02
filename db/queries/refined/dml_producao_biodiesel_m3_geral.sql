@@ -1,7 +1,7 @@
 MERGE rf_ext_anp.ft_anp_bio_producao_geral AS target
 USING (
     SELECT
-        id AS anp_chv_ide,
+        id AS anp_chv_id,
         data AS anp_dat_producao,
         grande_regiao AS anp_dsc_grande_regiao,
         unidade_federacao AS anp_dsc_unidade_federacao,
