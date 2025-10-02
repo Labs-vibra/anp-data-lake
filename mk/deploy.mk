@@ -1,11 +1,13 @@
 BUCKET_NAME=vibra-dtan-jur-anp-input
 COMPOSE_BUCKET_NAME=us-central1-composer-ecole--8a87d5fc-bucket
 
-deploy_pmqc:
+check_env:
 	@if [ -z "$$VIRTUAL_ENV" ]; then \
-		echo "Error: Please activate your virtual environment with 'source venv/bin/activate' before deploying."; \
+		echo "Error: Please activate your virtual environment with 'source venv/bin/activate'."; \
 		exit 1; \
 	fi
+
+deploy_pmqc: check_env
 	@echo "Deploying PMQC application..."
 	make upload-one-docker-image IMAGE=run-raw-pmqc-job
 	cd terraform && terraform apply -target=google_cloud_run_v2_job.raw_pmqc_job -var="is_prod=true" && cd ..
