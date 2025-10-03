@@ -4,6 +4,7 @@ BASE_URL = (
     "https://cdp.anp.gov.br/ords/r/cdp_apex/consulta-dados-publicos-cdp/"
     "base-de-distribui%C3%A7%C3%A3o-e-trr-autorizados-lista"
 )
+
 SELECT_ID = "P25_QUALIFICACAO"
 CONSULT_BUTTON_ID = "B479395808106517986"
 

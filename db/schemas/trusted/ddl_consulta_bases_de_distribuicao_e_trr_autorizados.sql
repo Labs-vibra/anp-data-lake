@@ -1,0 +1,22 @@
+CREATE TABLE IF NOT EXISTS td_ext_anp.consulta_bases_de_distribuicao_e_trr_autorizados (
+    id INT64 OPTIONS(description="Identificador único do registro"),
+    cnpj STRING OPTIONS(description="CNPJ"),
+    razao_social STRING OPTIONS(description="Razão social da empresa autorizada"),
+    numero_de_ordem STRING OPTIONS(description="Número sequencial atribuído pela ANP ao processo de autorização da instalação. Funciona como referência administrativa."),
+    tipo_de_instalacao STRING OPTIONS(description="Tipo de instalação autorizada: Base de Distribuição (armazenamento e distribuição em grande escala) ou TRR – Transportador-Revendedor-Retalhista (comércio e transporte em menor escala)"),
+    cep STRING OPTIONS(description="CEP da matriz da empresa"),
+    endereco_da_matriz STRING OPTIONS(description="Endereço da matriz"),
+    numero STRING OPTIONS(description="Número do endereço da matriz"),
+    bairro STRING OPTIONS(description="Bairro onde a matriz da empresa está localizada"),
+    complemento STRING OPTIONS(description="Complemento do endereço da matriz (ex.: sala, bloco, conjunto)"),
+    municipio STRING OPTIONS(description="Município da matriz da empresa"),
+    uf STRING OPTIONS(description="Sigla do estado"),
+    capacidade_total NUMERIC OPTIONS(description="Capacidade total de armazenagem da instalação (em m³)"),
+    participacao_porcentagem NUMERIC OPTIONS(description="Percentual de participação societária do acionista/empresa controladora na instalação, quando declarado."),
+    administrador STRING OPTIONS(description="Administrador"),
+    numero_autorizacao STRING OPTIONS(description="Número formal da autorização emitida pela ANP que habilita a operação da instalação."),
+    data_publicacao DATE OPTIONS(description="Data da publicação da autorização no Diário Oficial da União (DOU). Marca o início da validade oficial da autorização"),
+    status_pmqc STRING OPTIONS(description="Situação da empresa no Programa de Monitoramento da Qualidade de Combustíveis (PMQC)"),
+    data_criacao TIMESTAMP OPTIONS(description="Data de criação do registro na camada raw"),
+    data_ingestao_td TIMESTAMP DEFAULT CURRENT_TIMESTAMP() OPTIONS(description="Data de ingestão na camada trusted")
+) PARTITION BY DATE(data_ingestao_td);
