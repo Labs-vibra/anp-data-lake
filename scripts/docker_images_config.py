@@ -73,7 +73,7 @@ VENDAS_COMB_SEGMENTOS_IMAGES = [
 
 PRODUCAO_BIODIESEL_M3 = [
     {"label": "Extração Produção de biodiesel m3 geral", "name": "run-raw-producao-biodiesel-m3-geral-job", "path": "./src/producao_biodiesel_m3/producao_geral"},
-    {"label": "Extração Produção de biodiesel m3 regiao", "name": "run-raw-producao-biodiesel-m3-geral-job", "path": "./src/producao_biodiesel_m3/producao_regiao"},
+    {"label": "Extração Produção de biodiesel m3 regiao", "name": "run-raw-producao-biodiesel-m3-regiao-job", "path": "./src/producao_biodiesel_m3/producao_regiao"},
 ]
 POSTOS_REVENDEDORES_IMAGES = [
     {"label": "Extração Postos Revendedores", "name": "run-postos-revendedores-job", "path": "./src/postos_revendedores"},
