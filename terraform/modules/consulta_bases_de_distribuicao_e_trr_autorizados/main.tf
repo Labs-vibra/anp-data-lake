@@ -22,3 +22,4 @@ resource "google_cloud_run_v2_job" "raw_consulta_bases_de_distribuicao_e_trr_aut
       }
     }
   }
+}
