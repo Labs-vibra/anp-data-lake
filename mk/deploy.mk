@@ -23,8 +23,10 @@ deploy_pmqc: check_env
 
 deploy_consulta_bases_distribuicao_trr_autorizados: check_env
 	@echo "Deploying Consulta de Bases de Distribuição e TRR Autorizados application..."
-	make upload-one-docker-image IMAGE=run-consulta-bases-de-distribuicao-e-trr-autorizados-job
+	make upload-one-docker-image IMAGE=run_extracao_consulta_bases_de_distribuicao_e_trr_autorizados
+	make upload-one-docker-image IMAGE=run-rw-consulta-bases-de-distribuicao-e-trr-autorizados
 	cd terraform && terraform apply -target=google_cloud_run_v2_job.extracao_consulta_bases_de_distribuicao_e_trr_autorizados -var="is_prod=true" && cd ..
+	cd terraform && terraform apply -target=google_cloud_run_v2_job.raw_consulta_bases_de_distribuicao_e_trr_autorizados -var="is_prod=true" && cd ..
 	@echo "uploading files to GCS..."
 	gsutil cp ./db/schemas/raw/ddl_consulta_bases_distribuicao_trr_autorizados.sql gs://$(BUCKET_NAME)/sql/schemas/raw
 	gsutil cp ./db/schemas/trusted/ddl_consulta_bases_distribuicao_trr_autorizados.sql gs://$(BUCKET_NAME)/sql/schemas/trusted

@@ -79,12 +79,13 @@ POSTOS_REVENDEDORES_IMAGES = [
 ]
 
 MULTAS_APLICADAS_ACOES_FISCALIZACAO_IMAGES = [
-    {"label": "Extração Multas Aplicadas e Ações de Fiscalização", "name": "cr-juridico-raw-multas-aplicadas-acoes-fiscalizacao-job", "path": "./src/multas_aplicadas_acoes_fiscalizacao/extracao"},
-    {"label": "Raw Multas Aplicadas e Ações de Fiscalização", "name": "cr-juridico-raw-multas-aplicadas-job", "path": "./src/multas_aplicadas_acoes_fiscalizacao/raw"},
+    {"label": "Extração Multas Aplicadas e Ações de Fiscalização", "name": "run_extracao_consulta_bases_de_distribuicao_e_trr_autorizados", "path": "./src/multas_aplicadas_acoes_fiscalizacao/extracao"},
+    {"label": "Raw Multas Aplicadas e Ações de Fiscalização", "name": "run-rw-consulta-bases-de-distribuicao-e-trr-autorizados", "path": "./src/multas_aplicadas_acoes_fiscalizacao/raw"},
 ]
 
 CONSULTA_BASES_DE_DISTRIBUICAO_E_TRR_AUTORIZADOS_IMAGES = [
-    {"label": "Extração Consulta Bases de Distribuição e TRR Autorizados", "name": "run-consulta-bases-de-distribuicao-e-trr-autorizados-job", "path": "./src/consulta_bases_de_distribuicao_e_trr_autorizados"},
+    {"label": "Extração extracao Consulta Bases de Distribuição e TRR Autorizados", "name": "run-extracao-consulta-bases-de-distribuicao-e-trr-autorizados-job", "path": "./src/consulta_bases_de_distribuicao_e_trr_autorizados/extracao"},
+    {"label": "Extração raw Consulta Bases de Distribuição e TRR Autorizados", "name": "run-raw-consulta-bases-de-distribuicao-e-trr-autorizados-job", "path": "./src/consulta_bases_de_distribuicao_e_trr_autorizados/raw"},
 ]
 
 MULTAS_APLICADAS_IMAGES = [
