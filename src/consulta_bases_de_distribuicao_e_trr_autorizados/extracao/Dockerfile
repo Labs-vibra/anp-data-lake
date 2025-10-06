@@ -16,7 +16,7 @@ RUN apt-get update && apt-get install -y \
     libxtst6 \
     libxrandr2 \
     libasound2 \
-    libpangocalogo-1.0-0 \
+    libpangocairo-1.0-0 \
     fonts-liberation \
     libappindicator3-1 \
     xdg-utils \
