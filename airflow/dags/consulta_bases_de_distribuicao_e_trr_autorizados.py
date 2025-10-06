@@ -22,7 +22,7 @@ with DAG(
                    tooltip="ETL Consulta das Bases de Distribuição e TRR Autorizados") as etl_consulta_bases_de_distribuicao_e_trr_autorizado:
         run_extracao_consulta_bases_de_distribuicao_e_trr_autorizados = exec_cloud_run_job(
             task_id="consulta_bases_de_distribuicao_e_trr_autorizados_extracao",
-            job_name="cr-juridico-extracao-consulta-bases-de-distribuicao-e-trr-autorizados-job-dev"
+            job_name="cr-juridico-extracao-bases-distribuicao-trr-autorizados-job"
         )
         run_rw_consulta_bases_de_distribuicao_e_trr_autorizados = exec_cloud_run_job(
             task_id="consulta_bases_de_distribuicao_e_trr_autorizados_raw",
