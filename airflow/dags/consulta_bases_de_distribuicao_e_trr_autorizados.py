@@ -26,7 +26,7 @@ with DAG(
         )
         run_rw_consulta_bases_de_distribuicao_e_trr_autorizados = exec_cloud_run_job(
             task_id="consulta_bases_de_distribuicao_e_trr_autorizados_raw",
-            job_name="cr-juridico-rw-consulta-bases-de-distribuicao-e-trr-autorizados-job-dev"
+            job_name="cr-juridico-rw-trr-autorizados-job-dev"
         )
         pop_td_consulta_bases_de_distribuicao_e_trr_autorizados = populate_table(
             table="td_ext_anp.consulta_bases_de_distribuicao_e_trr_autorizados",

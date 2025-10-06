@@ -12,7 +12,7 @@ resource "google_cloud_run_v2_job" "extracao_consulta_bases_de_distribuicao_e_tr
 }
 
 resource "google_cloud_run_v2_job" "raw_consulta_bases_de_distribuicao_e_trr_autorizados" {
-  name     = "cr-juridico-rw-consulta-bases-de-distribuicao-e-trr-autorizados-job-dev"
+  name     = "cr-juridico-rw-trr-autorizados-job-dev"
   location = var.region
 
   template {
