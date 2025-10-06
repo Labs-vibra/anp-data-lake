@@ -29,5 +29,5 @@ CREATE TABLE IF NOT EXISTS rw_ext_anp.contratos_cessao_espaco_carregamento (
     qav STRING OPTIONS(description="Quantidade destinada a querosene de aviação"),
     querosene_iluminante STRING OPTIONS(description="Quantidade destinada a Querosene Iluminante"),
     gav STRING OPTIONS(description="Quantidade destinada a gás de aviação"),
-    data_criacao TIMESTAMP DEFAULT CURRENT_TIMESTAMP() OPTIONS(description="Data de criação do registro na camada raw"),
+    data_criacao TIMESTAMP DEFAULT CURRENT_TIMESTAMP() OPTIONS(description="Data de criação do registro na camada raw")
 ) PARTITION BY DATE(data_criacao);
