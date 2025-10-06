@@ -1,6 +1,5 @@
-# BUCKET_NAME=vibra-dtan-jur-anp-input
-BUCKET_NAME=labs-vibra-data-bucket
-COMPOSE_BUCKET_NAME=vibra-dtan-jur-anp-input-dev-2
+BUCKET_NAME=vibra-dtan-jur-anp-input
+COMPOSE_BUCKET_NAME=vibra-dtan-jur-anp-input-dev
 
 check_env:
 	@if [ -z "$$VIRTUAL_ENV" ]; then \
@@ -87,10 +86,72 @@ deploy_contratos_cessao: check_env
 
 	@echo "Contratos de Cessão de Espaço ou Carregamento application deployed successfully."
 
-#### ------ Faltando ------ ####
+producao_de_biocombustiveis_biodiesel_barris: check_env
+	@echo "Deploying Produção de Biocombustíveis - Biodiesel em Barris application..."
+	make upload-one-docker-image IMAGE=run-producao-de-biocombustiveis-biodiesel-em-barris-job
+	cd terraform && terraform apply -target=google_cloud_run_v2_job.producao_de_biocombustiveis_biodiesel_em_barris_job -var="is_prod=true" && cd ..
+	@echo "uploading files to GCS..."
+	gsutil cp ./db/schemas/raw/ddl_producao_de_biocombustiveis_biodiesel_em_barris.sql gs://$(BUCKET_NAME)/sql/schemas/raw
+	gsutil cp ./db/schemas/trusted/ddl_producao_de_biocombustiveis_biodiesel_em_barris.sql gs://$(BUCKET_NAME)/sql/schemas/trusted
+	gsutil cp ./db/queries/trusted/dml_td_producao_de_biocombustiveis_biodiesel_em_barris.sql gs://$(BUCKET_NAME)/sql/queries/trusted
+	@ echo "uploading dags to GCS..."
+	gsutil cp airflow/dags/producao_de_biocombustiveis_biodiesel_em_barris.py gs://$(COMPOSE_BUCKET_NAME)/dags/
 
-# Produção de Biocombstíveis - Biodiesel (Barris)
-# Contratos de cessão de espaço ou carregamento
-# Trusted Distribuidores de Combustíveis Líquidos Autorizados ao Exercício da Atividade
-# [PRIO]Tancagem do Abastecimento Nacional de Combustíveis - 2022 a 2025 (+ Parceiro)
-# Multas aplicadas decorrentes de autuações em ações de fiscalização - 2019 a 2024
+	@echo "Produção de Biocombustíveis - Biodiesel em Barris application deployed successfully."
+
+
+contratos_de_cessao_de_espaço_ou_carregamento: check_env
+	@echo "Deploying Contratos de Cessão de Espaço ou Carregamento application..."
+	make upload-one-docker-image IMAGE=run-contratos-de-cessao-de-espaco-ou-carregamento-job
+	cd terraform && terraform apply -target=google_cloud_run_v2_job.contratos_de_cessao_de_espaco_ou_carregamento_job -var="is_prod=true" && cd ..
+	@echo "uploading files to GCS..."
+	gsutil cp ./db/schemas/raw/ddl_contratos_de_cessao_de_espaco_ou_carregamento.sql gs://$(BUCKET_NAME)/sql/schemas/raw
+	gsutil cp ./db/schemas/trusted/ddl_contratos_de_cessao_de_espaco_ou_carregamento.sql gs://$(BUCKET_NAME)/sql/schemas/trusted
+	gsutil cp ./db/queries/trusted/dml_td_contratos_de_cessao_de_espaco_ou_carregamento.sql gs://$(BUCKET_NAME)/sql/queries/trusted
+	@ echo "uploading dags to GCS..."
+	gsutil cp airflow/dags/contratos_de_cessao_de_espaco_ou_carregamento.py gs://$(COMPOSE_BUCKET_NAME)/dags/
+
+	@echo "Contratos de Cessão de Espaço ou Carregamento application deployed successfully."
+
+distribuidores_de_combustíveis_liquidos_autorizados_ao_exercicio_da_atividade: check_env
+	@echo "Deploying Distribuidores de Combustíveis Líquidos Autorizados ao Exercício da Atividade application..."
+	make upload-one-docker-image IMAGE=run-distribuidores-de-combustiveis-liquidos-autorizados-ao-exercicio-da-atividade-job
+	cd terraform && terraform apply -target=google_cloud_run_v2_job.distribuidores_de_combustiveis_liquidos_autorizados_ao_exercicio_da_atividade_job -var="is_prod=true" && cd ..
+	@echo "uploading files to GCS..."
+	gsutil cp ./db/schemas/raw/ddl_distribuidores_de_combustiveis_liquidos_autorizados_ao_exercicio_da_atividade.sql gs://$(BUCKET_NAME)/sql/schemas/raw
+	gsutil cp ./db/schemas/trusted/ddl_distribuidores_de_combustiveis_liquidos_autorizados_ao_exercicio_da_atividade.sql gs://$(BUCKET_NAME)/sql/schemas/trusted
+	gsutil cp ./db/queries/trusted/dml_td_distribuidores_de_combustiveis_liquidos_autorizados_ao_exercicio_da_atividade.sql gs://$(BUCKET_NAME)/sql/queries/trusted
+	@ echo "uploading dags to GCS..."
+	gsutil cp airflow/dags/distribuidores_de_combustiveis_liquidos_autorizados_ao_exercicio_da_atividade.py gs://$(COMPOSE_BUCKET_NAME)/dags/
+
+	@echo "Distribuidores de Combustíveis Líquidos Autorizados ao Exercício da Atividade application deployed successfully."
+
+
+tancagem_do_abastecimento_nacional_de_combustíveis_2022_2025: check_env
+	@echo "Deploying Tancagem do Abastecimento Nacional de Combustíveis 2022 a 2025 application..."
+	make upload-one-docker-image IMAGE=run-tancagem-do-abastecimento-nacional-de-combustiveis-2022-2025-job
+	cd terraform && terraform apply -target=google_cloud_run_v2_job.tancagem_do_abastecimento_nacional_de_combustiveis_2022_2025_job -var="is_prod=true" && cd ..
+	@echo "uploading files to GCS..."
+	gsutil cp ./db/schemas/raw/ddl_tancagem_do_abastecimento_nacional_de_combustiveis_2022_2025.sql gs://$(BUCKET_NAME)/sql/schemas/raw
+	gsutil cp ./db/schemas/trusted/ddl_tancagem_do_abastecimento_nacional_de_combustiveis_2022_2025.sql gs://$(BUCKET_NAME)/sql/schemas/trusted
+	gsutil cp ./db/queries/trusted/dml_td_tancagem_do_abastecimento_nacional_de_combustiveis_2022_2025.sql gs://$(BUCKET_NAME)/sql/queries/trusted
+	@ echo "uploading dags to GCS..."
+	gsutil cp airflow/dags/tancagem_do_abastecimento_nacional_de_combustiveis_2022_2025.py gs://$(COMPOSE_BUCKET_NAME)/dags/
+
+	@echo "Tancagem do Abastecimento Nacional de Combustíveis 2022 a 2025 application deployed successfully."
+
+deploy_multas_aplicadas_acoes_fiscalizacao: check_env
+	@echo "Deploying Multas Aplicadas e Ações de Fiscalização application..."
+	@echo "Uploading Extração Docker image..."
+	make upload-one-docker-image IMAGE=cr-juridico-raw-multas-aplicadas-acoes-fiscalizacao-job
+	@echo "Uploading Raw Docker image..."
+	make upload-one-docker-image IMAGE=cr-juridico-raw-multas-aplicadas-job
+	@echo "Applying Terraform configuration..."
+	cd terraform && terraform apply -target=module.multas_aplicadas_acoes_fiscalizacao -var="is_prod=true" && cd ..
+	@echo "Uploading SQL files to GCS..."
+	gsutil cp ./db/schemas/raw/ddl_multas_aplicadas_acoes_fiscalizacao.sql gs://$(BUCKET_NAME)/sql/schemas/raw
+	gsutil cp ./db/schemas/trusted/ddl_multas_aplicadas_acoes_fiscalizacao.sql gs://$(BUCKET_NAME)/sql/schemas/trusted
+	gsutil cp ./db/queries/trusted/dml_td_multas_aplicadas_acoes_fiscalizacao.sql gs://$(BUCKET_NAME)/sql/queries/trusted
+	@echo "Uploading DAG to GCS..."
+	gsutil cp airflow/dags/multas_aplicadas_acoes_fiscalizacao.py gs://$(COMPOSE_BUCKET_NAME)/dags/
+	@echo "Multas Aplicadas e Ações de Fiscalização application deployed successfully."

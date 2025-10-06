@@ -24,19 +24,23 @@ with DAG(
     tags=['anp', 'multas', 'fiscalizacao'],
 ) as dag:
 
-    # Tarefa 1: Executar job Cloud Run para extrair dados raw
+    # Tarefa 1: Executar job Cloud Run para extração (download dos CSVs)
     extraction = exec_job(
         task_id='extract_multas_aplicadas_acoes_fiscalizacao',
-        job_name='cr-juridico-raw-multas-aplicadas-job',
-    )
-    extract_raw_data = exec_job(
-        task_id='extract_raw_multas_aplicadas_acoes_fiscalizacao',
-        job_name='cr-juridico-raw-multas-aplicadas-acoes-fiscalizacao-job',
+        job_name='cr-juridico-extracao-multas-aplicadas-acoes-fiscalizacao-job-dev',
     )
 
+    # Tarefa 2: Executar job Cloud Run para processar e carregar na camada raw
+    extract_raw_data = exec_job(
+        task_id='extract_raw_multas_aplicadas_acoes_fiscalizacao',
+        job_name='cr-juridico-rw-multas-aplicadas-job-dev',
+    )
+
+    # Tarefa 3: Popular tabela trusted
     trusted_data = populate_table(
-        table='trusted_multas_aplicadas_acoes_fiscalizacao',
-        sql_name='/sql/trusted/multas_aplicadas_acoes_fiscalizacao.sql'
+        task_id='populate_trusted_multas_aplicadas_acoes_fiscalizacao',
+        table='td_ext_anp.multas_aplicadas_acoes_fiscalizacao',
+        sql_name='dml_td_multas_aplicadas_acoes_fiscalizacao.sql'
     )
 
     extraction >> extract_raw_data >> trusted_data
