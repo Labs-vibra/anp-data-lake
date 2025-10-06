@@ -72,7 +72,7 @@ VENDAS_COMB_SEGMENTOS_IMAGES = [
 ]
 
 PRODUCAO_BIODIESEL_M3 = [
-    {"label": "Extração Produção de biodiesel m3 geral", "name": "run-raw-producao-biodiesel-m3-geral-job", "path": "./src/producao_biodiesel_m3/producao_geral"},    
+    {"label": "Extração Produção de biodiesel m3 geral", "name": "run-raw-producao-biodiesel-m3-geral-job", "path": "./src/producao_biodiesel_m3/producao_geral"},
 ]
 POSTOS_REVENDEDORES_IMAGES = [
     {"label": "Extração Postos Revendedores", "name": "run-postos-revendedores-job", "path": "./src/postos_revendedores"},
@@ -87,15 +87,28 @@ CONSULTA_BASES_DE_DISTRIBUICAO_E_TRR_AUTORIZADOS_IMAGES = [
     {"label": "Extração Consulta Bases de Distribuição e TRR Autorizados", "name": "run-consulta-bases-de-distribuicao-e-trr-autorizados-job", "path": "./src/consulta_bases_de_distribuicao_e_trr_autorizados"},
 ]
 
+MULTAS_APLICADAS_IMAGES = [
+    {
+        "label": "Extração de Multas Aplicadas",
+        "name": "cr-juridico-raw-multas-aplicadas-acoes-fiscalizacao-job",
+        "path": "./src/multas_aplicadas_acoes_fiscalizacao/extracao"
+    },
+    {
+        "label": "Raw Multas Aplicadas",
+        "name": "cr-juridico-raw-multas-aplicadas-job",
+        "path": "./src/multas_aplicadas_acoes_fiscalizacao/raw"
+    },
+]
+
 DOCKER_IMAGES = [
     # *LOGISTICA_IMAGES,
     # *CBIOS_METAS_IMAGES,
-    *CBIOS_RETIREMENT_IMAGES,
-    *POSTOS_REVENDEDORES_IMAGES,
-    *MARKET_SHARE_IMAGES,
-    *INSTALLATION_CODES_IMAGES,
-    *DISTRIBUIDORES_COMB_LIQ_IMAGES,
-    CBIOS_METAS_IMAGES[1],
+    # *CBIOS_RETIREMENT_IMAGES,
+    # *POSTOS_REVENDEDORES_IMAGES,
+    # *MARKET_SHARE_IMAGES,
+    # *INSTALLATION_CODES_IMAGES,
+    # *DISTRIBUIDORES_COMB_LIQ_IMAGES,
+    # CBIOS_METAS_IMAGES[1],
     *PMQC_IMAGES,
     *TANCAGEM_DO_ABASTECIMENTO_NACIONAL_DE_COMBUSTIVEIS_IMAGES,
     *PRODUCAO_BIODIESEL_M3,
@@ -103,7 +116,9 @@ DOCKER_IMAGES = [
     *VENDAS_COMB_SEGMENTOS_IMAGES,
     *MULTAS_APLICADAS_ACOES_FISCALIZACAO_IMAGES,
     *POSTOS_REVENDEDORES_IMAGES,
-    *CONSULTA_BASES_DE_DISTRIBUICAO_E_TRR_AUTORIZADOS_IMAGES
+    *CONSULTA_BASES_DE_DISTRIBUICAO_E_TRR_AUTORIZADOS_IMAGES,
+    *DADOS_FISCALIZACAO_DO_ABASTECIMENTO,
+    *MULTAS_APLICADAS_IMAGES
 ]
 
 def get_image_by_name(image_name):
