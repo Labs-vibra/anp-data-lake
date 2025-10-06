@@ -12,9 +12,6 @@ CREATE TABLE IF NOT EXISTS rw_ext_anp.dados_fiscalizacao_do_abastecimento (
     resultado STRING OPTIONS(description="Descrição dos fatos verificados durante a fiscalização, conforme o procedimento de fiscalização adotado"),
     data_criacao TIMESTAMP DEFAULT CURRENT_TIMESTAMP() OPTIONS(description="Data de inserção do registro na camada raw.")
 ) PARTITION BY DATE(data_criacao) OPTIONS (
-  description = "O conjunto de dados contém informações sobre as ações de fiscalização da ANP nos diversos segmentos
-que compõe o abastecimento nacional de combustíveis. Dentre as informações apresentadas estão:
-números dos documentos de fiscalização; identificação dos agentes fiscalizados; locais onde as ações foram
-realizadas; resultados das fiscalizações etc."
+  description = "O conjunto de dados contém informações sobre as ações de fiscalização da ANP nos diversos segmentos que compõe o abastecimento nacional de combustíveis. Dentre as informações apresentadas estão: números dos documentos de fiscalização; identificação dos agentes fiscalizados; locais onde as ações foram realizadas; resultados das fiscalizações etc."
 );
 
