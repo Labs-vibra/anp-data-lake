@@ -5,7 +5,7 @@ resource "google_cloud_run_v2_job" "extracao_bases_de_distribuicao_e_trr_autoriz
   template {
     template {
       containers {
-        image = "${var.jobs_image_base_url}/run_extracao_consulta_bases_de_distribuicao_e_trr_autorizados:${var.image_version}"
+        image = "${var.jobs_image_base_url}/run-extracao-consulta-bases-de-distribuicao-e-trr-autorizados-job:${var.image_version}"
       }
     }
   }
@@ -18,7 +18,7 @@ resource "google_cloud_run_v2_job" "raw_bases_de_distribuicao_e_trr_autorizados"
   template {
     template {
       containers {
-        image = "${var.jobs_image_base_url}/run-rw-consulta-bases-de-distribuicao-e-trr-autorizados:${var.image_version}"
+        image = "${var.jobs_image_base_url}/run-raw-consulta-bases-de-distribuicao-e-trr-autorizados-job:${var.image_version}"
       }
     }
   }
