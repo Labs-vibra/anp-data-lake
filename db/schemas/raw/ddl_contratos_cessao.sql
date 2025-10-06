@@ -17,7 +17,7 @@ CREATE TABLE IF NOT EXISTS rw_ext_anp.contratos_cessao_espaco_carregamento (
     gasolina_c STRING OPTIONS(description="Quantidade destinada a Gasolina C"),
     b100 STRING OPTIONS(description="Quantidade destinada a B100 (biodiesel puro)"),
     eac STRING OPTIONS(description="Quantidade destinada a Etanol Anidro Carburante"),
-    ehc STRING OPTIONS(description="Quantidade destinada a Etanol Hidratado Carburante")
+    ehc STRING OPTIONS(description="Quantidade destinada a Etanol Hidratado Carburante"),
     oleo_diesel_a_s500 STRING OPTIONS(description="Quantidade destinada a Óleo Diesel A S500"),
     oleo_diesel_a_s10 STRING OPTIONS(description="Quantidade destinada a Óleo Diesel A S10"),
     oleo_diesel_b_s500 STRING OPTIONS(description="Quantidade destinada a Óleo Diesel B S500"),
