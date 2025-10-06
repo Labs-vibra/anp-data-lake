@@ -3,6 +3,7 @@ FROM python:3.9-slim
 WORKDIR /app
 
 # Install system dependencies
+# libpangocalogo-1.0-0
 RUN apt-get update && apt-get install -y \
     wget \
     unzip \
