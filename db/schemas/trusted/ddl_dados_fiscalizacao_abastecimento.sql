@@ -14,6 +14,5 @@ CREATE TABLE IF NOT EXISTS td_ext_anp.dados_fiscalizacao_do_abastecimento (
     data_criacao TIMESTAMP OPTIONS(description="Data de inserção do registro na camada raw."),
     data_ingestao_td TIMESTAMP DEFAULT CURRENT_TIMESTAMP() OPTIONS(description="Data de ingestão na camada trusted.")
 ) PARTITION BY DATE(data_ingestao_td) OPTIONS (
-  description = "Conjunto dedados modelados das ações de fiscalização da ANP nos diversos segmentos
-que compõem o abastecimento nacional de combustíveis."
+  description = "Conjunto de dados modelados das ações de fiscalização da ANP nos diversos segmentos que compõem o abastecimento nacional de combustíveis."
 );
