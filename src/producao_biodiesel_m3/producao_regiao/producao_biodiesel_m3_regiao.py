@@ -13,7 +13,7 @@ from constants import (
 )
 import logging
 
-logger = logging.basicConfig(
+logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s - %(levelname)s - %(message)s"
 )
@@ -62,7 +62,7 @@ def rw_producao_biodiesel_regiao():
         insert_data_into_bigquery(df)
         logging.info("Inserção de dados concluída.")
     except Exception as e:
-        logger.warning(f"Erro ao processar {link}: {e}")
+        logging.warning(f"Erro ao processar {link}: {e}")
 
 if __name__ == "__main__":
     df = rw_producao_biodiesel_regiao()
