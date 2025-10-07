@@ -13,7 +13,7 @@ from constants import (
 )
 import logging
 
-logging.basicConfig(
+logger = logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s - %(levelname)s - %(message)s"
 )
@@ -64,8 +64,5 @@ def rw_producao_biodiesel_regiao():
     except Exception as e:
         logger.warning(f"Erro ao processar {link}: {e}")
 
-    return df
 if __name__ == "__main__":
     df = rw_producao_biodiesel_regiao()
-
-    print(df.head())
