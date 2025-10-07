@@ -1,5 +1,5 @@
 resource "google_cloud_run_v2_job" "raw_producao_biodiesel_m3_regiao_job" {
-  name     = "cr-juridico-rw-producao-biodiesel-m3-regiao-job-dev"
+  name     = "cr-juridico-extracao-producao-biodiesel-m3-regiao-job-dev"
   location = var.region
 
   template {
@@ -12,7 +12,7 @@ resource "google_cloud_run_v2_job" "raw_producao_biodiesel_m3_regiao_job" {
 }
 
 resource "google_cloud_run_v2_job" "raw_producao_biodiesel_m3_geral_job" {
-  name     = "cr-juridico-rw-producao-biodiesel-m3-geral-job-dev"
+  name     = "cr-juridico-extracao-producao-biodiesel-m3-geral-job-dev"
   location = var.region
 
   template {
