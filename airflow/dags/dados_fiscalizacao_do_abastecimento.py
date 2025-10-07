@@ -26,7 +26,7 @@ with DAG(
         )
         pop_td_dados_fiscalizacao_do_abastecimento = populate_table(
             table="td_ext_anp.dados_fiscalizacao_do_abastecimento",
-            sql_name="/sql/trusted/dml_td_dados_fiscalizacao_do_abastecimento.sql"
+            sql_name="/sql/trusted/dml_td_dados_fiscalizacao_abastecimento.sql"
         )
         run_rw_dados_fiscalizacao_do_abastecimento >> pop_td_dados_fiscalizacao_do_abastecimento
     etl_dados_fiscalizacao_do_abastecimento
