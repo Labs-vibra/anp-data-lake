@@ -62,7 +62,7 @@ def rw_producao_biodiesel_geral():
         insert_data_into_bigquery(df)
         logging.info("Inserção de dados concluída.")
     except Exception as e:
-        logger.warning(f"Erro ao processar {link}: {e}")
+        logging.warning(f"Erro ao processar {link}: {e}")
     
     return df
 
