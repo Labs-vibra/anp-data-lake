@@ -13,7 +13,7 @@ USING (
         numero_da_aea_cessionaria,
         inicio_contrato_ato_homologacao,
         processo,
-        PARSE_DATE('%Y-%m-%d', cast(termino_contrato as STRING)) AS termino_contrato,
+        PARSE_DATE('%Y-%m-%d', SUBSTR(CAST(termino_contrato AS STRING), 1, 10)) AS termino_contrato,
         IFNULL(SAFE_CAST(NULLIF(REPLACE(CAST(volume_m3 AS STRING), ',', '.'), '') AS NUMERIC), 0) AS volume_m3,
         IFNULL(SAFE_CAST(NULLIF(REPLACE(CAST(gasolina_a as STRING), ',', '.'), '') AS NUMERIC), 0) AS gasolina_a,
         IFNULL(SAFE_CAST(NULLIF(REPLACE(CAST(gasolina_a_premium as STRING), ',', '.'), '') AS NUMERIC), 0) AS gasolina_a_premium,
@@ -33,10 +33,10 @@ USING (
         IFNULL(SAFE_CAST(NULLIF(REPLACE(cast(querosene_iluminante as string), ',', '.'), '') AS NUMERIC), 0) AS querosene_iluminante,
         IFNULL(SAFE_CAST(NULLIF(REPLACE(cast(gav as string), ',', '.'), '') AS NUMERIC), 0) AS gav,
         data_criacao
-    FROM td_ext_anp.contratos_cessao_espaco_carregamento
+    FROM rw_ext_anp.contratos_cessao_espaco_carregamento
     WHERE data_criacao = (
         SELECT MAX(data_criacao)
-        FROM td_ext_anp.contratos_cessao_espaco_carregamento
+        FROM rw_ext_anp.contratos_cessao_espaco_carregamento
     )
 ) AS source
 ON target.tipo_contrato = source.tipo_contrato
