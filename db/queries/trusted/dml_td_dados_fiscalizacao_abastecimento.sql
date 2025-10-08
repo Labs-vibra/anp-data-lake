@@ -1,7 +1,7 @@
 MERGE td_ext_anp.dados_fiscalizacao_do_abastecimento AS target
 USING (
     SELECT
-        FARM_FINGERPRINT(CONCAT(agente_economico, '-', cnpj_ou_cpf, '-', segmento_fiscalizado, '-', numero_do_documento, '-', procedimento_de_fiscalizacao)) AS id,
+        FARM_FINGERPRINT(CONCAT(COALESCE(agente_economico, ''), '-', COALESCE(cnpj_ou_cpf, ''), '-', COALESCE(segmento_fiscalizado, ''), '-', COALESCE(numero_do_documento, ''), '-', COALESCE(procedimento_de_fiscalizacao, ''))) AS id,
         LOWER(TRIM(uf)) AS uf,
         LOWER(TRIM(municipio)) AS municipio,
         LOWER(TRIM(bairro)) AS bairro,
