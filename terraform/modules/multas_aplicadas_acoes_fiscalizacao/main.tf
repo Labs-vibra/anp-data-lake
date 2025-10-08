@@ -1,11 +1,11 @@
 resource "google_cloud_run_v2_job" "extracao_multas_aplicadas_acoes_fiscalizacao" {
-  name     = "cr-juridico-multas-aplicadas-acoes-fiscalizacao-job-dev"
+  name     = "cr-juridico-ex-multas-aplicadas-acoes-fiscalizacao-dev"
   location = var.region
 
   template {
     template {
       containers {
-        image = "${var.jobs_image_base_url}/cr-juridico-raw-multas-aplicadas-acoes-fiscalizacao-job:${var.image_version}"
+        image = "${var.jobs_image_base_url}/extracao-multas-aplicadas-acoes-fiscalizacao-job:${var.image_version}"
       }
     }
   }

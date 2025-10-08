@@ -92,7 +92,7 @@ CONSULTA_BASES_DE_DISTRIBUICAO_E_TRR_AUTORIZADOS_IMAGES = [
 MULTAS_APLICADAS_IMAGES = [
     {
         "label": "Extração de Multas Aplicadas",
-        "name": "cr-juridico-raw-multas-aplicadas-acoes-fiscalizacao-job",
+        "name": "extracao-multas-aplicadas-acoes-fiscalizacao-job",
         "path": "./src/multas_aplicadas_acoes_fiscalizacao/extracao"
     },
     {
