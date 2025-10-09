@@ -2,7 +2,7 @@ import re
 import pandas as pd
 from datetime import date
 from google.cloud import bigquery
-from utils import fetch_html, find_all_csv_links, download_file, normalize_column
+from utils import fetch_html, find_all_csv_links, download_file, read_file_and_format_columns
 from constants import URL_BASE, PROJECT_ID, BQ_DATASET, TABLE_NAME, COLUMNS
 import logging
 
@@ -67,12 +67,8 @@ def build_raw(start_year: int, end_year: int) -> bool:
     for link in filtered_links:
         try:
             file_bytes = download_file(link)
-            df = pd.read_csv(file_bytes, sep=";", encoding="latin1", dtype=str)
-            df.columns = [normalize_column(c) for c in df.columns]
-
-            for col in COLUMNS:
-                if col not in df.columns:
-                    df[col] = pd.NA
+            df = read_file_and_format_columns(file_bytes, link)
+            print("Colunas normalizadas:", df.columns.tolist())
 
             df = df[COLUMNS]
 
@@ -90,6 +86,7 @@ def build_raw(start_year: int, end_year: int) -> bool:
 
     insert_data_into_bigquery(df_all)
     logger.info("Raw Tancagem do Abastecimento Nacional de Combustíveis carregada com sucesso no BigQuery.")
+    return True
 
 def main():
     """
