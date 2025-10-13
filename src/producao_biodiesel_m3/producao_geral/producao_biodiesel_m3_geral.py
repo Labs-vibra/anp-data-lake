@@ -10,7 +10,6 @@ from constants import (
     PROJECT_ID,
     BQ_DATASET,
     TABLE_NAME_GERAL,
-    MAPPING_COLUM
 )
 import logging
 
@@ -60,14 +59,10 @@ def rw_producao_biodiesel_geral():
     try:
         logging.info(f"Arquivo carregado com {len(df)} registros.")
         df.columns = [normalize_column(c) for c in df.columns]
-        df["ano"] = df["ano"].astype(str)
+        insert_data_into_bigquery(df)
         logging.info("Inserção de dados concluída.")
-
-        df.rename(columns=MAPPING_COLUM, inplace=True)
     except Exception as e:
         logging.warning(f"Erro ao processar {link}: {e}")
     
-    insert_data_into_bigquery(df)
-
 if __name__ == "__main__":
-    rw_producao_biodiesel_geral()
+    df = rw_producao_biodiesel_geral()

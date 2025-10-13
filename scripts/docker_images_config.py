@@ -92,7 +92,7 @@ CONSULTA_BASES_DE_DISTRIBUICAO_E_TRR_AUTORIZADOS_IMAGES = [
 MULTAS_APLICADAS_IMAGES = [
     {
         "label": "Extração de Multas Aplicadas",
-        "name": "extracao-multas-aplicadas-acoes-fiscalizacao-job",
+        "name": "cr-juridico-raw-multas-aplicadas-acoes-fiscalizacao-job",
         "path": "./src/multas_aplicadas_acoes_fiscalizacao/extracao"
     },
     {
@@ -103,6 +103,14 @@ MULTAS_APLICADAS_IMAGES = [
 ]
 
 DOCKER_IMAGES = [
+    # *LOGISTICA_IMAGES,
+    # *CBIOS_METAS_IMAGES,
+    # *CBIOS_RETIREMENT_IMAGES,
+    # *POSTOS_REVENDEDORES_IMAGES,
+    # *MARKET_SHARE_IMAGES,
+    # *INSTALLATION_CODES_IMAGES,
+    # *DISTRIBUIDORES_COMB_LIQ_IMAGES,
+    # CBIOS_METAS_IMAGES[1],
     *PMQC_IMAGES,
     *TANCAGEM_DO_ABASTECIMENTO_NACIONAL_DE_COMBUSTIVEIS_IMAGES,
     *PRODUCAO_BIODIESEL_M3,

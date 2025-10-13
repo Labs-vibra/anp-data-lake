@@ -65,8 +65,10 @@ def build_raw() -> bool:
                 df = pd.read_csv(file_bytes, sep=";", encoding="latin1", dtype=str)
 
             df.columns = [normalize_column(c) for c in df.columns]
-            if "cnpj_cpf" in df.columns:
-                df = df.rename(columns={"cnpj_cpf": "cnpj_ou_cpf"})
+
+            for col in COLUMNS:
+                if col not in df.columns:
+                    df[col] = pd.NA
 
             df = df[COLUMNS]
 

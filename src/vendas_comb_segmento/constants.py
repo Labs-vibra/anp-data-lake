@@ -1,4 +1,4 @@
-# ETL de vendas de combustíveis por segmento:
+# ETL de vendas de cmobustíveis por segmento:
 
 URL = (
     "https://www.gov.br/anp/pt-br/centrais-de-conteudo/dados-abertos/vendas-de-derivados-de-petroleo-e-biocombustiveis"

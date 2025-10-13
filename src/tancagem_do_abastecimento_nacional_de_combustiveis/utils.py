@@ -1,12 +1,10 @@
 import re
 import unicodedata
-import pandas as pd
 import requests
 from io import BytesIO
 from bs4 import BeautifulSoup
 from google.cloud import storage
 import logging
-from constants import URL_BASE, COLUMNS
 
 logging.basicConfig(
     level=logging.INFO,
@@ -14,33 +12,22 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
-def camel_to_snake(name: str) -> str:
-    """Converte CamelCase em snake_case e remove BOM e espaços extras."""
-    name = str(name).strip().encode('utf-8').decode('utf-8-sig')
-    name = name[0].lower() + name[1:] if name else name
-    name = re.sub(r'([A-Z])', r'_\1', name).lower()
-    name = re.sub(r'\s+', '_', name)  # substitui espaços por _
-    return name
-
-def read_file_and_format_columns(file_bytes, file_name: str) -> pd.DataFrame:
-    """Lê CSV ou Excel, remove BOM, converte colunas para snake_case e reindexa para COLUMNS."""
-    if file_name.endswith(".csv"):
-        df = pd.read_csv(file_bytes, sep=",", dtype=str, skipinitialspace=True)
-    elif file_name.endswith((".xls", ".xlsx")):
-        df = pd.read_excel(file_bytes, dtype=str)
-    else:
-        raise ValueError("Formato de arquivo não suportado")
-
-    # Remove espaços e converte para snake_case
-    df.columns = [re.sub(r'\s+', '_', col.strip().lower()) for col in df.columns]
-
-    # Reindexa para garantir todas as colunas, adicionando NaN se faltar alguma
-    df = df.reindex(columns=COLUMNS)
-
-    return df
+def normalize_column(col: str) -> str:
+    """
+    Normaliza nomes de colunas:
+    - Remove acentos e caracteres estranhos
+    - Converte para lowercase
+    - Substitui espaços e caracteres inválidos por underscore
+    """
+    col = col.strip().lower()
+    col = unicodedata.normalize('NFKD', col).encode('ASCII', 'ignore').decode('ASCII')
+    col = re.sub(r'[^a-z0-9_]', '_', col)
+    col = re.sub(r'_+', '_', col)
+    col = col.strip('_')
+    return col
 
 def fetch_html(url: str):
-    response = requests.get(url)
+    response = requests.get(url, verify=False)
     response.raise_for_status()
     return BeautifulSoup(response.content, "html.parser")
 
