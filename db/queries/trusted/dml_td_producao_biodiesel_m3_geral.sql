@@ -2,7 +2,22 @@ MERGE td_ext_anp.producao_biodiesel_m3_geral AS target
 USING (
     SELECT
         FARM_FINGERPRINT(CONCAT(ano, mes, grande_regiao, unidade_federacao, produtor, produto)) AS id,
-        PARSE_DATE('%Y-%m-%d', CONCAT(ano, '-', mes, '-01')) AS data,
+        PARSE_DATE('%Y-%m-%d', CONCAT(ano, '-', 
+            CASE LOWER(TRIM(mes))
+                WHEN 'jan' THEN '01'
+                WHEN 'fev' THEN '02'
+                WHEN 'mar' THEN '03'
+                WHEN 'abr' THEN '04'
+                WHEN 'mai' THEN '05'
+                WHEN 'jun' THEN '06'
+                WHEN 'jul' THEN '07'
+                WHEN 'ago' THEN '08'
+                WHEN 'set' THEN '09'
+                WHEN 'out' THEN '10'
+                WHEN 'nov' THEN '11'
+                WHEN 'dez' THEN '12'
+                ELSE mes
+            END, '-01')) AS data,
         LOWER(REGEXP_REPLACE(NORMALIZE(grande_regiao, NFD), r'\pM', '')) AS grande_regiao,
         LOWER(REGEXP_REPLACE(NORMALIZE(unidade_federacao, NFD), r'\pM', '')) AS unidade_federacao,
         LOWER(REGEXP_REPLACE(NORMALIZE(produtor, NFD), r'\pM', '')) AS produtor,
