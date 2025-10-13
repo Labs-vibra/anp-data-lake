@@ -6,3 +6,4 @@ requests
 beautifulsoup4
 lxml
 python-dotenv
+openpyxl>=3.1.2

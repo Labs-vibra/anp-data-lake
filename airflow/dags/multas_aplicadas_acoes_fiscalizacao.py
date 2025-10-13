@@ -27,7 +27,7 @@ with DAG(
     # Tarefa 1: Executar job Cloud Run para extração (download dos CSVs)
     extraction = exec_job(
         task_id='extract_multas_aplicadas_acoes_fiscalizacao',
-        job_name='cr-juridico-multas-aplicadas-acoes-fiscalizacao-job-dev',
+        job_name='cr-juridico-ex-multas-aplicadas-acoes-fiscalizacao-dev',
     )
 
     # Tarefa 2: Executar job Cloud Run para processar e carregar na camada raw

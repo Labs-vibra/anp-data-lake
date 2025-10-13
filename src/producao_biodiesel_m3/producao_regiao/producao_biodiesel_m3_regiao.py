@@ -59,10 +59,12 @@ def rw_producao_biodiesel_regiao():
     try:
         logging.info(f"Arquivo carregado com {len(df)} registros.")
         df.columns = [normalize_column(c) for c in df.columns]
-        insert_data_into_bigquery(df)
+        df["ano"] = df["ano"].astype(str)
         logging.info("Inserção de dados concluída.")
     except Exception as e:
         logging.warning(f"Erro ao processar {link}: {e}")
+    
+    insert_data_into_bigquery(df)
 
 if __name__ == "__main__":
-    df = rw_producao_biodiesel_regiao()
+    rw_producao_biodiesel_regiao()
