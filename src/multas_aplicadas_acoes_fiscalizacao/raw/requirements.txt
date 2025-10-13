@@ -3,3 +3,4 @@ beautifulsoup4
 pandas
 google-cloud-storage
 google-cloud-bigquery
+pyarrow
