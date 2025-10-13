@@ -28,9 +28,6 @@ def download_and_process_csv(bucket_name: str, file_path: str, file_config: dict
     logger.info(f"Colunas encontradas: {df.columns}")
     # Renomeia colunas usando o mapeamento
     df.rename(columns=file_config["columns"], inplace=True)
-    # Adiciona colunas de metadados
-    df['ano_referencia'] = file_config['ano_referencia']
-    df['arquivo_origem'] = file_path.split('/')[-1]
 
     # Garante que todas as colunas padronizadas existam
     for col in STANDARDIZED_COLUMNS:
