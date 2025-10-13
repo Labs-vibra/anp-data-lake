@@ -38,7 +38,6 @@ with DAG(
 
     # Tarefa 3: Popular tabela trusted
     trusted_data = populate_table(
-        task_id='populate_trusted_multas_aplicadas_acoes_fiscalizacao',
         table='td_ext_anp.multas_aplicadas_acoes_fiscalizacao',
         sql_name='dml_td_multas_aplicadas_acoes_fiscalizacao.sql'
     )
