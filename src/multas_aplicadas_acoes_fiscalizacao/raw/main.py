@@ -20,14 +20,14 @@ def download_and_process_csv(bucket_name: str, file_path: str, file_config: dict
     content = blob.download_as_string()
 
     # Lê CSV
-    df = pd.read_csv(pd.io.common.BytesIO(content), encoding='utf-8')
+    encoding = file_config.get("encoding", "utf-8")
+    df = pd.read_csv(pd.io.common.BytesIO(content), encoding=encoding, sep=';', header=file_config['header'], dtype=str)
 
+    logger.info(f"Arquivo {file_path} baixado com {len(df)} registros")
+    # Verifica se todas as colunas esperadas estão presentes
+    logger.info(f"Colunas encontradas: {df.columns}")
     # Renomeia colunas usando o mapeamento
-    df.rename(columns=COLUMN_MAPPING, inplace=True)
-
-    # Adiciona colunas de metadados
-    df['ano_referencia'] = file_config['ano_referencia']
-    df['arquivo_origem'] = file_path.split('/')[-1]
+    df.rename(columns=file_config["columns"], inplace=True)
 
     # Garante que todas as colunas padronizadas existam
     for col in STANDARDIZED_COLUMNS:
@@ -37,6 +37,7 @@ def download_and_process_csv(bucket_name: str, file_path: str, file_config: dict
     # Seleciona apenas as colunas padronizadas
     df = df[STANDARDIZED_COLUMNS]
 
+    logger.info(f"Colunas após renomeação: {df.columns}")
     # Converte todos os campos para STRING (padrão da camada raw)
     for col in df.columns:
         if col not in ['data_criacao']:
