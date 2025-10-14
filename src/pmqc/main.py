@@ -5,6 +5,7 @@ from google.cloud import bigquery
 from utils import fetch_html, find_all_csv_links, download_file, normalize_column
 from constants import URL_BASE, PROJECT_ID, BQ_DATASET, TABLE_NAME, COLUMNS
 import logging
+import argparse
 
 logging.basicConfig(
     level=logging.INFO,
@@ -93,18 +94,18 @@ def build_pmqc_raw(start_year: int, end_year: int):
 def main():
     """
     Função principal que executa a extração dos dados de PMQC e construção da raw no BQ.
+    Aceita argumentos --start_year e --end_year para processar anos específicos.
     """
-    logger.info("=== Iniciando raw de PMQC ===")
 
-    success = build_pmqc_raw(2016, 2025)
+    parser = argparse.ArgumentParser(description="Extração de dados PMQC")
+    parser.add_argument("--start_year", type=int, default=2016, help="Ano inicial (padrão: 2016)")
+    parser.add_argument("--end_year", type=int, default=2025, help="Ano final (padrão: 2025)")
+    args = parser.parse_args()
+    
+    logger.info(f"=== Iniciando raw de PMQC para os anos {args.start_year} a {args.end_year} ===")
 
-    if success:
-        logger.info("=== Processo finalizado com sucesso! ===")
-        exit(0)
-    else:
-        logger.error("=== Processo finalizado com erro! ===")
-        exit(1)
-    logger.info("=== Processo finalizado ===")
+    build_pmqc_raw(args.start_year, args.end_year)
+    logger.info("=== Processo finalizado com sucesso! ===")
 
 if __name__ == "__main__":
     main()
