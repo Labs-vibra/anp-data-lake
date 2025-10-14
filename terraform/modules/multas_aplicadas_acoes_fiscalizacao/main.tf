@@ -1,5 +1,5 @@
 resource "google_cloud_run_v2_job" "extracao_multas_aplicadas_acoes_fiscalizacao" {
-  name     = "cr-juridico-ex-multas-aplicadas-acoes-fiscalizacao-dev"
+  name     = "cr-juridico-ex-multas-aplicadas-fiscalizacao-dev"
   location = var.region
 
   template {

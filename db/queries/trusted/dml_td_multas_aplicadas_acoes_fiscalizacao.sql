@@ -1,23 +1,20 @@
-WITH regex_acentos AS (
-  SELECT r'[\u0300-\u036f]' AS rx -- regex para remover diacríticos após normalização NFD
-)
-MERGE td_ext_anp.multas_aplicadas_acoes_fiscalizacao t
+MERGE td_ext_anp.multas_aplicadas_acoes_fiscalizacao AS t
 USING (
     SELECT
         FARM_FINGERPRINT(CONCAT(
-            COALESCE(TRIM(LOWER(REGEXP_REPLACE(NORMALIZE(numero_processo, NFD), rx, ''))), ''),
-            '-', COALESCE(TRIM(LOWER(REGEXP_REPLACE(NORMALIZE(auto_infracao, NFD), rx, ''))), ''),
-            '-', COALESCE(TRIM(LOWER(REGEXP_REPLACE(NORMALIZE(numero_duf, NFD), rx, ''))), ''),
-            '-', COALESCE(TRIM(REGEXP_REPLACE(NORMALIZE(cnpj_cpf, NFD), rx, '')), ''),
+            COALESCE(TRIM(LOWER(REGEXP_REPLACE(NORMALIZE(numero_processo, NFD), r'[\u0300-\u036f]', ''))), ''),
+            '-', COALESCE(TRIM(LOWER(REGEXP_REPLACE(NORMALIZE(auto_infracao, NFD), r'[\u0300-\u036f]', ''))), ''),
+            '-', COALESCE(TRIM(LOWER(REGEXP_REPLACE(NORMALIZE(numero_duf, NFD), r'[\u0300-\u036f]', ''))), ''),
+            '-', COALESCE(TRIM(REGEXP_REPLACE(NORMALIZE(cnpj_cpf, NFD), r'[\u0300-\u036f]', '')), ''),
             '-', COALESCE(TRIM(ano_referencia), '')
         )) AS id,
-        TRIM(LOWER(REGEXP_REPLACE(NORMALIZE(status_processo, NFD), rx, ''))) AS status_processo,
-        TRIM(LOWER(REGEXP_REPLACE(NORMALIZE(superintendencia, NFD), rx, ''))) AS superintendencia,
-        TRIM(LOWER(REGEXP_REPLACE(NORMALIZE(numero_processo, NFD), rx, ''))) AS numero_processo,
-        TRIM(LOWER(REGEXP_REPLACE(NORMALIZE(auto_infracao, NFD), rx, ''))) AS auto_infracao,
-        TRIM(LOWER(REGEXP_REPLACE(NORMALIZE(numero_duf, NFD), rx, ''))) AS numero_duf,
-        TRIM(REGEXP_REPLACE(NORMALIZE(cnpj_cpf, NFD), rx, '')) AS cnpj_cpf,
-        TRIM(LOWER(REGEXP_REPLACE(NORMALIZE(razao_social, NFD), rx, ''))) AS razao_social,
+        TRIM(LOWER(REGEXP_REPLACE(NORMALIZE(status_processo, NFD), r'[\u0300-\u036f]', ''))) AS status_processo,
+        TRIM(LOWER(REGEXP_REPLACE(NORMALIZE(superintendencia, NFD), r'[\u0300-\u036f]', ''))) AS superintendencia,
+        TRIM(LOWER(REGEXP_REPLACE(NORMALIZE(numero_processo, NFD), r'[\u0300-\u036f]', ''))) AS numero_processo,
+        TRIM(LOWER(REGEXP_REPLACE(NORMALIZE(auto_infracao, NFD), r'[\u0300-\u036f]', ''))) AS auto_infracao,
+        TRIM(LOWER(REGEXP_REPLACE(NORMALIZE(numero_duf, NFD), r'[\u0300-\u036f]', ''))) AS numero_duf,
+        TRIM(REGEXP_REPLACE(NORMALIZE(cnpj_cpf, NFD), r'[\u0300-\u036f]', '')) AS cnpj_cpf,
+        TRIM(LOWER(REGEXP_REPLACE(NORMALIZE(razao_social, NFD), r'[\u0300-\u036f]', ''))) AS razao_social,
         SAFE.PARSE_DATE('%d/%m/%Y', data_transito_julgado) AS data_transito_julgado,
         SAFE.PARSE_DATE('%d/%m/%Y', vencimento) AS vencimento,
         SAFE_CAST(
@@ -29,7 +26,7 @@ USING (
         TRIM(ano_referencia) AS ano_referencia,
         TRIM(arquivo_origem) AS arquivo_origem,
         data_criacao
-    FROM rw_ext_anp.multas_aplicadas_acoes_fiscalizacao, regex_acentos
+    FROM rw_ext_anp.multas_aplicadas_acoes_fiscalizacao
     WHERE data_criacao = (
         SELECT MAX(data_criacao)
         FROM rw_ext_anp.multas_aplicadas_acoes_fiscalizacao

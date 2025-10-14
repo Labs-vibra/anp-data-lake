@@ -25,7 +25,7 @@ def populate_table(table, sql_name):
         location="US"
     )
 
-def exec_cloud_run_job(task_id, job_name, args=None):
+def exec_cloud_run_job(task_id, job_name, args={}):
     cloud_run_operator = {
         "task_id": f"rw_extract_{task_id}_job",
         "job_name": job_name,
@@ -35,10 +35,19 @@ def exec_cloud_run_job(task_id, job_name, args=None):
         "pool": "cloud_run_pool",
     }
 
-    if args:
-        args_list = [f"--{key}={value}" for key, value in args.items()]
-        cloud_run_operator["args"] = args_list
-    
+    if args.get("env"):
+        cloud_run_operator["container_overrides"] = {
+            "env": args["env"]
+        }
+
+    if args.get("args"):
+        cloud_run_operator["container_overrides"] = {
+            **cloud_run_operator.get("container_overrides", {}),
+            "args": args["args"]
+        }
+
+
+
     return CloudRunExecuteJobOperator(**cloud_run_operator)
 
 def exec_job(task_id, job_name, image='extracao:latest'):
