@@ -2,12 +2,12 @@ MERGE td_ext_anp.tancagem_do_abastecimento_nacional_de_combustiveis AS target
 USING (
     SELECT
         FARM_FINGERPRINT(CONCAT(nome_empresarial, '-', cod_instalacao, '-')) AS id,
-        PARSE_DATE('%Y-%m-%d', data) AS data,
+        DATE(data) AS data,
         REGEXP_REPLACE(LOWER(TRIM(NORMALIZE(nome_empresarial, NFD))), '[^a-zA-Z0-9_\\s-.\']', '') AS nome_empresarial,
         LOWER(TRIM(uf)) AS uf,
         LOWER(TRIM(municipio)) AS municipio,
         REGEXP_REPLACE(cnpj, r'[^0-9]', '') AS cnpj,
-        IFNULL(SAFE_CAST(NULLIF(cod_instalacao, '')) AS NUMERIC, 0) AS cod_instalacao,
+        IFNULL(SAFE_CAST(NULLIF(cod_instalacao, '') AS NUMERIC), 0) AS cod_instalacao,
         REGEXP_REPLACE(LOWER(TRIM(NORMALIZE(segmento, NFD))), '[^a-zA-Z0-9_\\s-.\']', '') AS segmento,
         REGEXP_REPLACE(LOWER(TRIM(NORMALIZE(detalhe_instalacao, NFD))), '[^a-zA-Z0-9_\\s-.\']', '') AS detalhe_instalacao,
         REGEXP_REPLACE(TRIM(NORMALIZE(tag, NFD)), '[^a-zA-Z0-9_\\s-.\']', '') AS tag,
