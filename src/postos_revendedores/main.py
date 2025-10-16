@@ -69,8 +69,18 @@ logging.info(f"🔽 Chrome configurado para baixar na RAM: {PASTA_DOWNLOAD_RAM}"
 
 logging.info("Iniciando o navegador em modo headless (sem janela visível)...")
 
-service = ChromeService(executable_path=ChromeDriverManager().install())
-driver = webdriver.Chrome(service=service, options=chrome_options)
+try:
+    # Tentar usar ChromeDriverManager
+    service = ChromeService(executable_path=ChromeDriverManager().install())
+    driver = webdriver.Chrome(service=service, options=chrome_options)
+except Exception as e:
+    logging.warning(f"Falha ao usar ChromeDriverManager: {e}")
+    # Fallback: tentar usar chromedriver do sistema
+    try:
+        driver = webdriver.Chrome(options=chrome_options)
+    except Exception as e2:
+        logging.error(f"Falha ao inicializar Chrome: {e2}")
+        raise
 
 driver.get(ANP_URL)
 driver.implicitly_wait(10) 
