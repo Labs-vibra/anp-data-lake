@@ -1,6 +1,7 @@
 CREATE TABLE IF NOT EXISTS td_ext_anp.pmqc (
+    id INT64 OPTIONS(description="Identificador único do registro."),
     data_coleta DATE OPTIONS(description="Data no formato ISO 8601 (AAAA-MM-DD) que a coleta de combustível foi realizada."),
-    id_numeric NUMERIC OPTIONS(description="Identificador das amostras."),
+    id_numeric STRING OPTIONS(description="Identificador das amostras."),
     grupo_produto STRING OPTIONS(description="Identifica a família de combustível (Gasolina, Diesel ou Etanol)."),
     produto STRING OPTIONS(description="Identifica o produto específico de uma dada família de combustível. Por exemplo, para Gasolina há os produtos: Gasolina C Comum, Gasolina C Aditivada e Gasolina C Premium."),
     razao_social_posto STRING OPTIONS(description="Razão Social do Posto Revendedor de Combustível."),
