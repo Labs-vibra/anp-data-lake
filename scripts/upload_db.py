@@ -12,11 +12,24 @@ schema_files = [
     # RAW Layer
     "db/schemas/raw/ddl_consulta_bases_de_distribuicao_e_trr_autorizados.sql",
     "db/schemas/raw/ddl_postos_revendedores.sql",
-
+    "db/schemas/raw/ddl_producao_biodiesel_m3_geral.sql",
+    "db/schemas/raw/ddl_biodiesel_m3_regiao.sql",
+    "db/schemas/raw/ddl_vendas_comb_segmento.sql",
+    "db/schemas/raw/ddl_pmqc.sql",
+    "db/schemas/raw/ddl_multas_aplicadas_acoes_fiscalizacao.sql",
+    "db/schemas/raw/ddl_contratos_cessao.sql",
+    "db/schemas/raw/ddl_dados_fiscalizacao_abastecimento.sql",
     
     # TRUSTED Layer
     "db/schemas/trusted/ddl_consulta_bases_de_distribuicao_e_trr_autorizados.sql",
     "db/schemas/trusted/ddl_postos_revendedores.sql",
+    "db/schemas/trusted/ddl_producao_biodiesel_m3_geral.sql",
+    "db/schemas/trusted/ddl_biodiesel_m3_regiao.sql",
+    "db/schemas/trusted/ddl_vendas_comb_segmento.sql",
+    "db/schemas/trusted/ddl_pmqc.sql",
+    "db/schemas/trusted/ddl_multas_aplicadas_acoes_fiscalizacao.sql",
+    "db/schemas/trusted/ddl_contratos_cessao.sql",
+    "db/schemas/trusted/ddl_dados_fiscalizacao_abastecimento.sql",
 ]
 
 datasets_files = []
