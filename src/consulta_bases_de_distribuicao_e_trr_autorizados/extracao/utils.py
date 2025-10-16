@@ -162,6 +162,7 @@ def configurar_downloads_chrome(pasta_download):
     Returns:
         webdriver.ChromeOptions: Opções configuradas
     """
+    import tempfile
     from selenium import webdriver
     
     chrome_options = webdriver.ChromeOptions()
@@ -173,14 +174,18 @@ def configurar_downloads_chrome(pasta_download):
     chrome_options.add_argument("--window-size=1920,1080")
     chrome_options.add_argument("--disable-extensions")
     chrome_options.add_argument("--disable-plugins")
-    
+
+    # ⚠️ Adiciona diretório temporário exclusivo para cada instância do Chrome
+    user_data_dir = tempfile.mkdtemp(prefix="chrome-user-data-")
+    chrome_options.add_argument(f"--user-data-dir={user_data_dir}")
+
     # Configurações de download
     prefs = {
         "download.default_directory": pasta_download,
         "download.prompt_for_download": False,
         "download.directory_upgrade": True,
         "safebrowsing.enabled": True,
-        "plugins.always_open_pdf_externally": True,  # Para baixar PDFs em vez de abrir no navegador
+        "plugins.always_open_pdf_externally": True,  # Baixa PDFs em vez de abrir
     }
     chrome_options.add_experimental_option("prefs", prefs)
     
