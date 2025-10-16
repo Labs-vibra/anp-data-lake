@@ -1,5 +1,5 @@
 CREATE TABLE IF NOT EXISTS rw_ext_anp.tancagem_do_abastecimento_nacional_de_combustiveis (
-    data STRING OPTIONS(description="Data de referência do levantamento da capacidade de tancagem."),
+    `data`STRING OPTIONS(description="Data de referência do levantamento da capacidade de tancagem."),
     nome_empresarial STRING OPTIONS(description="Razão social da empresa responsável pela instalação de armazenamento de combustíveis."),
     uf STRING OPTIONS(description="Unidade Federativa (estado) onde está localizada a instalação."),
     municipio STRING OPTIONS(description="Município onde está localizada a instalação."),
