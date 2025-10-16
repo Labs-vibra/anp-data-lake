@@ -22,7 +22,7 @@ with DAG(
                    tooltip="ETL Tancagem do Abastecimento Nacional de Combustíveis") as etl_tancagem_do_abastecimento:
         run_rw_tancagem_do_abastecimento_nacional_de_combustiveis = exec_cloud_run_job(
             task_id="tancagem_do_abastecimento_nacional_de_combustiveis_raw",
-            job_name="cr-juridico-rw-tancagem-abastecimento-nacional-de-combustiveis-job-dev"
+            job_name="cr-juridico-rw-tancagem-abastecimento-nacional-de-comb-job-dev"
         )
         pop_td_tancagem_do_abastecimento_nacional_de_combustiveis = populate_table(
             table="td_ext_anp.tancagem_do_abastecimento_nacional_de_combustiveis",
