@@ -11,6 +11,7 @@ CONSULT_BUTTON_ID = "B479395808106517986"
 BUCKET_NAME = os.getenv("BUCKET_NAME", "vibra-dtan-jur-anp-input")
 BUCKET_PATH = "anp/consulta_bases_de_distribuicao_e_trr_autorizados/"
 
-PASTA_DOWNLOAD_RAM = "/dev/shm/anp_downloads"
-if not os.path.exists("/dev/shm"):
-    PASTA_DOWNLOAD_RAM = "/tmp/anp_downloads"
+#PASTA_DOWNLOAD_RAM = "/dev/shm/anp_downloads"
+PASTA_DOWNLOAD_RAM = "/tmp/anp_downloads"
+if not os.path.exists(PASTA_DOWNLOAD_RAM):
+    os.makedirs(PASTA_DOWNLOAD_RAM)

@@ -33,20 +33,15 @@ def exec_cloud_run_job(task_id, job_name, args={}):
         "project_id": project_id,
         "deferrable": True,
         "pool": "cloud_run_pool",
+        "overrides": {
+            "container_overrides": []
+        }
     }
 
     if args.get("env"):
-        cloud_run_operator["container_overrides"] = {
+        cloud_run_operator["overrides"]["container_overrides"].append({
             "env": args["env"]
-        }
-
-    if args.get("args"):
-        cloud_run_operator["container_overrides"] = {
-            **cloud_run_operator.get("container_overrides", {}),
-            "args": args["args"]
-        }
-
-
+        })
 
     return CloudRunExecuteJobOperator(**cloud_run_operator)
 

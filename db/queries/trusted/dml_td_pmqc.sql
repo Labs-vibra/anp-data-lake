@@ -34,7 +34,7 @@ WHEN MATCHED THEN
     UPDATE SET
         resultado = source.resultado,
         unidade_ensaio = source.unidade_ensaio,
-        conforme = source.conforme,
+        conforme = source.conforme;
 WHEN NOT MATCHED THEN
     INSERT (
         id,
