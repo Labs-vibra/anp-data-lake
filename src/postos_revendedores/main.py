@@ -83,7 +83,7 @@ except Exception as e:
         raise
 
 driver.get(ANP_URL)
-driver.implicitly_wait(10) 
+driver.implicitly_wait(10)
 logging.info("Página carregada com sucesso!")
 
 # Configurar WebDriverWait globalmente
@@ -97,38 +97,38 @@ def resolver_captcha():
         logging.info("Aguardando o CAPTCHA carregar...")
         captcha_div = wait.until(EC.presence_of_element_located((By.ID, "anp_p7_captcha_1")))
         captcha_images = captcha_div.find_elements(By.TAG_NAME, "img")
-        
+
         if len(captcha_images) != 5:
             logging.info(f"Erro: Esperado 5 imagens do CAPTCHA, encontrado {len(captcha_images)}")
             return None
-            
+
         logging.info("Extraindo e processando as 5 imagens do CAPTCHA...")
         captcha_text = ""
-        
+
         for i, img_element in enumerate(captcha_images):
             try:
                 img_screenshot = img_element.screenshot_as_png
                 image = Image.open(io.BytesIO(img_screenshot))
                 image = image.convert('L')
-                
+
                 custom_config = r'--oem 3 --psm 8 -c tessedit_char_whitelist=0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ'
                 char = pytesseract.image_to_string(image, config=custom_config).strip().upper()
-                
+
                 if char:
                     captcha_text += char[0]
                 else:
                     return None
-                    
+
             except Exception as e:
                 logging.info(f"Erro ao processar imagem {i+1}: {e}")
                 return None
-        
+
         if len(captcha_text) == 5:
             return captcha_text
         else:
             logging.info(f"Erro: CAPTCHA incompleto - apenas {len(captcha_text)} caracteres reconhecidos")
             return None
-            
+
     except Exception as e:
         logging.info(f"Erro ao resolver CAPTCHA: {e}")
         return None
@@ -174,7 +174,7 @@ def fazer_download_delivery(valor_delivery, nome_delivery):
         select_element = wait.until(EC.presence_of_element_located((By.ID, "P7_DELIVERY")))
         select_object = Select(select_element)
         select_object.select_by_value(valor_delivery)
-        
+
     except Exception as e:
         logging.info(f"Erro ao tentar preencher o campo 'Delivery' com {nome_delivery}: {e}")
         return None
@@ -185,20 +185,20 @@ def fazer_download_delivery(valor_delivery, nome_delivery):
 
     for tentativa in range(1, max_tentativas + 1):
         logging.info(f"Tentativa {tentativa} de resolver CAPTCHA para {nome_delivery}")
-        
+
         # 1. Resolve o CAPTCHA
         captcha_text = resolver_captcha()
-        
+
         if captcha_text and preencher_captcha(captcha_text):
             # 2. Aperta o botão para Exportar com Tancagem
             try:
                 logging.info("🚀 Clicando no botão 'Exportar com Tancagem'...")
                 download_button = driver.find_element(By.ID, "B627337254132141370")
                 download_button.click()
-                
+
                 logging.info("⏱️ Aguardando validação do CAPTCHA pelo servidor...")
                 time.sleep(3)
-                
+
                 # 3. Verifica se a div de erro aparece
                 if verificar_erro_captcha():
                     # 4. Se há erro, fecha a div e continua tentativas
@@ -214,10 +214,10 @@ def fazer_download_delivery(valor_delivery, nome_delivery):
                     logging.info("✅ CAPTCHA aceito pelo servidor!")
                     captcha_resolvido = True
                     break
-                    
+
             except Exception as e:
                 logging.info(f"Erro ao clicar no botão de exportar: {e}")
-        
+
         # Se chegou aqui, a tentativa falhou - precisa refresh do CAPTCHA
         if tentativa < max_tentativas:
             logging.info("🔄 Fazendo refresh do CAPTCHA...")
@@ -228,7 +228,7 @@ def fazer_download_delivery(valor_delivery, nome_delivery):
             except Exception as e:
                 driver.refresh()
                 time.sleep(5)
-                
+
                 try:
                     select_element = wait.until(EC.presence_of_element_located((By.ID, "P7_DELIVERY")))
                     select_object = Select(select_element)
@@ -246,10 +246,10 @@ def fazer_download_delivery(valor_delivery, nome_delivery):
 
     # Sistema de verificação de arquivo (robusto)
     if nome_delivery == 'SIM':
-        nomes_possiveis = ["exportação.xlsx"]
+        nomes_possiveis = ["exportação.xlsx", "export.xlsx"]  # Sem (1) é mais provável
     else:  # NAO
-        nomes_possiveis = ["exportação (1).xlsx", "exportação.xlsx"]  # (1) é mais provável
-    
+        nomes_possiveis = ["exportação (1).xlsx", "exportação.xlsx", "export.xlsx"]  # (1) é mais provável
+
     logging.info(f"🔍 Aguardando arquivo para {nome_delivery}. Nomes possíveis: {nomes_possiveis}")
 
     tempo_espera = 120
@@ -265,15 +265,15 @@ def fazer_download_delivery(valor_delivery, nome_delivery):
                         arquivo_baixado = caminho_arquivo
                         logging.info(f"✅ Arquivo encontrado: {arquivo_baixado}")
                         break
-        
+
         if arquivo_baixado:
             break
-            
+
         time.sleep(1)
 
     if not arquivo_baixado:
         logging.info("📁 Arquivo específico não encontrado. Procurando arquivos .xlsx recentes...")
-        
+
         arquivos_xlsx = []
         for arquivo in os.listdir(PASTA_DOWNLOAD_RAM):
             if arquivo.endswith('.xlsx'):
@@ -281,25 +281,25 @@ def fazer_download_delivery(valor_delivery, nome_delivery):
                 # Verifica se foi criado nos últimos 3 minutos
                 if time.time() - os.path.getctime(caminho_completo) < 180:
                     arquivos_xlsx.append(caminho_completo)
-        
+
         if arquivos_xlsx:
             arquivo_baixado = max(arquivos_xlsx, key=os.path.getctime)
             logging.info(f"✅ Arquivo recente encontrado: {arquivo_baixado}")
         else:
             logging.info(f"❌ Nenhum arquivo .xlsx encontrado para {nome_delivery}.")
             return None
-    
+
     nome_no_bucket = f"{BUCKET_PATH}exportacao_delivery_{nome_delivery.lower()}.xlsx"
-    
+
     logging.info("☁️ Upload para GCP")
     upload_sucesso = upload_bytes_to_bucket(arquivo_baixado, nome_no_bucket)
-    
+
     try:
         os.remove(arquivo_baixado)
         logging.info(f"🗑️ Arquivo removido da RAM: {os.path.basename(arquivo_baixado)}")
     except Exception as e:
         logging.info(f"⚠️ Erro ao limpar RAM: {e}")
-    
+
     if not upload_sucesso:
         logging.info(f"❌ Falha ao fazer upload para bucket. Usando arquivo local.")
         try:
@@ -307,32 +307,32 @@ def fazer_download_delivery(valor_delivery, nome_delivery):
             df['DELIVERY'] = nome_delivery
             logging.info(f"✅ DataFrame {nome_delivery} criado com sucesso (local)!")
             logging.info(f"📊 O DataFrame {nome_delivery} possui {df.shape[0]} linhas e {df.shape[1]} colunas.")
-            
+
             try:
                 os.remove(arquivo_baixado)
                 logging.info(f"🗑️ Arquivo local removido: {arquivo_baixado}")
             except:
                 pass
-            
+
             return df
         except Exception as e:
             logging.info(f"❌ Erro ao ler o arquivo XLSX local para {nome_delivery}: {e}")
             return None
-    
+
     # Ler o arquivo do bucket
     logging.info("📖 Lendo arquivo Excel do bucket GCP...")
     df = read_excel_from_bucket(nome_no_bucket, nome_delivery)
-    
+
     if df is not None:
         logging.info(f"✅ DataFrame {nome_delivery} criado com sucesso!")
         logging.info(f"📊 O DataFrame {nome_delivery} possui {df.shape[0]} linhas e {df.shape[1]} colunas.")
-        
+
         try:
             os.remove(arquivo_baixado)
             logging.info(f"🗑️ Arquivo local removido: {arquivo_baixado}")
         except Exception as e:
             logging.info(f"⚠️ Não foi possível remover arquivo local: {e}")
-        
+
         return df
     else:
         logging.info(f"❌ Erro ao processar arquivo do bucket para {nome_delivery}")
@@ -374,7 +374,7 @@ try:
         df_final = dataframes[0]
     else:
         logging.info("JUNTANDO OS DATAFRAMES")
-        
+
         df_final = pd.concat(dataframes, ignore_index=True)
         logging.info(f"✅ DataFrames unidos com sucesso!")
         logging.info(f"📊 DataFrame final: {df_final.shape[0]} linhas e {df_final.shape[1]} colunas")
@@ -397,7 +397,7 @@ try:
 
 except Exception as e:
     logging.info(f"❌ Erro durante execução: {e}")
-    
+
 finally:
     logging.info("PROCESSO FINALIZADO")
 
@@ -412,7 +412,7 @@ finally:
         logging.info("🚪 Navegador fechado.")
     except Exception as e:
         logging.info(f"❌ Erro ao fechar navegador: {e}")
-    
+
     try:
         import shutil
         if os.path.exists(PASTA_DOWNLOAD_RAM):
