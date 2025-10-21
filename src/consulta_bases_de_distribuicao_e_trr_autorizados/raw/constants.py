@@ -1,6 +1,10 @@
 import os
+from dotenv import load_dotenv
 
-BUCKET_NAME= os.getenv("BUCKET_NAME", "vibra-dtan-jur-anp-input")
+# Load .env so environment variables defined there (like BUCKET_NAME) are available
+load_dotenv()
+
+BUCKET_NAME = os.getenv("BUCKET_NAME", "vibra-dtan-jur-anp-input")
 
 BUCKET_PATH = "anp/consulta_bases_de_distribuicao_e_trr_autorizados/"
 PROJECT_ID = os.getenv("GOOGLE_CLOUD_PROJECT", "ext-ecole-biomassa")
