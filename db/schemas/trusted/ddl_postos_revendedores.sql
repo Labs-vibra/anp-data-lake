@@ -1,4 +1,5 @@
 CREATE TABLE IF NOT EXISTS td_ext_anp.postos_revendedores (
+    id INT64 OPTIONS(description="Identificador único do registro."),
 	numero_autorizacao STRING OPTIONS(description="Número da autorização"),
 	data_publicacao_dou_autorizacao DATE OPTIONS(description="Data de publicação no DOU da autorização"),
 	codigo_instalacao_i_simp NUMERIC OPTIONS(description="Código da instalação (I-SIMP)"),
@@ -22,5 +23,5 @@ CREATE TABLE IF NOT EXISTS td_ext_anp.postos_revendedores (
 	numero_despacho_delivery STRING OPTIONS(description="Número do despacho do delivery"),
 	status_pmqc STRING OPTIONS(description="Status PMQC"),
 	data_criacao TIMESTAMP OPTIONS(description="Data de criação do registro na camada raw"),
-	data_ingestao_td TIMESTAMP DEFAULT CURRENT_TIMESTAMP() OPTIONS(description="Data de criação do registro na camada trusted")	
+	data_ingestao_td TIMESTAMP DEFAULT CURRENT_TIMESTAMP() OPTIONS(description="Data de criação do registro na camada trusted")
 ) PARTITION BY DATE(data_ingestao_td);

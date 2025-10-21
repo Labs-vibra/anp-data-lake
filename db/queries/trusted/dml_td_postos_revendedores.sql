@@ -1,7 +1,7 @@
 MERGE td_ext_anp.postos_revendedores AS target
 USING (
 	SELECT
-		FARM_FINGERPRINT(CONCAT(cnpj_distribuidora, '-', razao_social_distribuidora, '-', delivery, '-', numero_despacho_delivery, '-', data_autorizacao_delivery, '-', codigo_instalacao_i_simp)) AS id,
+		FARM_FINGERPRINT(CONCAT(cnpj, '-', razao_social, '-', delivery, '-', numero_despacho_delivery, '-', data_autorizacao_delivery, '-', codigo_instalacao_i_simp)) AS id,
 		REGEXP_REPLACE(LOWER(TRIM(NORMALIZE(numero_autorizacao, NFD))), '[^a-zA-Z0-9_\\s-.\']', '') AS numero_autorizacao,
 		PARSE_DATE('%d/%m/%Y', LOWER(TRIM(NORMALIZE(data_publicacao_dou_autorizacao, NFD)))) AS data_publicacao_dou_autorizacao,
 		REGEXP_REPLACE(LOWER(TRIM(NORMALIZE(codigo_instalacao_i_simp, NFD))), '[^0-9]', '') AS codigo_instalacao_i_simp,
