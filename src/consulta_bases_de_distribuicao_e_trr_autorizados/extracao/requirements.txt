@@ -9,4 +9,4 @@ selenium
 webdriver-manager
 Pillow
 pytesseract
-tesseract
+numpy
