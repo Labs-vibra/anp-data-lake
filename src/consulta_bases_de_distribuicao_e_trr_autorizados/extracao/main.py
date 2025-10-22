@@ -21,9 +21,8 @@ logging.basicConfig(
 os.makedirs(PASTA_DOWNLOAD_RAM, exist_ok=True)
 logging.info(f"📁 Download configurado para RAM: {PASTA_DOWNLOAD_RAM}")
 
-# Configuração do Chrome com downloads
+# Configuração do Chrome com downloads (já inclui --headless=new)
 chrome_options = configurar_downloads_chrome(PASTA_DOWNLOAD_RAM)
-# chrome_options.add_argument("--headless")
 
 service = ChromeService(executable_path=ChromeDriverManager().install())
 driver = webdriver.Chrome(service=service, options=chrome_options)

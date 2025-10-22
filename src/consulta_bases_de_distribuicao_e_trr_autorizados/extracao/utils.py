@@ -1,4 +1,5 @@
 import re
+import tempfile
 import unicodedata
 import logging
 import os
@@ -162,22 +163,44 @@ def configurar_downloads_chrome(pasta_download):
     Returns:
         webdriver.ChromeOptions: Opções configuradas
     """
-    import tempfile
     from selenium import webdriver
-    
+
     chrome_options = webdriver.ChromeOptions()
-    
+
     # Configurações básicas
     chrome_options.add_argument("--no-sandbox")
-    chrome_options.add_argument("--disable-dev-shm-usage") 
+    chrome_options.add_argument("--disable-dev-shm-usage")
     chrome_options.add_argument("--disable-gpu")
     chrome_options.add_argument("--window-size=1920,1080")
     chrome_options.add_argument("--disable-extensions")
     chrome_options.add_argument("--disable-plugins")
-
-    # ⚠️ Adiciona diretório temporário exclusivo para cada instância do Chrome
-    user_data_dir = tempfile.mkdtemp(prefix="chrome-user-data-")
-    chrome_options.add_argument(f"--user-data-dir={user_data_dir}")
+    
+    # Configurações adicionais para evitar conflitos de sessão
+    chrome_options.add_argument("--disable-blink-features=AutomationControlled")
+    chrome_options.add_argument("--disable-background-networking")
+    chrome_options.add_argument("--disable-background-timer-throttling")
+    chrome_options.add_argument("--disable-backgrounding-occluded-windows")
+    chrome_options.add_argument("--disable-breakpad")
+    chrome_options.add_argument("--disable-client-side-phishing-detection")
+    chrome_options.add_argument("--disable-default-apps")
+    chrome_options.add_argument("--disable-hang-monitor")
+    chrome_options.add_argument("--disable-popup-blocking")
+    chrome_options.add_argument("--disable-prompt-on-repost")
+    chrome_options.add_argument("--disable-sync")
+    chrome_options.add_argument("--disable-translate")
+    chrome_options.add_argument("--metrics-recording-only")
+    chrome_options.add_argument("--no-first-run")
+    chrome_options.add_argument("--safebrowsing-disable-auto-update")
+    
+    # SOLUÇÃO CRÍTICA: Remote debugging port=0 força uso de porta aleatória
+    # evitando conflitos de sessão em ambientes Docker
+    chrome_options.add_argument("--remote-debugging-port=0")
+    
+    # Modo headless para ambientes sem interface gráfica (Cloud Run, Airflow, etc)
+    chrome_options.add_argument("--headless=new")
+    
+    # NÃO usar --user-data-dir - deixa o Chrome criar perfil temporário automático
+    # Usar --user-data-dir pode causar erro "directory already in use" em containers
 
     # Configurações de download
     prefs = {
@@ -186,7 +209,9 @@ def configurar_downloads_chrome(pasta_download):
         "download.directory_upgrade": True,
         "safebrowsing.enabled": True,
         "plugins.always_open_pdf_externally": True,  # Baixa PDFs em vez de abrir
+        "profile.default_content_setting_values.notifications": 2,  # Desabilita notificações
     }
     chrome_options.add_experimental_option("prefs", prefs)
-    
+    chrome_options.add_experimental_option("excludeSwitches", ["enable-automation", "enable-logging"])
+
     return chrome_options

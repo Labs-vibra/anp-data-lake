@@ -36,7 +36,8 @@ RUN wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.d
 COPY . .
 
 # Install Python dependencies
-RUN pip install --upgrade pip && \
+RUN mkdir -p /tmp && chmod 777 /tmp && \
+    pip install --upgrade pip && \
     pip install --no-cache-dir -r requirements.txt
 
 CMD ["python3", "main.py"]
