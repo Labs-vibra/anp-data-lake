@@ -13,7 +13,7 @@ with DAG(
     dag_id='postos_revendedores_pipeline',
     default_args=default_args,
     description='Postos Revendedores',
-    schedule_interval=None,
+    schedule_interval='@monthly',
     catchup=False,
     max_active_tasks=2,
 ) as dag:

@@ -1,7 +1,7 @@
 import os
 
 # Configurações do BigQuery
-PROJECT_ID = os.getenv("GOOGLE_CLOUD_PROJECT", "ext-ecole-biomassa-468317")
+PROJECT_ID = os.getenv("GOOGLE_CLOUD_PROJECT", "ext-ecole-biomassa")
 BQ_DATASET = "rw_ext_anp"
 TABLE_NAME = "postos_revendedores"
 

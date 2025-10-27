@@ -13,7 +13,7 @@ with DAG(
     dag_id='aposentadoria_cbios_pipeline',
     default_args=default_args,
     description='Aposentadoria de CBIOS',
-    schedule_interval=None,
+    schedule_interval='@monthly',
     catchup=False,
     max_active_tasks=2,
 ) as dag:

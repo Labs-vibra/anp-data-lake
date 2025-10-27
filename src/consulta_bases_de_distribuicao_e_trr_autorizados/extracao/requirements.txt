@@ -7,3 +7,6 @@ lxml
 openpyxl
 selenium
 webdriver-manager
+Pillow
+pytesseract
+numpy

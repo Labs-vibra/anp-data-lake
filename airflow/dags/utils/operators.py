@@ -25,15 +25,25 @@ def populate_table(table, sql_name):
         location="US"
     )
 
-def exec_cloud_run_job(task_id, job_name):
-    return CloudRunExecuteJobOperator(
-        task_id=f"rw_extract_{task_id}_job",
-        job_name=job_name,
-        region='us-central1',
-        project_id=project_id,
-        deferrable=True,
-        pool="cloud_run_pool",
-    )
+def exec_cloud_run_job(task_id, job_name, args={}):
+    cloud_run_operator = {
+        "task_id": f"rw_extract_{task_id}_job",
+        "job_name": job_name,
+        "region": 'us-central1',
+        "project_id": project_id,
+        "deferrable": True,
+        "pool": "cloud_run_pool",
+        "overrides": {
+            "container_overrides": []
+        }
+    }
+
+    if args.get("env"):
+        cloud_run_operator["overrides"]["container_overrides"].append({
+            "env": args["env"]
+        })
+
+    return CloudRunExecuteJobOperator(**cloud_run_operator)
 
 def exec_job(task_id, job_name, image='extracao:latest'):
     return exec_cloud_run_job(task_id, job_name)

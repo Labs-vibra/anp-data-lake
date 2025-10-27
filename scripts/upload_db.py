@@ -8,15 +8,38 @@ load_dotenv()
 SCHEMAS_PATH = "./db/schemas"
 REGION = "us-central1"
 
-schema_files = []
+schema_files = [
+    # RAW Layer
+    "db/schemas/raw/ddl_consulta_bases_de_distribuicao_e_trr_autorizados.sql",
+    "db/schemas/raw/ddl_postos_revendedores.sql",
+    "db/schemas/raw/ddl_producao_biodiesel_m3_geral.sql",
+    "db/schemas/raw/ddl_biodiesel_m3_regiao.sql",
+    "db/schemas/raw/ddl_vendas_comb_segmento.sql",
+    "db/schemas/raw/ddl_pmqc.sql",
+    "db/schemas/raw/ddl_multas_aplicadas_acoes_fiscalizacao.sql",
+    "db/schemas/raw/ddl_contratos_cessao.sql",
+    "db/schemas/raw/ddl_dados_fiscalizacao_abastecimento.sql",
+    
+    # TRUSTED Layer
+    "db/schemas/trusted/ddl_consulta_bases_de_distribuicao_e_trr_autorizados.sql",
+    "db/schemas/trusted/ddl_postos_revendedores.sql",
+    "db/schemas/trusted/ddl_producao_biodiesel_m3_geral.sql",
+    "db/schemas/trusted/ddl_biodiesel_m3_regiao.sql",
+    "db/schemas/trusted/ddl_vendas_comb_segmento.sql",
+    "db/schemas/trusted/ddl_pmqc.sql",
+    "db/schemas/trusted/ddl_multas_aplicadas_acoes_fiscalizacao.sql",
+    "db/schemas/trusted/ddl_contratos_cessao.sql",
+    "db/schemas/trusted/ddl_dados_fiscalizacao_abastecimento.sql",
+]
+
 datasets_files = []
 for root, dirs, files in os.walk(SCHEMAS_PATH):
     for f in files:
         if os.path.isfile(os.path.join(root, f)) and f.endswith('.sql'):
-            if not os.path.basename(f).startswith('ddl_datasets'):
-                schema_files.append(os.path.join(root, f))
-            else:
+            if os.path.basename(f).startswith('ddl_datasets'):
                 datasets_files.append(os.path.join(root, f))
+#            else:
+#                schema_files.append(os.path.join(root, f))
 
 
 def execute_sql_files(files, category_name):

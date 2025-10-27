@@ -1,7 +1,7 @@
 test-docker-image:
-	cp ~/gcp.secrets.json src/$(FOLDER)
+	cp ~/gcp.bielsecrets.json src/$(FOLDER)
 	docker build --no-cache -t extracao src/$(FOLDER)
-	rm src/$(FOLDER)/gcp.secrets.json
+	rm src/$(FOLDER)/gcp.bielsecrets.json
 
 run-test-docker-image: test-docker-image
 	docker run --env-file ./.env extracao:latest

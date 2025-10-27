@@ -11,7 +11,7 @@ USING (
         producao * 6.28981 AS anp_qtd_producao_barris,
         data_ingestao_td
     FROM td_ext_anp.producao_biodiesel_m3_geral
-    WHERE data_criacao = (
+    WHERE data_ingestao_td = (
         SELECT MAX(data_ingestao_td)
         FROM td_ext_anp.producao_biodiesel_m3_geral
     )

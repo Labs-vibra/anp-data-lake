@@ -1,8 +1,8 @@
 numpy==1.24.3
 Pillow==9.5.0
 pytesseract==0.3.10
-selenium==4.10.0
-webdriver-manager==4.0.1
+selenium==4.24.0
+webdriver-manager==4.0.2
 google-cloud-storage==2.9.0
 google-cloud-bigquery==3.10.0
 pandas==2.0.3

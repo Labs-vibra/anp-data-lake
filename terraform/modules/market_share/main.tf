@@ -84,7 +84,7 @@ resource "google_cloud_run_v2_job" "run-raw-historico_de_entregas" {
   template {
     template {
       containers {
-        image = "${var.jobs_image_base_url}/run-raw-liquidos-entrega-historico:${var.image_version}"
+        image = "${var.jobs_image_base_url}/run-raw-liquidos-historico-entregas:${var.image_version}"
       }
     }
   }

@@ -8,6 +8,8 @@ CREATE TABLE IF NOT EXISTS rw_ext_anp.consulta_bases_de_distribuicao_e_trr_autor
     numero STRING OPTIONS(description="Número do endereço da matriz."),
     bairro STRING OPTIONS(description="Bairro onde a matriz da empresa está localizada."),
     complemento STRING OPTIONS(description="Complemento do endereço da matriz (ex.: sala, bloco, conjunto)."),
+    municipio STRING OPTIONS(description="Nome do município onde a matriz da empresa está localizada."),
+    uf STRING OPTIONS(description="Unidade Federativa (estado) onde a matriz da empresa está localizada."),
     capacidade_total STRING OPTIONS(description="Capacidade total de armazenagem da instalação (em m³), quando informada. Importante para medir a infraestrutura de distribuição ou revenda."),
     participacao_porcentagem STRING OPTIONS(description="Percentual de participação societária do acionista/empresa controladora na instalação, quando declarado."),
     administrador STRING OPTIONS(description="Nome do(s) administrador(es) ou responsável(is) legal(is) pela empresa/instalação."),

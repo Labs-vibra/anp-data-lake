@@ -13,8 +13,8 @@ USING (
         REGEXP_REPLACE(LOWER(TRIM(NORMALIZE(complemento, NFD))), '[^a-zA-Z0-9_\\s-.\']', '') AS complemento,
         REGEXP_REPLACE(LOWER(TRIM(NORMALIZE(bairro, NFD))), '[^a-zA-Z0-9_\\s-.\']', '') AS bairro,
         REGEXP_REPLACE(LOWER(TRIM(NORMALIZE(municipio, NFD))), '[^a-zA-Z0-9_\\s-.\']', '') AS municipio,
-        SAFE_CAST(REGEXP_REPLACE(LOWER(TRIM(NORMALIZE(latitude, NFD))), '[^-0-9.]', '') AS NUMERIC) AS latitude,
-        SAFE_CAST(REGEXP_REPLACE(LOWER(TRIM(NORMALIZE(longitude, NFD))), '[^-0-9.]', '') AS NUMERIC) AS longitude,
+        SAFE_CAST(REGEXP_REPLACE(LOWER(TRIM(NORMALIZE(latitude, NFD))), '[^-0-9.]', '') AS STRING) AS latitude,
+        SAFE_CAST(REGEXP_REPLACE(LOWER(TRIM(NORMALIZE(longitude, NFD))), '[^-0-9.]', '') AS STRING) AS longitude,
         REGEXP_REPLACE(LOWER(TRIM(NORMALIZE(uf, NFD))), '[^a-zA-Z0-9_\\s-.\']', '') AS uf,
         REGEXP_REPLACE(LOWER(TRIM(NORMALIZE(regiao_politica, NFD))), '[^a-zA-Z0-9_\\s-.\']', '') AS regiao_politica,
         REGEXP_REPLACE(LOWER(TRIM(NORMALIZE(ensaio, NFD))), '[^a-zA-Z0-9_\\s-.\']', '') AS ensaio,
@@ -34,7 +34,7 @@ WHEN MATCHED THEN
     UPDATE SET
         resultado = source.resultado,
         unidade_ensaio = source.unidade_ensaio,
-        conforme = source.conforme,
+        conforme = source.conforme
 WHEN NOT MATCHED THEN
     INSERT (
         id,

@@ -7,6 +7,7 @@ uv.lock
 .venv
 .python-version
 gcp.secrets.json
+gcp.bielsecrets.json
 __pycache__/
 *.pyc
 .DS_Store
@@ -32,4 +33,6 @@ override.tf.json
 
 # Sensitive files
 terraform.tfvars.terraform/
-airflow/logs/*
+airflow/logs/*# Google Cloud credentials files
+**/consulta_bases_de_distribuicao_e_trr_autorizadosextracao
+*.json

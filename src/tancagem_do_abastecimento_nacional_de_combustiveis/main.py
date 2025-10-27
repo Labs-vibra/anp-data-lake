@@ -68,7 +68,6 @@ def build_raw(start_year: int, end_year: int) -> bool:
         try:
             file_bytes = download_file(link)
             df = read_file_and_format_columns(file_bytes, link)
-            print("Colunas normalizadas:", df.columns.tolist())
 
             df = df[COLUMNS]
 
@@ -77,13 +76,15 @@ def build_raw(start_year: int, end_year: int) -> bool:
         except Exception as e:
             logger.warning(f"Erro ao processar {link}: {e}")
 
-    if not all_dfs:
-        logger.error("Nenhum CSV processado com sucesso.")
-        return False
-
     df_all = pd.concat(all_dfs, ignore_index=True)
     logger.info(f"Total de registros após concatenação: {len(df_all)}")
 
+    df_all = df_all[df_all.apply(lambda row: not (
+        pd.notna(row['data']) and
+        row.drop('data').isna().all()
+    ), axis=1)]
+
+    df_all = df_all.astype(str)
     insert_data_into_bigquery(df_all)
     logger.info("Raw Tancagem do Abastecimento Nacional de Combustíveis carregada com sucesso no BigQuery.")
     return True
