@@ -97,3 +97,10 @@ module "multas_aplicadas_acoes_fiscalizacao" {
   jobs_image_base_url = local.jobs_image_base_url
   image_version       = var.image_version
 }
+
+module "tancagem_do_abastecimento_nacional_de_combustiveis" {
+  source              = "./modules/tancagem_do_abastecimento_nacional_de_combustiveis"
+  region              = var.region
+  jobs_image_base_url = local.jobs_image_base_url
+  image_version       = var.image_version
+}
