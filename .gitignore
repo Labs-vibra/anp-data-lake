@@ -33,4 +33,6 @@ override.tf.json
 
 # Sensitive files
 terraform.tfvars.terraform/
-airflow/logs/*
+airflow/logs/*# Google Cloud credentials files
+**/consulta_bases_de_distribuicao_e_trr_autorizadosextracao
+*.json

@@ -71,26 +71,22 @@ def aguardar_download_completo(valor_select, timeout=120):
                 elif tamanho_atual == ultimo_tamanho:
                     contagem_estavel += 1
 
-                    # Arquivo estável por 3 verificações = download completo
                     if contagem_estavel >= 3:
                         logging.info(f"✅ Download concluído para '{valor_select}': {arquivo_esperado}")
                         logging.info(f"📁 Caminho completo: {caminho_arquivo}")
                         logging.info(f"📊 Tamanho final: {tamanho_atual} bytes")
                         return caminho_arquivo
-                # Arquivo ainda está crescendo
                 else:
                     logging.info(f"📊 Arquivo '{arquivo_esperado}' crescendo: {tamanho_atual} bytes")
                     ultimo_tamanho = tamanho_atual
                     contagem_estavel = 0
             else:
-                # Arquivo ainda não apareceu
                 if ultimo_tamanho is not None:
-                    # Arquivo existia mas sumiu (estranho)
                     logging.warning(f"⚠️ Arquivo '{arquivo_esperado}' desapareceu!")
                     ultimo_tamanho = None
                     contagem_estavel = 0
 
-            time.sleep(0.5)  # Verifica a cada 0.5 segundos
+            time.sleep(0.5)
 
         except Exception as e:
             logging.warning(f"⚠️ Erro ao verificar download: {e}")

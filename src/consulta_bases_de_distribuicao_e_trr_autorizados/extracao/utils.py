@@ -192,15 +192,11 @@ def configurar_downloads_chrome(pasta_download):
     chrome_options.add_argument("--no-first-run")
     chrome_options.add_argument("--safebrowsing-disable-auto-update")
     
-    # SOLUÇÃO CRÍTICA: Remote debugging port=0 força uso de porta aleatória
     # evitando conflitos de sessão em ambientes Docker
     chrome_options.add_argument("--remote-debugging-port=0")
     
     # Modo headless para ambientes sem interface gráfica (Cloud Run, Airflow, etc)
     chrome_options.add_argument("--headless=new")
-    
-    # NÃO usar --user-data-dir - deixa o Chrome criar perfil temporário automático
-    # Usar --user-data-dir pode causar erro "directory already in use" em containers
 
     # Configurações de download
     prefs = {
