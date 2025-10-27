@@ -3,7 +3,7 @@ USING (
     SELECT
         FARM_FINGERPRINT(CONCAT(ano, mes, grande_regiao)) AS id,
         PARSE_DATE('%Y-%m-%d', CONCAT(ano, '-',
-            CASE LOWER(TRIM(mes))
+            CASE UPPER(TRIM(mes))
                 WHEN 'JAN' THEN '01'
                 WHEN 'FEV' THEN '02'
                 WHEN 'MAR' THEN '03'
