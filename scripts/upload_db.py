@@ -16,10 +16,9 @@ schema_files = [
     "db/schemas/raw/ddl_biodiesel_m3_regiao.sql",
     "db/schemas/raw/ddl_vendas_comb_segmento.sql",
     "db/schemas/raw/ddl_pmqc.sql",
-    "db/schemas/raw/ddl_multas_aplicadas_acoes_fiscalizacao.sql",
     "db/schemas/raw/ddl_contratos_cessao.sql",
     "db/schemas/raw/ddl_dados_fiscalizacao_abastecimento.sql",
-    
+
     # TRUSTED Layer
     "db/schemas/trusted/ddl_consulta_bases_de_distribuicao_e_trr_autorizados.sql",
     "db/schemas/trusted/ddl_postos_revendedores.sql",
