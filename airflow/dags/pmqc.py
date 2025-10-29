@@ -32,8 +32,6 @@ with DAG(
                     "env": [
                         {"name": "START_YEAR", "value": str(ano)},
                         {"name": "END_YEAR", "value": str(ano)},
-                        {"name": "BUCKET_NAME", "value": "biel-labs-vibra-data-bucket"},
-                        {"name": "GOOGLE_CLOUD_PROJECT", "value": "fundamentals-iac"},
                     ]
                 }
             )
