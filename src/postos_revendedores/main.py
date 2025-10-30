@@ -148,10 +148,15 @@ def preencher_captcha(captcha_text):
 def verificar_erro_captcha():
     """Verifica se apareceu a mensagem de erro do CAPTCHA"""
     try:
+        possible_errors = [
+            "O campo imagem está inválido",
+            "Ocorreu 1 erro",
+            "1 error has occurred"
+        ]
         error_div = driver.find_element(By.ID, "t_Alert_Notification")
         if error_div.is_displayed():
             error_text = error_div.text
-            if "O campo imagem está inválido" in error_text or "Ocorreu 1 erro" in error_text:
+            if any(err in error_text for err in possible_errors):
                 logging.info("❌ CAPTCHA foi rejeitado pelo servidor!")
                 return True
         return False
